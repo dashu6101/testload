@@ -1,0 +1,10 @@
+﻿@Html.Partial("_CategoryList")
+
+<script type="text/javascript">
+    $('.thumbnail').click(function () {
+        var CategoryId = $(this).attr('Id');
+        if (CategoryId != null) {
+            window.location.href = '/Participant/CategoryDetails/' + CategoryId;
+        }
+    });
+</script>

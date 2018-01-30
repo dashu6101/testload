@@ -1,0 +1,740 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CCCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsFree" Type="bit" />
+          <Property Name="IsAvailable" Type="bit" />
+        </EntityType>
+        <EntityType Name="CategoryContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" />
+          <Property Name="VideoName" Type="nvarchar" MaxLength="500" />
+          <Property Name="VideoFrom" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="CategoryContentComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comments" Type="varchar(max)" />
+          <Property Name="ContentId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CommentDate" Type="datetime" />
+          <Property Name="UserType" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="ParticipantCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="HasJoinedCategory" Type="bit" />
+          <Property Name="JoinedDate" Type="datetime" />
+          <Property Name="IsBlocked" Type="bit" />
+        </EntityType>
+        <EntityType Name="PaymentHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Payment_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Txn_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Payment_Date" Type="datetime" />
+          <Property Name="Payment_Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="First_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Last_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Street" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="Zip" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="Request_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Is_Success" Type="bit" />
+          <Property Name="reason_fault" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PresenterCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="ScreenName" Type="varchar" MaxLength="50" />
+          <Property Name="MaritalStatus" Type="varchar" MaxLength="50" />
+          <Property Name="Age" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Gender" Type="char" MaxLength="1" />
+          <Property Name="CityID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="StateID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CountryID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EthnicityID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EducationID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="EmailID" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Mobile" Type="varchar" MaxLength="50" />
+          <Property Name="IsDisable" Type="bit" />
+          <Property Name="IsChildWorking" Type="bit" />
+          <Property Name="Picture" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="UserType" Type="char" MaxLength="1" />
+          <Property Name="UserStatus" Type="bit" />
+          <Property Name="RegistrationTypeID" Type="int" />
+          <Property Name="CurID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ExchRate" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CurEffectiveDate" Type="datetime" />
+          <Property Name="ProfilePicture" Type="nvarchar(max)" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+          <Property Name="isSuspended" Type="bit" />
+          <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="LastModified" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="isfree" Type="bit" />
+          <Property Name="Activechat" Type="nvarchar" MaxLength="50" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentAmount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentFrequency" Type="int" />
+          <Property Name="MeetingAvailability" Type="bit" />
+          <Property Name="BackgroundImage" Type="nvarchar(max)" />
+          <Property Name="Expectation" Type="varchar" MaxLength="200" />
+          <Property Name="IsChannel" Type="bit" />
+          <Property Name="ContinentID" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsAuthenticated" Type="bit" />
+        </EntityType>
+        <Association Name="FK_CategoryContent_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryContent" Type="Self.CategoryContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CategoryContent">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryContentComment_CategoryContent">
+          <End Role="CategoryContent" Type="Self.CategoryContent" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryContentComment" Type="Self.CategoryContentComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryContent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryContentComment">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryContentComment_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryContentComment" Type="Self.CategoryContentComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CategoryContentComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParticipantCategory_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ParticipantCategory" Type="Self.ParticipantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ParticipantCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParticipantCategory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ParticipantCategory" Type="Self.ParticipantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ParticipantCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenterCategory_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PresenterCategory" Type="Self.PresenterCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="PresenterCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenterCategory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="PresenterCategory" Type="Self.PresenterCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PresenterCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CCCModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryContent" EntityType="Self.CategoryContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryContentComment" EntityType="Self.CategoryContentComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ParticipantCategory" EntityType="Self.ParticipantCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="CategoryContent" EntitySet="CategoryContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryContentComment_CategoryContent" Association="Self.FK_CategoryContentComment_CategoryContent">
+            <End Role="CategoryContent" EntitySet="CategoryContent" />
+            <End Role="CategoryContentComment" EntitySet="CategoryContentComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryContentComment_Users" Association="Self.FK_CategoryContentComment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CategoryContentComment" EntitySet="CategoryContentComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParticipantCategory_Category" Association="Self.FK_ParticipantCategory_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="ParticipantCategory" EntitySet="ParticipantCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParticipantCategory_Users" Association="Self.FK_ParticipantCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ParticipantCategory" EntitySet="ParticipantCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenterCategory_Category" Association="Self.FK_PresenterCategory_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="PresenterCategory" EntitySet="PresenterCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenterCategory_Users" Association="Self.FK_PresenterCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PresenterCategory" EntitySet="PresenterCategory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CCCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategoryContent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="CategoryContentComments" Relationship="CCCModel.FK_CategoryContentComment_CategoryContent" FromRole="CategoryContent" ToRole="CategoryContentComment" />
+          <NavigationProperty Name="Category" Relationship="CCCModel.FK_CategoryContent_Category" FromRole="CategoryContent" ToRole="Category" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VideoName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="VideoFrom" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PresenterCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="CCCModel.FK_PresenterCategory_Category" FromRole="PresenterCategory" ToRole="Category" />
+          <NavigationProperty Name="User" Relationship="CCCModel.FK_PresenterCategory_Users" FromRole="PresenterCategory" ToRole="User" />
+        </EntityType>
+        <EntityContainer Name="CCCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategoryContents" EntityType="Self.CategoryContent" />
+          <EntitySet Name="PresenterCategories" EntityType="Self.PresenterCategory" />
+          <EntitySet Name="CategoryContentComments" EntityType="CCCModel.CategoryContentComment" />
+          <AssociationSet Name="FK_CategoryContentComment_CategoryContent" Association="CCCModel.FK_CategoryContentComment_CategoryContent">
+            <End Role="CategoryContent" EntitySet="CategoryContents" />
+            <End Role="CategoryContentComment" EntitySet="CategoryContentComments" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="CCCModel.Category" />
+          <AssociationSet Name="FK_CategoryContent_Category" Association="CCCModel.FK_CategoryContent_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CategoryContent" EntitySet="CategoryContents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenterCategory_Category" Association="CCCModel.FK_PresenterCategory_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="PresenterCategory" EntitySet="PresenterCategories" />
+          </AssociationSet>
+          <EntitySet Name="PaymentHistories" EntityType="CCCModel.PaymentHistory" />
+          <EntitySet Name="Users" EntityType="CCCModel.User" />
+          <AssociationSet Name="FK_CategoryContentComment_Users" Association="CCCModel.FK_CategoryContentComment_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CategoryContentComment" EntitySet="CategoryContentComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PresenterCategory_Users" Association="CCCModel.FK_PresenterCategory_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PresenterCategory" EntitySet="PresenterCategories" />
+          </AssociationSet>
+          <EntitySet Name="Subscriptions" EntityType="CCCModel.Subscription" />
+          <EntitySet Name="ParticipantCategories" EntityType="CCCModel.ParticipantCategory" />
+          <AssociationSet Name="FK_ParticipantCategory_Category" Association="CCCModel.FK_ParticipantCategory_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="ParticipantCategory" EntitySet="ParticipantCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParticipantCategory_Users" Association="CCCModel.FK_ParticipantCategory_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ParticipantCategory" EntitySet="ParticipantCategories" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="CategoryContentComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContentId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CategoryContent" Relationship="CCCModel.FK_CategoryContentComment_CategoryContent" FromRole="CategoryContentComment" ToRole="CategoryContent" />
+          <NavigationProperty Name="User" Relationship="CCCModel.FK_CategoryContentComment_Users" FromRole="CategoryContentComment" ToRole="User" />
+          <Property Name="UserType" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_CategoryContentComment_CategoryContent">
+          <End Type="CCCModel.CategoryContent" Role="CategoryContent" Multiplicity="0..1" />
+          <End Type="CCCModel.CategoryContentComment" Role="CategoryContentComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryContent">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryContentComment">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CategoryContents" Relationship="CCCModel.FK_CategoryContent_Category" FromRole="Category" ToRole="CategoryContent" />
+          <NavigationProperty Name="PresenterCategories" Relationship="CCCModel.FK_PresenterCategory_Category" FromRole="Category" ToRole="PresenterCategory" />
+          <Property Name="IsFree" Type="Boolean" />
+          <NavigationProperty Name="ParticipantCategories" Relationship="CCCModel.FK_ParticipantCategory_Category" FromRole="Category" ToRole="ParticipantCategory" />
+          <Property Name="IsAvailable" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_CategoryContent_Category">
+          <End Type="CCCModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="CCCModel.CategoryContent" Role="CategoryContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="CategoryContent">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenterCategory_Category">
+          <End Type="CCCModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="CCCModel.PresenterCategory" Role="PresenterCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="PresenterCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaymentHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Payment_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Txn_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Payment_Date" Type="DateTime" Precision="3" />
+          <Property Name="Payment_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="First_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Request_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Success" Type="Boolean" />
+          <Property Name="reason_fault" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ScreenName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaritalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CityID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="StateID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CountryID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EthnicityID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EducationID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="EmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDisable" Type="Boolean" />
+          <Property Name="IsChildWorking" Type="Boolean" />
+          <Property Name="Picture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="UserType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserStatus" Type="Boolean" />
+          <Property Name="RegistrationTypeID" Type="Int32" />
+          <Property Name="CurID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ExchRate" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CurEffectiveDate" Type="DateTime" Precision="3" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="isSuspended" Type="Boolean" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModified" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="isfree" Type="Boolean" />
+          <Property Name="Activechat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentAmount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentFrequency" Type="Int32" />
+          <Property Name="MeetingAvailability" Type="Boolean" />
+          <Property Name="BackgroundImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Expectation" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsChannel" Type="Boolean" />
+          <Property Name="ContinentID" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CategoryContentComments" Relationship="CCCModel.FK_CategoryContentComment_Users" FromRole="User" ToRole="CategoryContentComment" />
+          <NavigationProperty Name="PresenterCategories" Relationship="CCCModel.FK_PresenterCategory_Users" FromRole="User" ToRole="PresenterCategory" />
+          <NavigationProperty Name="ParticipantCategories" Relationship="CCCModel.FK_ParticipantCategory_Users" FromRole="User" ToRole="ParticipantCategory" />
+          <Property Name="IsAuthenticated" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_CategoryContentComment_Users">
+          <End Type="CCCModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CCCModel.CategoryContentComment" Role="CategoryContentComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CategoryContentComment">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PresenterCategory_Users">
+          <End Type="CCCModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CCCModel.PresenterCategory" Role="PresenterCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PresenterCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ParticipantCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="HasJoinedCategory" Type="Boolean" />
+          <Property Name="JoinedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlocked" Type="Boolean" />
+          <NavigationProperty Name="Category" Relationship="CCCModel.FK_ParticipantCategory_Category" FromRole="ParticipantCategory" ToRole="Category" />
+          <NavigationProperty Name="User" Relationship="CCCModel.FK_ParticipantCategory_Users" FromRole="ParticipantCategory" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ParticipantCategory_Category">
+          <End Type="CCCModel.Category" Role="Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CCCModel.ParticipantCategory" Role="ParticipantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ParticipantCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParticipantCategory_Users">
+          <End Type="CCCModel.User" Role="User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CCCModel.ParticipantCategory" Role="ParticipantCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ParticipantCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CCCModelStoreContainer" CdmEntityContainer="CCCEntities">
+          <EntitySetMapping Name="CategoryContents">
+            <EntityTypeMapping TypeName="CCCModel.CategoryContent">
+              <MappingFragment StoreEntitySet="CategoryContent">
+                <ScalarProperty Name="VideoFrom" ColumnName="VideoFrom" />
+                <ScalarProperty Name="VideoName" ColumnName="VideoName" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PresenterCategories">
+            <EntityTypeMapping TypeName="CCCModel.PresenterCategory">
+              <MappingFragment StoreEntitySet="PresenterCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryContentComments">
+            <EntityTypeMapping TypeName="CCCModel.CategoryContentComment">
+              <MappingFragment StoreEntitySet="CategoryContentComment">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="CCCModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsFree" ColumnName="IsFree" />
+                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentHistories">
+            <EntityTypeMapping TypeName="CCCModel.PaymentHistory">
+              <MappingFragment StoreEntitySet="PaymentHistory">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="reason_fault" ColumnName="reason_fault" />
+                <ScalarProperty Name="Is_Success" ColumnName="Is_Success" />
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Payment_Price" ColumnName="Payment_Price" />
+                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
+                <ScalarProperty Name="Txn_Id" ColumnName="Txn_Id" />
+                <ScalarProperty Name="Payment_Id" ColumnName="Payment_Id" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CCCModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsAuthenticated" ColumnName="IsAuthenticated" />
+                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
+                <ScalarProperty Name="ContinentID" ColumnName="ContinentID" />
+                <ScalarProperty Name="IsChannel" ColumnName="IsChannel" />
+                <ScalarProperty Name="Expectation" ColumnName="Expectation" />
+                <ScalarProperty Name="BackgroundImage" ColumnName="BackgroundImage" />
+                <ScalarProperty Name="MeetingAvailability" ColumnName="MeetingAvailability" />
+                <ScalarProperty Name="PaymentFrequency" ColumnName="PaymentFrequency" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Activechat" ColumnName="Activechat" />
+                <ScalarProperty Name="isfree" ColumnName="isfree" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="isSuspended" ColumnName="isSuspended" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="CurEffectiveDate" ColumnName="CurEffectiveDate" />
+                <ScalarProperty Name="ExchRate" ColumnName="ExchRate" />
+                <ScalarProperty Name="CurID" ColumnName="CurID" />
+                <ScalarProperty Name="RegistrationTypeID" ColumnName="RegistrationTypeID" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="IsChildWorking" ColumnName="IsChildWorking" />
+                <ScalarProperty Name="IsDisable" ColumnName="IsDisable" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="EducationID" ColumnName="EducationID" />
+                <ScalarProperty Name="EthnicityID" ColumnName="EthnicityID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+                <ScalarProperty Name="ScreenName" ColumnName="ScreenName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions">
+            <EntityTypeMapping TypeName="CCCModel.Subscription">
+              <MappingFragment StoreEntitySet="Subscription">
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ParticipantCategories">
+            <EntityTypeMapping TypeName="CCCModel.ParticipantCategory">
+              <MappingFragment StoreEntitySet="ParticipantCategory">
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+                <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+                <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

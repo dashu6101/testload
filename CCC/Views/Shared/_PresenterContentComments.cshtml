@@ -1,0 +1,34 @@
+﻿@using CCC.Utils;
+@model IEnumerable<CCC.Models.ContentCommentModel>
+@{
+    Layout = null;
+}
+<div class="form-group">
+    <div class="list-group">
+        @if (Model.Count() == 0)
+        {
+            <h4>No Comments found</h4>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-md-12 CommentParentDiv" style="padding:10px;border:1px solid #ddd;border-radius:3px;margin:5px;min-height:70px">
+                    <div class="col-md-11">
+                        <div class="col-md-1" style="float:left"><img src="@item.Image" style="width:50px;height:50px;" /></div>
+                        <div class="col-md-11">
+                            <span style="color: #3695d5; font-size: 16px; ">@item.ScreenName</span>
+                            <br />
+                            <span>@item.Comments</span>
+                            <br />
+                            <span style="color: #8899a6;font-size:13px;">@Utils.ToRelativetime(Convert.ToDateTime(@item.CommentDate))</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="javascript:void(0);" class="glyphicon glyphicon-remove DeleteComment float-right" data-userid="@item.UserId" data-commentid="@item.Id"></a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

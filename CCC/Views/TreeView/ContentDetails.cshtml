@@ -1,0 +1,330 @@
+﻿@{
+    ViewBag.Title = "ContentDetails";
+    var IsMobileBrowser = Request.Browser.IsMobileDevice;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div style="overflow-x:hidden ">
+            @Html.Partial("_TreeView")
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Content
+
+                    <a href="/Participant/Index" class="pull-right" >Back To ChannelList</a>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div id="ContentComment">
+                    @Html.Partial("_ContentComment")
+                </div>
+                @Html.Partial("_AddOrEditComment")
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        var IsMobileBrowser = '@IsMobileBrowser';
+
+        var UserType = $('#UserType').val();
+        if (UserType == "A") {
+            $('#Title').val('');
+
+            $('#treeDemo').jstree({
+                "plugins": ["contextmenu"]
+            });
+        }
+        else {
+
+            $("#treeDemo").jstree({
+                "plugins": ["sort", "unique"]
+            });
+        }
+        $('#treeDemo').jstree('open_all');
+        $('#treeDemo').on("create_node.jstree", function (e, data) {
+            var id = data.parent[0].id;
+            $('#ParentId').val(id);
+
+
+        });
+
+        $('#treeDemo').on("delete_node.jstree", function (e, data) {
+
+            var NodeId = data.node[0].id;
+            //$(".loading").show();
+            if (confirm("Are you sure you want to delete this Node?") == true) {
+                $.ajax({
+                    url: '/TreeView/DeleteTreeNode',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: { NodeId: NodeId },
+                    success: function (data) {
+                        if (data == "1") {
+                            //$(".loading").hide();
+                            DisplayNotification('Node Deleted Succesfully.', 'success');
+
+                            $('#Title').val('');
+                            $('#Description').val('');
+                        }
+                        else {
+                            //  //$(".loading").hide();
+                            Refreshjstree('nodelete');
+
+                        }
+                    },
+                    error: function (data) {
+
+                        DisplayNotification('Error', 'error');
+                    }
+                });
+            }
+            else {
+                Refreshjstree('cancel');
+            }
+
+        });
+
+        $('#treeDemo').on("rename_node.jstree", function (e, data) {
+            //$(".loading").show();
+            var NodeId = data.node[0].id;
+            var Name = data.title;
+            var ParentId;
+            var url;
+            var Description = "";
+            if (NodeId != null && NodeId != "") {
+
+                url = '/TreeView/EditTreeNode';
+                ParentId = NodeId;
+            }
+
+            else {
+                url = '/TreeView/SaveTreeNode';
+                ParentId = $('#ParentId').val();
+            }
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'JSON',
+                data: { CategoryId: $('#CategoryId').val(), ParentId: ParentId, Name: Name, Description: Description },
+                success: function (data) {
+                    if (data == "1") {
+
+                        Refreshjstree('create');
+
+                    }
+                    else if (data == "2") {
+                        //$(".loading").hide();
+                        DisplayNotification('Node updated succesfully.', 'success');
+
+                    }
+                    else if (data == "3") {
+                        Refreshjstree('edit');
+
+                    }
+                    else {
+                        //$(".loading").hide();
+                        DisplayNotification('Error in saving node', 'error');
+                    }
+                },
+                error: function (data) {
+                    //$(".loading").hide();
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        });
+
+        $('#treeDemo').on("changed.jstree", function (e, data) {
+            var NodeId = data.node[0].id;
+
+            $('#NodeId').val(NodeId);
+            var a = $('input[name=Add]:checked').val();
+            if (a == "1") {
+                $('#Title').val('');
+                if (IsMobileBrowser == 'True') {
+                    var editor = $('#Description').val('');
+                }
+                else {
+                    CKEDITOR.instances['Description'].setData('');
+                }
+            }
+            else {
+
+                var UserType = $('#UserType').val();
+                var Title = data.node.context.text.trim();
+                //var NodeId = data.node[0].id;
+                // $('#NodeId').val(NodeId);
+                if (UserType == "A") {
+
+                    if (NodeId != 162) {
+
+                        $('#Description').val('');
+                        $.ajax({
+                            url: '/TreeView/ContentDetails',
+                            type: 'POST',
+                            dataType: 'JSON',
+                            data: { NodeId: NodeId },
+                            success: function (data) {
+
+                                $('#Title').val(Title.trim());
+                                if (data != "-1") {
+                                    if (IsMobileBrowser == 'True') {
+                                        $('#Description').val(data);
+                                    }
+                                    else {
+                                        CKEDITOR.instances['Description'].setData(data);
+                                    }
+                                    //CKEDITOR.instances['Description'].setData(data);
+                                    ////  $('#Description').val(data);
+                                }
+                                else {
+
+                                    if (IsMobileBrowser == 'True') {
+                                        $('#Description').val('');
+                                    }
+                                    else {
+                                        CKEDITOR.instances['Description'].setData('');
+                                    }
+                                    //  $('#Description').val('');
+                                }
+                            },
+                            error: function (data) {
+                                DisplayNotification('Error', 'error');
+                            }
+                        });
+                    }
+                    else {
+                        $('#Title').val('');
+                        $('#Description').val('');
+                    }
+                }
+                else {
+                    //$(".loading").show();
+                    if (NodeId != 162) {
+                        $.ajax({
+                            url: '/TreeView/ContentDescription',
+                            type: 'GET',
+                            dataType: 'HTML',
+                            data: { NodeId: NodeId },
+                            success: function (data) {
+                                //$(".loading").hide();
+
+
+                                $("#ContentComment").html('');
+                                $("#ContentComment").append(data).trigger("create");
+
+                                var a = "http://www.chitchatchannel.com/Channel/Content/" + NodeId + "/@ViewBag.UserName/" + Title.split(".").join("_");  // this is for online link
+                                var b = "http://localhost:33872/Channel/Content/" + NodeId + "/@ViewBag.UserName/" + Title.split(".").join("_");  // this is for Local testing
+
+                                $("#lnkContentLink").attr('href', a.split(" ").join("_"));
+                                $("#txtContentLink").val(a.split(" ").join("_"));
+
+                                var aa = a.split(" ").join("_");
+                              
+                                $('#DivFbShare').attr("data-href", aa);
+                            },
+                            error: function (data) {
+                                DisplayNotification('Error', 'error');
+                            }
+                        });
+                    }
+                    else {
+                        //$(".loading").hide();
+                        $("#ContentComment").html('');
+                    }
+                }
+            }
+        });
+
+        $('#BtnComments').click(function () {
+            var id = $('#NodeId').val();
+            var Comment = $('#txtComment').val();
+
+            if (Comment != "") {
+                //$(".loading").show();
+
+                $.ajax({
+                    url: '/TreeView/SaveComment',
+                    type: 'GET',
+                    dataType: 'HTML',
+                    data: { NodeId: $('#NodeId').val(), Comment: Comment },
+                    success: function (data) {
+                        $('#txtComment').val('');
+                        //$(".loading").hide();
+                        var Title = $('#ChapterTitle').text();
+
+                        $("#BtnClose").click();
+                        $("#ContentComment").html('');
+                        $("#ContentComment").append(data).trigger("create");
+
+                        var a = "http://www.chitchatchannel.com/Channel/Content/" + $('#NodeId').val() + "/@ViewBag.UserName/" + Title.split(".").join("_");  // this is for online link
+                        var b = "http://localhost:33872/Channel/Content/" + $('#NodeId').val() + "/@ViewBag.UserName/" + Title.split(".").join("_");  // this is for Local testing
+
+                        $("#lnkContentLink").attr('href', a.split(" ").join("_"));
+                        $("#txtContentLink").val(a.split(" ").join("_"));
+                        var aa = a.split(" ").join("_");
+                        
+                        $('#DivFbShare').attr("data-href", aa);
+                    },
+                    error: function (data) {
+                        DisplayNotification('Error', 'error');
+
+                    }
+
+                });
+            }
+            else {
+                DisplayNotification('Please enter comment.', 'error');
+            }
+
+        });
+
+        $('#BtnClose').click(function () {
+            $('#txtComment').val('');
+        });
+    });
+
+    $("#ContentComment").delegate(".DeleteComment", "click", function () {
+
+        var $btn = $(this);
+        var UserId = $(this).attr("data-userid");
+        var CommentId = $(this).attr("data-commentid");
+
+
+
+        if (confirm("Are you sure you want to delete  this comment ?")) {
+            $.ajax({
+                url: "/Presenter/DeleteCommentPresenter",
+                type: "POST",
+                data: { UserId: UserId, CommentId: CommentId },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "1") {
+                        DisplayNotification('Comment deleted successfully.', 'success');
+                        $btn.parent('div').parent('div.CommentParentDiv').remove();
+                    }
+                    else if (data == "-1") {
+                        DisplayNotification('No Comment found', 'error');
+                    } else {
+                        DisplayNotification(data, 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification(data.responseText, 'error');
+                }
+            });
+        }
+    });
+
+</script>

@@ -1,0 +1,100 @@
+﻿@using CCC;
+@model IEnumerable<CCC.Models.UserModel>
+
+@{
+    ViewBag.Title = "Presenter Details";
+}
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Presenter Details
+        </h3>
+    </div>
+    <div class="panel-body">
+        @if (Model.Count() != 0)
+        {
+            <div class="row">
+                @foreach (var item in Model)
+                {
+
+                    <div class="col-xs-6 col-md-2">
+
+                        <div class="thumbnail">
+
+                            <img class="img-rounded" src="@item.ProfilePicture" style="width:85px;height:85px;">
+
+                            <p>@item.FirstName @item.LastName </p>
+                            <p>Channel No: @item.ChannelNo</p>
+                            <p>Joined Date: @item.JoinDate.ToString("MM-dd-yyyy")</p>
+
+                            <a class="btn btn-primary" href="@Url.Action("ChannelList", "Presenter", new { item.ChannelNo })">
+                                Channel List <i class="fa fa-plus"></i>
+                            </a>
+
+                          
+                        </div>
+                    </div>
+
+
+                }
+            </div>
+            @*<table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Channel No</th>
+                            <th>Joined Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model)
+                        {
+                             <tr>
+                                 <input type="hidden" id="UserId" value="@item.UserId" />
+                                 <td>
+                                     <img src="@item.ProfilePicture" style="width:35px;height:35px;">
+                                 </td>
+                            <td style="width:20%;">@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.ChannelNo</td>
+                            <td>@item.JoinDate.ToString("MM-dd-yyyy")</td>
+                          <td>
+
+
+                              <a class="pull-right" href="@Url.Action("ChannelList", "Presenter", new { item.ChannelNo })">
+                                  Channel List
+                              </a>
+                              </td>
+
+                        </tr>
+                        }
+
+
+                    </tbody>
+                </table>*@
+        }
+        else
+        {
+            <text>No Record Found.</text>
+
+        }
+    </div>
+</div>
+
+
+@*<script type="text/javascript">
+    $('#btnChannelList').click(function () {
+        // var ChannelNo = '@ViewBag.CNo';
+
+        var ChannelNo = $('#hdnChannelNo').val();
+        //$(this).attr('data-channelno');
+        alert(ChannelNo);
+
+        window.location.href = '/Presenter/ChannelList?ChannelNo=' + ChannelNo;
+    });
+</script>*@
