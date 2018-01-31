@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "Channel Details";
+}
+
+@model DeliverLoad.Models.CategoryModel
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Channel Detail
+        </h3>
+    </div>
+
+    <div class="panel-body">
+        @using (Html.BeginForm("JoinCategory", "Participant", FormMethod.Post, new { id = "joincategoryform" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-lg-12">
+                <div class="col-lg-8">
+                    <div class="col-lg-5 DivChannel">
+                        <table>
+
+                            <tbody>
+                                @Html.HiddenFor(model => model.HasJoinedCategory)
+                                @Html.HiddenFor(model => model.CategoryId)
+                                @Html.HiddenFor(model => model.Price)
+                                <tr>
+
+                                    <td>
+                                        <img src="@Model.Image" title="Category Image" style="height: 100px" />
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <p style="color: #3695d5; font-size: 20px; ">@Model.Name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Model.ChannelNo
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p style="text-align:justify;">@Html.Raw(Model.Description)</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @if (Model.IsFreeChannel)
+                                        {
+                                            <p style="color: #3695d5;">Free Channel</p>
+
+                                        }
+                                        else
+                                        {
+                                            <p title="Channel Price" style="color: #3695d5;">$@Model.Price</p>
+                                        }
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-12  pull-right Presenter-bubble top">
+                        <table style="margin:0 auto">
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        <u><b>Presented by</b></u>
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p  >@Html.Raw(Model.FirstName)</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p >@Html.Raw(Model.LastName)</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="@Model.ProfileImage" title="Category Image" style="height: 100px" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-12 clsMarginTop">
+                <div class="col-lg-8">
+
+                    <div class="form-group">
+                        @if (Model.HasJoinedCategory)
+                        {
+                            <button type="button" class="btn btn-danger pull-left" id="btnJoined">Drop Channel</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary pull-left" id="btnJoined">Join</button>
+                        }
+
+                        @if (Model.HasJoinedCategory)
+                        {
+                            <a href="@Url.Action("ContentDetails", "TreeView", new { id = @Model.CategoryId })" class="btn btn-info pull-right">View Channel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+</div>
+<script type="text/javascript">
+    $('#btnJoined').click(function () {
+        if ($("#joincategoryform").validate().form()) {
+
+            var CategoryId = $('#CategoryId').val();
+            var HasJoinedCategory = $('#HasJoinedCategory').val();
+            var Price = $('#Price').val();
+
+            
+            $.ajax({
+                url: "/Participant/JoinCategory",
+                type: "POST",
+                data: { CategoryId: CategoryId, HasJoinedCategory: HasJoinedCategory, Price: Price },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == "1") {
+
+                        window.location.href = '/Participant/Index';
+                    }
+                    else {
+                        DisplayNotification('You can not join this channel,please recharge your balance', 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    /*===================================================
+    Channel Detail Presenter bubble css :
+        page : ChannelDetail.cshtml
+    ===================================================*/
+
+
+    .DivChannel {
+        position: relative;
+        /*width: 200px;*/
+        text-align: left;
+        background-color: #fff;
+        border: 2px solid #666;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+        -webkit-box-shadow: 2px 2px 4px #888;
+        -moz-box-shadow: 2px 2px 4px #888;
+        box-shadow: 2px 2px 4px #888;
+        padding: 15px;
+    }
+
+
+    @@media screen and (min-width: 0px) and (max-width: 800px) {
+
+
+        .Presenter-bubble {
+            position: relative;
+            padding: 15px;
+            margin: 1em 0 3em;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+        }
+
+            .Presenter-bubble.left {
+                margin-left: 30px;
+            }
+
+            .Presenter-bubble.right {
+                margin-right: 30px;
+            }
+
+            .Presenter-bubble:before {
+                content: "";
+                position: absolute;
+                bottom: -20px; /* value = - border-top-width - border-bottom-width */
+                left: 40px; /* controls horizontal position */
+                border-width: 20px 20px 0;
+                border-style: solid;
+                border-color: #666 transparent;
+                /* reduce the damage in FF3.0 */
+                display: block;
+                width: 0;
+            }
+
+            .Presenter-bubble:after {
+                content: "";
+                position: absolute;
+                bottom: -13px; /* value = - border-top-width - border-bottom-width */
+                left: 47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+                border-width: 13px 13px 0;
+                border-style: solid;
+                border-color: #fff transparent;
+                /* reduce the damage in FF3.0 */
+                display: block;
+                width: 0;
+            }
+
+            .Presenter-bubble.top:before {
+                top: -18px; /* value = - border-top-width - border-bottom-width */
+                bottom: auto;
+                left: auto;
+                right: 42px; /* controls horizontal position */
+                border-width: 0 18px 18px;
+            }
+
+            .Presenter-bubble.top:after {
+                top: -14px; /* value = - border-top-width - border-bottom-width */
+                bottom: auto;
+                left: auto;
+                right: 46px; /* value = (:before right) + (:before border-right) - (:after border-right) */
+                border-width: 0 14px 14px;
+            }
+    }
+
+    @@media screen and (min-width: 801px) and (max-width: 2000px) {
+
+        .clsMarginTop {
+            margin-top: 15px;
+        }
+
+        .Presenter-bubble {
+            position: relative;
+            min-height: 20px;
+            padding: 15px;
+            width: 250px;
+            margin: 10px 0 10px 18px;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+        }
+
+            .Presenter-bubble:after, .Presenter-bubble:before {
+                position: absolute;
+                right: 100%;
+                display: inline-block;
+                border: solid transparent;
+                content: "";
+                height: 0;
+                width: 0;
+                pointer-events: none;
+            }
+
+            .Presenter-bubble:before {
+                border-right-color: #666;
+                border-width: 19px;
+                top: 50%;
+                margin-top: -19px;
+            }
+
+            .Presenter-bubble:after {
+                border-right-color: #fff;
+                border-width: 17px;
+                top: 50%;
+                margin-top: -17px;
+                
+            }
+    }
+</style>

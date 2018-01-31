@@ -1,0 +1,57 @@
+﻿@using CCC;
+
+@if (Request.IsAuthenticated)
+{
+
+    var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+
+
+    <li class="dropdown" style="margin-top:-6px;">
+
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+            <img src="@obj.ProfilePicture" title="Profile Picture" style="width:35px;height:35px;" /> @obj.UserName<span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="/Home/ProfileEdit">My Account</a></li>
+            @if (obj.UserType == "M")
+            {
+                <li>@Html.ActionLink("Payments", "Index", "Payment") </li>
+            }
+            <li><a href="/Account/LogOff">Log Out</a></li>
+
+        </ul>
+    </li>
+
+    <li>
+        @if (obj.UserType == "M")
+        {
+
+            <form class="navbar-form navbar" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="txtSearch" placeholder="Search Channels">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btnSearchByChannel" type="button">Search</button>
+                    </span>
+                </div>
+
+            </form>
+
+        }
+
+
+
+    </li>
+
+
+}
+else
+{
+    <li>@Html.ActionLink("Register", "Index", "Account")</li>
+}
+
+
+
+
+

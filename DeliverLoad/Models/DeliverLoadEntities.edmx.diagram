@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1d51ec82f014448a8b1bdc263346be0c" Name="Diagram1">
+        <EntityTypeShape EntityType="DeliverLoadModel.Category" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.CategoryContent" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.CategoryContentComment" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.ChannelRequestMaster" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.ContentVisitor" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.ELMAH_Error" Width="1.5" PointX="10.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.ParticipantCategory" Width="1.5" PointX="5.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.PaymentHistory" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.PresenterCategory" Width="1.5" PointX="8.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.Subscription" Width="1.5" PointX="5.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.User" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.webpages_Membership" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.webpages_OAuthMembership" Width="1.5" PointX="7.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeliverLoadModel.webpages_Roles" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <AssociationConnector Association="DeliverLoadModel.FK_CategoryContent_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ChannelRequestMaster_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ParticipantCategory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_PresenterCategory_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_CategoryContentComment_CategoryContent" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ContentVisitors_ContentVisitors" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_CategoryContentComment_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ChannelRequestMaster_ChannelRequestMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ContentVisitors_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_ParticipantCategory_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.FK_PresenterCategory_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="DeliverLoadModel.webpages_UsersInRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,596 @@
+﻿@using CCC;
+@model IEnumerable<DeliverLoad.Models.CategoryModel>
+
+@{  var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            Channels
+
+            @if (obj.UserType == "A")
+            {
+                <a href="/Presenter/Create" class="pull-right" id="btnSave">Create Channel</a>
+            }
+
+        </h3>
+
+    </div>
+
+    <div class="panel-body">
+        @if (Model.Any())
+        {
+
+            <text><h2>
+                    ChitChatChannel !<br />
+                </h2>
+            </text>
+            if (obj.UserType == "M")
+            {
+                if (ViewBag.IsChannelSelected == "1")
+                {
+                    <text>
+                        <br />
+                        To start viewing content, select or search for a channel, <a href="/Participant/ChannelList">or click here to view all channel</a> <br />
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        <br />
+                        To start viewing content, select or search for a channel. <br />
+                    </text>
+                }
+
+
+                <form class="navbar-form navbar" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="txtSearch1" placeholder="Search Channels">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success btnSearchByChannel" type="button">Search</button>
+                        </span>
+                    </div>
+
+                </form>
+
+            }
+            if (ViewBag.IsChannelSelected == "0")
+            {
+                <text> <h3>Here are some channels. </h3></text>
+            }
+            else
+            {
+                <h3>My Channels</h3>
+            }
+
+
+
+            <ul class="media-list">
+                @foreach (var item in Model)
+                {
+                    <li class="media">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="col-lg-7 col-sm-7">
+                                <div class=" DivChannel">
+                                    <div class="media-body">
+
+                                        @if (item.IsBlockedParticepant == true)
+                                        {
+                                            if (item.IsBlockedParticepant == true)
+                                            {
+                                                <h3><span class="label label-danger">You are blocked!</span></h3>
+                                            }
+
+                                            if (obj.UserType == "A")
+                                            {
+                                                <a class="" href="javascript:void(0);">
+                                                    <img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;">
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="" href="javascript:void(0);">
+                                                    <img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;">
+                                                </a>
+                                            }
+
+
+
+                                            if (obj.UserType == "A")
+                                            {
+                                                <a href="javascript:void(0);">
+                                                    <p style="color: #3695d5; font-size: 15px; " class="media-heading" title="Channel Name">@item.Name</p>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0);">
+                                                    <p style="color: #3695d5; font-size: 15px; " class="media-heading" title="Channel Name">@item.Name</p>
+                                                </a>
+                                            }
+
+                                            <p title="Channel No">Channel No: @item.ChannelNo</p>
+                                            if (item.IsFreeChannel)
+                                            {
+                                                <p>Free Channel</p>
+
+                                            }
+                                            else
+                                            {
+                                                <p title="Channel Price">$@item.Price</p>
+                                            }
+
+                                            if (item.IsChannelAvailable == false && obj.UserType == "M")
+                                            {
+                                                <p>Unavailable</p>
+                                            }
+
+                                        }
+                                        else
+                                        {
+
+                                            if (obj.UserType == "A")
+                                            {
+                                                <a class="" href="@Url.Action("CategoryDetails", "Presenter", new { id = @item.CategoryId })">
+                                                    <img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;">
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                if (item.IsChannelAvailable == false)
+                                                {
+                                                    <a class="" href="javascript:void(0);">
+                                                        <img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;">
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="" href="@Url.Action("ContentDetails", "TreeView", new { id = @item.CategoryId })">
+                                                        <img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;">
+                                                    </a>
+                                                }
+
+                                            }
+
+
+                                            if (obj.UserType == "A")
+                                            {
+                                                <a href="@Url.Action("CategoryDetails", "Presenter", new { id = @item.CategoryId })">
+                                                    <p style="color: #3695d5; font-size: 15px; " class="media-heading" title="Channel Name">@item.Name</p>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                if (item.IsChannelAvailable == false)
+                                                {
+                                                    <a href="javascript:void(0);">
+                                                        <p style="color: #3695d5; font-size: 15px; " class="media-heading" title="Channel Name">@item.Name</p>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("ContentDetails", "TreeView", new { id = @item.CategoryId })">
+                                                        <p style="color: #3695d5; font-size: 15px; " class="media-heading" title="Channel Name">@item.Name</p>
+                                                    </a>
+                                                }
+
+                                            }
+
+                                            <p title="Channel No">Channel No: @item.ChannelNo</p>
+                                            if (item.IsFreeChannel)
+                                            {
+                                                <p>Free Channel</p>
+
+                                            }
+                                            else
+                                            {
+                                                <p title="Channel Price">$@item.Price</p>
+                                            }
+
+                                            if (item.IsChannelAvailable == false && obj.UserType == "M")
+                                            {
+                                                <p>Unavailable</p>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                                @*@if (obj.UserType != "A")
+                                    {*@
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-12   Presenter-bubble top">
+
+                                    <p><u><b>Presented by</b></u></p>
+
+                                    <p>@Html.Raw(item.FirstName) </p>
+
+                                    <p>@Html.Raw(item.LastName) </p>
+
+                                    <p>  <img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></p>
+                                </div>
+                                @*}*@
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-7">
+                            <div class="clsMarginTop">
+                                @if (obj.UserType == "A")
+                                {
+                                    {
+                                        var Availability = item.IsChannelAvailable == true ? "Available" : "Not Available";
+
+                                        <button type="button" class="btn btn-danger btnChannel" data-channel-id="@item.CategoryId">Delete My Channel</button>
+                                        <a href="@Url.Action("CategoryDetails", "Presenter", new { id = @item.CategoryId })" class="btn btn-info ">View Channel</a>
+                                        <input type="button" class="btn btn-primary clsbtnAvailable" value="@Availability" data-channel-id="@item.CategoryId" data-isavailable="@item.IsChannelAvailable" />
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.IsChannelAvailable == true)
+                                    {
+                                        if (item.HasJoinedCategory)
+                                        {
+                                            <button type="button" class="btn btn-danger pull-left btnJoined" data-channel-id="@item.CategoryId" data-joined-category="@item.HasJoinedCategory" data-price="@item.Price"> Drop Channel</button>
+                                        }
+                                        else
+                                        {
+                                            <div class="buttons-widget">
+                                                <button type="button" class="btn btn-primary  btnJoined" data-channel-id="@item.CategoryId" data-joined-category="@item.HasJoinedCategory" data-price="@item.Price">Join</button>
+
+                                                <button type="button" class="btn btn-default  btnViewSummary" data-channel-id="@item.CategoryId" data-joined-category="@item.HasJoinedCategory" data-price="@item.Price">View Summary</button>
+                                            </div>
+
+                                        }
+
+                                        if (item.HasJoinedCategory && item.IsBlockedParticepant != true)
+                                        {
+                                            <a href="@Url.Action("ContentDetails", "TreeView", new { id = @item.CategoryId })" class="btn btn-info pull-right">View Channel</a>
+                                        }
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator ">
+                        </div>
+                    </li>
+                }
+            </ul>
+
+        }
+        else
+        {
+            if (obj.UserType == "A")
+            {
+                <text><h2>
+                        ChitChatChannel !<br />
+                    </h2>
+                    <br />
+
+                    <a href="@Url.Action("Create", "Presenter")"> To start building content click here.</a>
+                </text>
+            }
+
+        }
+    </div>
+</div>
+
+    <div id="ChannelSummaryModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">Summary</h4>
+                </div>
+                <div class="modal-body" id="ChannelSummaryModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">
+                        close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style type="text/css">
+    p {
+        margin: 0 0 0px;
+    }
+
+    div.separator {
+        border-bottom: 1pt solid #ccc;
+        margin: 5px 0;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+    $('.btnJoined').click(function (e) {
+
+        var $btn = $(this);
+        var CategoryId = $(this).attr("data-channel-id");
+        var HasJoinedCategory = $(this).attr("data-joined-category");
+        var Price = $(this).attr("data-price");
+
+        $.ajax({
+            url: "/Participant/JoinCategory",
+            type: "POST",
+            data: { CategoryId: CategoryId, HasJoinedCategory: HasJoinedCategory, Price: Price },
+            dataType: "Json",
+            success: function (data) {
+                if (data == "1") {
+                    window.location.href = '/Participant/Index';
+                }
+                else {
+                    DisplayNotification('You can not join this channel,please recharge your balance', 'error');
+                }
+            },
+            error: function (data) {
+                DisplayNotification('Error', 'error');
+            }
+        });
+
+
+    });
+
+    $('.btnViewSummary').click(function (e) {
+
+        var $btn = $(this);
+        var CategoryId = $(this).attr("data-channel-id");
+       
+        $.ajax({
+            url: "/Participant/ViewSummary",
+            type: "POST",
+            data: { CategoryId: CategoryId },
+            dataType: "Json",
+            success: function (data) {
+                
+                if (data == "-1") {
+                    DisplayNotification('There is some problam to load summary of channel!', 'error');
+                }
+                else {
+                    $('#ChannelSummaryModalBody').html(data);
+                    $("#ChannelSummaryModal").modal("show");
+                }
+            },
+            error: function (data) {
+                DisplayNotification('Error', data);
+
+            }
+        });
+
+    });
+
+
+
+
+    $(".btnChannel").click(function () {
+
+        var $btn = $(this);
+
+        if (confirm("Are you sure you want to do this ?")) {
+
+            $.ajax({
+                url: "/TreeView/DeleteChannel",
+                type: "POST",
+                data: { ChannelId: $(this).attr("data-channel-id") },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "1") {
+                        $btn.parents("li.media").remove();
+                    }
+                    else {
+                        DisplayNotification(data, 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('An error occurred while deleting your channel. Try again later', 'error');
+
+                }
+            });
+        }
+
+    });
+
+    $('.clsbtnAvailable').click(function () {
+
+        var $btn = $(this);
+        var ChannelID = $(this).attr("data-channel-id");
+        var status = $(this).attr("data-IsAvailable");
+
+        $.ajax({
+            url: '/Presenter/IsAvailableCategory',
+            type: "POST",
+            dataType: "json",
+            data: { ChannelId: ChannelID, Status: status == "True" ? false : true },
+            success: function (data) {
+                if (data == "1") {
+                    if (status == "True") {
+                        $btn.attr("value", "Not Available");
+                        $btn.attr("data-isavailable", "False");
+                        DisplayNotification('Channel is unavailable', 'success');
+                    } else {
+                        $btn.attr("value", "Available");
+                        $btn.attr("data-isavailable", "True");
+                        DisplayNotification('Channel is available', 'success');
+                    }
+                }
+                else if (data == "-1") {
+                    DisplayNotification('Channel not found', 'error');
+                }
+            },
+            error: function (data) {
+                DisplayNotification(data + "krunal", 'error');
+            }
+        });
+    });
+
+</script>
+
+<style>
+    /*===================================================
+    Channel Detail Presenter bubble css :
+        page : ChannelDetail.cshtml
+    ===================================================*/
+
+
+
+
+
+    @@media screen and (min-width: 0px) and (max-width: 550px) {
+
+        .DivChannel {
+            float: left;
+            position: relative;
+            max-width: 80%;
+            min-width: 200px;
+            margin-right: 50px;
+            background-color: #fff;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+            padding: 15px;
+        }
+
+
+        .Presenter-bubble {
+            float: right;
+            max-width: 80%;
+            min-width: 200px;
+            position: relative;
+            padding: 15px;
+            margin: 1.5em 1px 1em;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+        }
+
+            .Presenter-bubble.left {
+                margin-left: 30px;
+            }
+
+            .Presenter-bubble.right {
+                margin-right: 30px;
+            }
+
+            .Presenter-bubble:before {
+                content: "";
+                position: absolute;
+                bottom: -20px; /* value = - border-top-width - border-bottom-width */
+                left: 40px; /* controls horizontal position */
+                border-width: 20px 20px 0;
+                border-style: solid;
+                border-color: #666 transparent;
+                /* reduce the damage in FF3.0 */
+                display: block;
+                width: 0;
+            }
+
+            .Presenter-bubble:after {
+                content: "";
+                position: absolute;
+                bottom: -13px; /* value = - border-top-width - border-bottom-width */
+                left: 47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+                border-width: 13px 13px 0;
+                border-style: solid;
+                border-color: #fff transparent;
+                /* reduce the damage in FF3.0 */
+                display: block;
+                width: 0;
+            }
+
+            .Presenter-bubble.top:before {
+                top: -18px; /* value = - border-top-width - border-bottom-width */
+                bottom: auto;
+                left: auto;
+                right: 125px; /* controls horizontal position */
+                border-width: 0 18px 18px;
+            }
+
+            .Presenter-bubble.top:after {
+                top: -15px; /* value = - border-top-width - border-bottom-width */
+                bottom: auto;
+                left: auto;
+                right: 129px; /* value = (:before right) + (:before border-right) - (:after border-right) */
+                border-width: 0 14px 15px;
+            }
+    }
+
+    @@media screen and (min-width: 551px) and (max-width: 2000px) {
+
+        .DivChannel {
+            float: left;
+            position: relative;
+            max-width: 20%;
+            min-width: 200px;
+            text-align: left;
+            background-color: #fff;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+            padding: 15px;
+        }
+
+        .clsMarginTop {
+            margin-top: 15px;
+        }
+
+        .Presenter-bubble {
+            float: right;
+            position: relative;
+            min-height: 20px;
+            padding: 15px;
+            max-width: 25%;
+            min-width: 200px;
+            margin: 10px 0 10px 18px;
+            border: 2px solid #666;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            -webkit-box-shadow: 2px 2px 4px #888;
+            -moz-box-shadow: 2px 2px 4px #888;
+            box-shadow: 2px 2px 4px #888;
+        }
+
+            .Presenter-bubble:after, .Presenter-bubble:before {
+                position: absolute;
+                right: 100%;
+                display: inline-block;
+                border: solid transparent;
+                content: "";
+                height: 0;
+                width: 0;
+                pointer-events: none;
+            }
+
+            .Presenter-bubble:before {
+                border-right-color: #666;
+                border-width: 19px;
+                top: 50%;
+                margin-top: -19px;
+            }
+
+            .Presenter-bubble:after {
+                border-right-color: #fff;
+                border-width: 17px;
+                top: 50%;
+                margin-top: -17px;
+            }
+    }
+</style>

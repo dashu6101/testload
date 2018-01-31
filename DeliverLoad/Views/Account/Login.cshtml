@@ -1,0 +1,228 @@
+﻿@model DeliverLoad.Models.LoginModel
+
+
+<script type="text/javascript">
+    
+    function DisplayNotification(returnvalue, status) {
+        if (returnvalue != null) {
+            if (status == "success") {
+                toastr.success(returnvalue);
+            }
+            else if (status == "error") {
+                toastr.error(returnvalue);
+            }
+        }
+    }
+    $(document).ready(function () {
+
+        var ReturnMessage  = '@Model.Message';
+        if (ReturnMessage != '')
+        {
+            if (ReturnMessage=='ConfirmSuccess')
+            {
+                DisplayNotification('You have successfully confirmed your email id. You can login now.', 'success');
+            }
+            else if (ReturnMessage == 'RegisterSuccess') {
+                DisplayNotification('You have successfully created an account. You now need to confirm it before logging in.', 'success');
+            }
+        }
+
+        $(".fancybox").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 250
+        });
+        $(".fancybox_2").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 500
+        });
+        $(".fancybox_3").fancybox({
+            type: "iframe",
+        });
+    });
+</script>
+@*@if (Model.Message == "ConfirmSuccess")
+{
+    <script type="text/javascript">
+        
+        
+    </script>
+}
+else if(Model.Message == "RegisterSuccess"){
+    <script type="text/javascript">
+        
+        
+    </script>
+}*@
+
+
+<div id="page">
+
+    <ul class="cb-slideshow">
+        <li>
+            <span>Image 01</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 02</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 03</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 04</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 05</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 06</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+    </ul>
+
+
+    <!--=====Page Start====-->
+    <div class="page">
+        <div class="Social_icons">
+            <ul>
+                <li><a href="#"><img src="~/Content/images/facebook.png" /></a></li>
+                <li><a href="#"><img src="~/Content/images/twitter.png" /></a></li>
+            </ul>
+        </div>
+        <div class="heading_message">
+            <div class="wraper">
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { ViewBag.ReturnUrl }))
+                {
+                    <div class="logo">
+                        
+                        <img src="~/Content/images/ikeokw_transparent.jpg" style="height:50px;margin-top:5px" />
+                    </div>
+
+
+                    @Html.AntiForgeryToken()
+                   
+
+                    <input type="text" id="LoginUserName" name="LoginUserName" placeholder="Your email." />
+                    <input type="password" id="LoginPassword" name="LoginPassword" placeholder="Your Password." />
+                    <input type="submit" name="submit" value="Login" id="get" />
+                    
+                     @Html.ValidationSummary(true)
+                    
+                }
+
+                <div class="forget">
+                    <a class="fancybox" href="/Account/ForgotPassword">Forgot Password?</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="wraper">
+            <div class="box1">
+                <div class="advertisement">
+
+                </div>
+                <div class="register">
+                    <div class="form_wraper" id="form_wraper">
+                        <div class="title">
+                            <h2>Register</h2>
+                        </div>
+                        <p>Surf, view or get channels consisting of a series of creative works in Text, Image or Video, which others commit to providing. And while at it - get your own channel too!</p>
+
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
+                        {
+                            @Html.AntiForgeryToken()
+
+
+                            <div class="Email">
+                                <input type="text" id="FirstName" name="FirstName" placeholder="First Name" />
+                            </div>
+                            <div class="city">
+                                <input type="text" id="LastName" name="LastName" placeholder="Last Name" />
+                            </div>
+                            <div class="city">
+                                <input type="text" id="UserName" name="UserName" placeholder="Email" />
+                            </div>
+                            <div class="city">
+                                <input type="password" id="Password" name="password" placeholder="Your Password." />
+                            </div>
+                            <div class="submit_button">
+                                <input type="submit" name="submit" value="Register" id="get" />
+                            </div>
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Footer-->
+            <div class="footer">
+                <div class="social_icons">
+                    <ul>
+                        <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
+                        <li><a class="fancybox_2" href="/Home/Contact">Contact</a></li>
+
+                    </ul>
+                    <p>(c)gogagga2014</p>
+                </div>
+                <div class="Social_icons_2">
+                    <ul>
+
+
+                        <li><a href="#"><img src="~/Content/images/facebook.png" /></a></li>
+                        <li><a href="#"><img src="~/Content/images/twitter.png" /></a></li>
+                    </ul>
+                </div>
+                <div class="footer_form_main">
+                    <p>Get alerts on exciting channels</p>
+                    <div class="footer_form">
+                        <input type="email" placeholder="Email"></input>
+                        <input type="submit" value="Submit"></input>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</div>
+
+
+
+
+
+
+
+
+
+
