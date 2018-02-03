@@ -1,0 +1,101 @@
+﻿.btn-theme{
+    font-weight:bold;
+    border-radius:15px;
+    font-size:16px;
+    padding:2px 15px;
+    color:#000;
+    background-color:transparent !important;
+    border-width:3px;
+    outline:none !important
+}
+.bold{
+    font-weight:bold;
+}
+.btn-green{
+    border-color:green;
+}
+.btn-green:hover{
+    background-color:green !important;
+}
+/****************** Top Navbar  *****************/
+.heading_message{
+    background:#fff;
+}
+.heading_message input[type="text"], .heading_message input[type="password"]{
+    border:1px solid #efff00;
+    outline:none !important;
+    font-weight:bold
+}
+.heading_message input[type="submit"]{
+    background-color:#efff00;
+    color:#000;
+    outline:none !important
+}
+.heading_message input[type="submit"]:hover{
+    background-color:#dbe615
+}
+.heading_message a.nav-link{
+    vertical-align:top;
+    display:inline-block;
+    border-radius: 20px;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    margin: 10px 1px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #dbe615;
+    text-decoration:none 
+}
+.heading_message a.nav-link:hover{
+    background-color:#efff00;
+    color:#000;
+}
+
+/************************ Home Page***********************/
+.home-banner{
+    background:url('./images/slider-back.jpg');
+    min-height:500px;
+    padding:40px 15px;
+    background-size:cover;
+}
+.home-banner .banner-box{
+    max-width:300px;
+    text-align:center;
+    margin-left:10%
+}
+.home-banner .btn{
+    border-color:#fff;
+}
+.home-banner .btn:hover{
+    border-color: #fff;
+    background-color: #fff !important;
+    box-shadow: none;
+}
+.offer-block{
+    padding-top:15px;
+    padding-bottom:15px;
+}
+
+/***************************** Footer **********************/
+.footer{
+    background-color:#000;
+    color:#fff;
+    padding:15px 0px;
+}
+ul.footer-list{
+    list-style:none;
+    list-style-type:none;
+    color:#fff !important
+}
+ul.footer-list li{
+    display:inline;
+    margin: 0px 10px;
+}
+ul.footer-list li a{
+    text-decoration:none;
+    color:#fff;
+}
+ul.footer-list li a:hover{
+    text-decoration:underline
+}

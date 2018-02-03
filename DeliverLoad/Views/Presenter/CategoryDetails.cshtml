@@ -36,7 +36,7 @@
                     </div>
                     <div id="AddContent" class="tab-pane " style="padding:10px;">
 
-                        @{  var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);}
+                        @{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);}
                         <input type="hidden" id="UserType" value="@obj.UserType" />
                         <div class="row">
                             <div class="col-md-3">

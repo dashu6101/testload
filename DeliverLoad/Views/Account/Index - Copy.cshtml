@@ -10,7 +10,7 @@
 
 
 
-@*<ul class="cb-slideshow">
+<ul class="cb-slideshow">
     <li>
         <span>Image 01</span>
         <!--<div>
@@ -53,7 +53,7 @@
         </div>-->
         <!--Put Heading If you want to cahnge heading with Slider-->
     </li>
-</ul>*@
+</ul>
 
 
 <!--=====Page Start====-->
@@ -82,49 +82,22 @@
                 @*<input type="text" id="LoginUserName" name="LoginUserName" placeholder="Your email." />
                     <input type="password" id="LoginPassword" name="LoginPassword" placeholder="Your Password." />*@
                 <input type="submit" name="Login" value="Login" id="get" />
-                <a href="#" class="nav-link">Signup</a>
                 if (Request.Form.AllKeys.Contains("Login"))
                 {
                     @Html.ValidationSummary()
                 }
+
+
             }
-        </div>
-    </div>
-    <div class="home-banner">
-        <div class="wraper">
-            <div class="banner-box">
-                <h1 class="text-center bold">Got a space to deliver load ?</h1>
-                <button class="btn btn-theme">Offer Space</button>
-            </div>
-            <div class="searchform">
-                <form class="form-horizontal">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <!-- Buttons -->
-                        </div>
-                        <input type="text" class="form-control" aria-label="...">
-                    </div>
-                </form>
+
+            <div class="forget">
+                <a class="fancybox" href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
             </div>
         </div>
     </div>
-    <div class="col-sm-12 offer-block">
-        <div class="col-sm-5">
-            <h3 class="bold">Maximize your potential</h3>
-            <button class="btn btn-theme btn-green">Offer Space</button>
-            <img src="~/Content/images/back-left.jpg" class="img-responsive" style="margin-top:10px;"/>
-        </div>
-        <div class="col-sm-7">
-            <div class="col-sm-6">
-                <img src="~/Content/images/back-right.jpg" class="img-responsive"/>
-            </div>
-            <div class="col-sm-6">
-                <h1 class="bold">Got a load<br/> to deliver ?</h1>
-            </div>
-        </div>
-    </div>
-        <div>
-        @*<div class="box1">
+
+    <div class="wraper">
+        <div class="box1">
             <div class="advertisement">
 
             </div>
@@ -143,21 +116,25 @@
                             @Html.ValidationSummary()
                         }
                         <div class="Email">
+                            @*<input type="text" id="FirstName" name="FirstName" placeholder="First Name" />*@
                             @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name" })
 
                         </div>
 
                         <div class="city">
+                            @*<input type="text" id="LastName" name="LastName" placeholder="Last Name" />*@
                             @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name" })
 
                         </div>
                         
                         <div class="city">
+                            @*<input type="text" id="UserName" name="UserName" placeholder="Email" />*@
                             @Html.TextBoxFor(m => m.UserName, new { placeholder = "Email Address" })
 
                         </div>
                         
                         <div class="city">
+                            @*<input type="password" id="Password" name="Password" placeholder="Your Password." />*@
                             @Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "Your Password." })
                             @Html.ValidationMessageFor(m => m.Password)
 
@@ -167,30 +144,43 @@
                             <img src="~/Images/ajax-loader.gif" class="AjaxLoaderRegister" style="display:none" />
                         </div>
                     }
-                    
+                    @*@Html.Partial("_Register")*@
+
                 </div>
             </div>
-        </div>*@
         </div>
+
         <!--Footer-->
         <div class="footer">
-            <div class="col-sm-4">
-                <ul class="footer-list pull-left">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Contact</a></li>
+            <div class="social_icons">
+                <ul>
+                    <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
+                    <li><a class="fancybox_2" href="/Home/Contact">Contact</a></li>
+
                 </ul>
+                <p>©GoGagga 2015</p>
             </div>
-            <div class="col-sm-4">
-                <p>©GoGagga 2018</p>
-            </div>
-            <div class="col-sm-4">
-                <ul class="footer-list pull-right">
+            <div class="Social_icons_2">
+                <ul>
                     <li><a href="#"><img src="~/Content/images/facebook.png" /></a></li>
                     <li><a href="#"><img src="~/Content/images/twitter.png" /></a></li>
                 </ul>
             </div>
+            <div class="footer_form_main">
+                <p>Get alerts on exciting channels</p>
+                @using (Ajax.BeginForm("Subscription", "Account", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "SaveSuccessSubscription", OnFailure = "SaveFailureSubscription" }))
+                {
+                    @*@Html.AntiForgeryToken()*@
+                    <div class="footer_form">
+                        <img src="~/Images/ajax-loader.gif" class="AjaxLoader" style="display:none" />
+                        @Html.TextBoxFor(m => m.SubscriptionMailId, new { placeholder = "Email" })
+                        <input type="submit" value="Submit" id="btnSubmitSubscription" />
+                       
+                    </div>
+                }
+            </div>
         </div>
-    
+    </div>
 </div>
 
 

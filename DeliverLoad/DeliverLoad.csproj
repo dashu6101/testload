@@ -289,6 +289,7 @@
     <Content Include="500.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\deliverload.css" />
     <Content Include="Content\DivBubble.css" />
     <Content Include="Content\editor.css" />
     <Content Include="Content\error.css" />
@@ -303,6 +304,8 @@
     <Content Include="Content\images\Another Slider images\Social-networking-11.jpg" />
     <Content Include="Content\images\Another Slider images\social-networking.jpg" />
     <Content Include="Content\images\Another Slider images\SocialNetworking.jpg" />
+    <Content Include="Content\images\back-left.jpg" />
+    <Content Include="Content\images\back-right.jpg" />
     <Content Include="Content\images\bg.png" />
     <Content Include="Content\images\close.png" />
     <Content Include="Content\images\duv_bg.png" />
@@ -316,6 +319,7 @@
     <Content Include="Content\images\o-TEEN-SOCIAL-MEDIA-facebook.jpg" />
     <Content Include="Content\images\pattern.png" />
     <Content Include="Content\images\red_ball.png" />
+    <Content Include="Content\images\slider-back.jpg" />
     <Content Include="Content\images\slider_1.jpg" />
     <Content Include="Content\images\slider_2.jpg" />
     <Content Include="Content\images\Slide_3.jpg" />
@@ -427,6 +431,7 @@
       <DependentUpon>DeliverLoadEntities.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\profile1.pubxml" />
+    <None Include="Properties\PublishProfiles\we deploy deliverload.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Models\DeliverLoadEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -629,6 +634,7 @@
     <Content Include="Views\Participant\ChannelList.cshtml" />
     <Content Include="Views\UserMailer\AzureVideoUploadNotifiction.cshtml" />
     <Content Include="Views\UserMailer\UploadVideoNotification.cshtml" />
+    <Content Include="Views\Account\Index - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

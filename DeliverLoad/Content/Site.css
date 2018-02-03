@@ -519,10 +519,10 @@ input[type="checkbox"].input-validation-error {
     font-weight: bold;
     font-size: 1.1em;
 }
-
 .validation-summary-valid {
     display: none;
 }
+
 
 
 /* tables
