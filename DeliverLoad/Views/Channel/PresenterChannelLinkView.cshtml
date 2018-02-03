@@ -13,7 +13,7 @@
         <div class="wraper">
             @if (WebSecurity.IsAuthenticated)
             {
-                var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+                var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
                 <div class="logo" style="float:left">
                     <img src="~/Content/images/ikeokw_transparent.jpg" style="height:50px;margin-top:5px" />
                 </div>

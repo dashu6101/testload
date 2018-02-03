@@ -76,7 +76,9 @@ namespace DeliverLoad.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Participant");
+                            //return RedirectToAction("Index", "Participant");
+
+                            return RedirectToAction("Index", "Loadowner");
                         }
                     }
                     

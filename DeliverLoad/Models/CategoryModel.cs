@@ -52,5 +52,10 @@ namespace DeliverLoad.Models
 
         public bool IsAuthenticated { get; set; }
 
+        public string PickupLocation { get; set; }
+        public DateTime? PickupDate { get; set; }
+        public string DropOffLocation { get; set; }
+        public DateTime? DropOffDate { get; set; }
+
     }
 }

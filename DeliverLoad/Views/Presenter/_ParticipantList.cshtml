@@ -1,4 +1,4 @@
-﻿@using CCC;
+﻿@using DeliverLoad;
 @model IEnumerable<DeliverLoad.Models.UserModel>
 
 <div class="panel panel-primary">
@@ -18,7 +18,7 @@
         }
         else
         {
-            var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+            var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
             <text>There are no participants for this channel yet. Invite people to this channel by sharing your channel no :  @obj.ChannelNo</text>
             <br />
         }

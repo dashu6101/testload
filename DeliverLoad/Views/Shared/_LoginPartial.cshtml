@@ -1,9 +1,9 @@
-﻿@using CCC;
+﻿@using DeliverLoad;
 
 @if (Request.IsAuthenticated)
 {
 
-    var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+    var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
 
 
     <li class="dropdown" style="margin-top:-6px;">

@@ -31,6 +31,7 @@
         <AssociationConnector Association="DeliverLoadModel.FK_ParticipantCategory_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DeliverLoadModel.FK_PresenterCategory_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DeliverLoadModel.webpages_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DeliverLoadModel.OverloadCategory" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

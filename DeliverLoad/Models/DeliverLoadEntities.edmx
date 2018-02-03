@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -84,6 +84,27 @@
           <Property Name="TimeUtc" Type="datetime" Nullable="false" />
           <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AllXml" Type="ntext" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DeliverLoad.dbo.OverloadCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OverloadCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsFree" Type="bit" />
+          <Property Name="IsAvailable" Type="bit" />
+          <Property Name="IsPresenterAvailability" Type="bit" />
+          <Property Name="PickupLocation" Type="varchar" MaxLength="500" />
+          <Property Name="PickupDate" Type="datetime" />
+          <Property Name="DropOffLocation" Type="varchar" MaxLength="500" />
+          <Property Name="DropOffDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -439,6 +460,24 @@
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OverloadCategory" EntityType="Self.OverloadCategory" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[OverloadCategory].[CategoryId] AS [CategoryId], 
+[OverloadCategory].[Name] AS [Name], 
+[OverloadCategory].[Description] AS [Description], 
+[OverloadCategory].[Image] AS [Image], 
+[OverloadCategory].[CreatedDate] AS [CreatedDate], 
+[OverloadCategory].[Price] AS [Price], 
+[OverloadCategory].[ChannelNo] AS [ChannelNo], 
+[OverloadCategory].[IsFree] AS [IsFree], 
+[OverloadCategory].[IsAvailable] AS [IsAvailable], 
+[OverloadCategory].[IsPresenterAvailability] AS [IsPresenterAvailability], 
+[OverloadCategory].[PickupLocation] AS [PickupLocation], 
+[OverloadCategory].[PickupDate] AS [PickupDate], 
+[OverloadCategory].[DropOffLocation] AS [DropOffLocation], 
+[OverloadCategory].[DropOffDate] AS [DropOffDate]
+FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="CategoryContent" EntitySet="CategoryContent" />
@@ -492,8 +531,7 @@
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeliverLoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -969,11 +1007,12 @@
             <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="OverloadCategories" EntityType="DeliverLoadModel.OverloadCategory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1003,6 +1042,25 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="OverloadCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsFree" Type="Boolean" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="IsPresenterAvailability" Type="Boolean" />
+          <Property Name="PickupLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PickupDate" Type="DateTime" Precision="3" />
+          <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DropOffDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1281,6 +1339,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="OverloadCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
+              <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="DropOffDate" ColumnName="DropOffDate" />
+                <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
+                <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
+                <ScalarProperty Name="PickupLocation" ColumnName="PickupLocation" />
+                <ScalarProperty Name="IsPresenterAvailability" ColumnName="IsPresenterAvailability" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsFree" ColumnName="IsFree" />
+                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
