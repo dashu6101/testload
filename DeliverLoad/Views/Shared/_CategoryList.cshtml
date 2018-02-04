@@ -1,7 +1,7 @@
-﻿@using CCC;
+﻿@using DeliverLoad;
 @model IEnumerable<DeliverLoad.Models.CategoryModel>
 
-@{  var obj = DeliverLoad.Utils.Utils.GetCCCUser(WebSecurity.CurrentUserName);
+@{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">
