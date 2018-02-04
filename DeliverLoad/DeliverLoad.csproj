@@ -15,7 +15,7 @@
     <AssemblyName>DeliverLoad</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -194,11 +194,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ChannelController.cs" />
+    <Compile Include="Controllers\LoadownerController.cs" />
     <Compile Include="Controllers\ParticipantController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PresenterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TreeViewController.cs" />
+    <Compile Include="Controllers\VehicleownerController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -243,6 +245,16 @@
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FileStatus.cs" />
+    <Compile Include="Models\LoadownerCategory.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoadSpace.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OverloadCategory.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OverloadCategoryModel.cs" />
     <Compile Include="Models\ParticipantCategory.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
@@ -267,6 +279,9 @@
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\VehicleownerCategory.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\webpages_Membership.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
@@ -635,6 +650,21 @@
     <Content Include="Views\UserMailer\AzureVideoUploadNotifiction.cshtml" />
     <Content Include="Views\UserMailer\UploadVideoNotification.cshtml" />
     <Content Include="Views\Account\Index - Copy.cshtml" />
+    <Content Include="Views\Loadowner\Index.cshtml" />
+    <Content Include="Views\Loadowner\_ViewStart.cshtml" />
+    <Content Include="Views\Vehicleowner\CategoryDetails.cshtml" />
+    <Content Include="Views\Vehicleowner\CategoryList.cshtml" />
+    <Content Include="Views\Vehicleowner\ChannelList.cshtml" />
+    <Content Include="Views\Vehicleowner\Create.cshtml" />
+    <Content Include="Views\Vehicleowner\Index.cshtml" />
+    <Content Include="Views\Vehicleowner\PresenterDetails.cshtml" />
+    <Content Include="Views\Vehicleowner\RightAndContentPolicy.cshtml" />
+    <Content Include="Views\Vehicleowner\SubscriberList.cshtml" />
+    <Content Include="Views\Vehicleowner\UserList.cshtml" />
+    <Content Include="Views\Vehicleowner\_CategoryContent.cshtml" />
+    <Content Include="Views\Vehicleowner\_CreateOrEditCategory.cshtml" />
+    <Content Include="Views\Vehicleowner\_ParticipantList.cshtml" />
+    <Content Include="Views\Vehicleowner\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -668,7 +698,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2018</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:14096/</IISUrl>
+          <IISUrl>http://localhost/DeliverLoad</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
