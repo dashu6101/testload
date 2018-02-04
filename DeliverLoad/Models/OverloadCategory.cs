@@ -28,5 +28,6 @@ namespace DeliverLoad.Models
         public Nullable<System.DateTime> PickupDate { get; set; }
         public string DropOffLocation { get; set; }
         public Nullable<System.DateTime> DropOffDate { get; set; }
+        public Nullable<int> LoadSpaceId { get; set; }
     }
 }

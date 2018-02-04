@@ -7,7 +7,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     /*font-size: 30px;*/
     /*background:url(../Content/images/bg.png) repeat;*/
-    background-color: #F2F2F2 !important;
+    /*background-color: #F2F2F2 !important;*/
 }
 a {
     text-decoration: none;
@@ -476,7 +476,7 @@ a {
 .validation-summary-errors {
     color: red;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .validation-summary-valid {

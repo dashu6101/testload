@@ -43,6 +43,9 @@ namespace DeliverLoad.Models
         public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
         public DbSet<OverloadCategory> OverloadCategories { get; set; }
+        public DbSet<LoadownerCategory> LoadownerCategories { get; set; }
+        public DbSet<LoadSpace> LoadSpaces { get; set; }
+        public DbSet<VehicleownerCategory> VehicleownerCategories { get; set; }
     
         public virtual ObjectResult<string> ELMAH_GetErrorsXml(string application, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

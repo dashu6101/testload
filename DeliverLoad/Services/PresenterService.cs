@@ -447,5 +447,47 @@ namespace DeliverLoad.Services
                 return ex.Message;
             }
         }
+
+        //New requirement 
+        public string EditCategoryOwner(CategoryModel model)
+        {
+            try
+            {
+                var objCategory = dbContext.OverloadCategories.Where(x => x.CategoryId == model.CategoryId).FirstOrDefault();
+                objCategory.Name = model.Name;
+                objCategory.Description = model.Description;
+                objCategory.Price = model.Price;
+                objCategory.IsFree = model.IsFreeChannel;
+                objCategory.DropOffLocation = model.DropOffLocation;
+                objCategory.DropOffDate = model.DropOffDate;
+                objCategory.PickupLocation = model.PickupLocation;
+                objCategory.PickupDate = model.PickupDate;
+                objCategory.LoadSpaceId = model.LoadSpaceId;
+
+                if (model.ImageUpload != null)
+                {
+                    string image = Guid.NewGuid().ToString();
+                    image = image + model.ImageUpload.FileName.Substring(model.ImageUpload.FileName.LastIndexOf('.'));
+                    string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
+
+                    model.ImageUpload.SaveAs(physicalPath);
+                    objCategory.Image = image;
+
+
+                }
+
+                dbContext.SaveChanges();
+
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return "1";
+
+        }
     }
 }

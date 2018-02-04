@@ -85,8 +85,24 @@
           <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AllXml" Type="ntext" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DeliverLoad.dbo.OverloadCategory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LoadownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="HasJoinedCategory" Type="bit" />
+          <Property Name="JoinedDate" Type="datetime" />
+          <Property Name="IsBlocked" Type="bit" />
+        </EntityType>
+        <EntityType Name="LoadSpace">
+          <Key>
+            <PropertyRef Name="LoadSpaceId" />
+          </Key>
+          <Property Name="LoadSpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoadSpaceTitle" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -105,6 +121,7 @@ warning 6002: The table/view 'DeliverLoad.dbo.OverloadCategory' does not have a 
           <Property Name="PickupDate" Type="datetime" />
           <Property Name="DropOffLocation" Type="varchar" MaxLength="500" />
           <Property Name="DropOffDate" Type="datetime" />
+          <Property Name="LoadSpaceId" Type="int" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -205,6 +222,14 @@ warning 6002: The table/view 'DeliverLoad.dbo.OverloadCategory' does not have a 
           <Property Name="ContinentID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAuthenticated" Type="bit" />
+        </EntityType>
+        <EntityType Name="VehicleownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -451,33 +476,19 @@ warning 6002: The table/view 'DeliverLoad.dbo.OverloadCategory' does not have a 
           <EntitySet Name="ChannelRequestMaster" EntityType="Self.ChannelRequestMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContentVisitors" EntityType="Self.ContentVisitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoadownerCategory" EntityType="Self.LoadownerCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoadSpace" EntityType="Self.LoadSpace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OverloadCategory" EntityType="Self.OverloadCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParticipantCategory" EntityType="Self.ParticipantCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleownerCategory" EntityType="Self.VehicleownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OverloadCategory" EntityType="Self.OverloadCategory" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[OverloadCategory].[CategoryId] AS [CategoryId], 
-[OverloadCategory].[Name] AS [Name], 
-[OverloadCategory].[Description] AS [Description], 
-[OverloadCategory].[Image] AS [Image], 
-[OverloadCategory].[CreatedDate] AS [CreatedDate], 
-[OverloadCategory].[Price] AS [Price], 
-[OverloadCategory].[ChannelNo] AS [ChannelNo], 
-[OverloadCategory].[IsFree] AS [IsFree], 
-[OverloadCategory].[IsAvailable] AS [IsAvailable], 
-[OverloadCategory].[IsPresenterAvailability] AS [IsPresenterAvailability], 
-[OverloadCategory].[PickupLocation] AS [PickupLocation], 
-[OverloadCategory].[PickupDate] AS [PickupDate], 
-[OverloadCategory].[DropOffLocation] AS [DropOffLocation], 
-[OverloadCategory].[DropOffDate] AS [DropOffDate]
-FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="CategoryContent" EntitySet="CategoryContent" />
@@ -1013,6 +1024,9 @@ FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
           <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="OverloadCategories" EntityType="DeliverLoadModel.OverloadCategory" />
+          <EntitySet Name="LoadownerCategories" EntityType="DeliverLoadModel.LoadownerCategory" />
+          <EntitySet Name="LoadSpaces" EntityType="DeliverLoadModel.LoadSpace" />
+          <EntitySet Name="VehicleownerCategories" EntityType="DeliverLoadModel.VehicleownerCategory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1060,6 +1074,33 @@ FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
           <Property Name="PickupDate" Type="DateTime" Precision="3" />
           <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DropOffDate" Type="DateTime" Precision="3" />
+          <Property Name="LoadSpaceId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LoadownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="HasJoinedCategory" Type="Boolean" />
+          <Property Name="JoinedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlocked" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="LoadSpace">
+          <Key>
+            <PropertyRef Name="LoadSpaceId" />
+          </Key>
+          <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VehicleownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1342,6 +1383,7 @@ FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
           <EntitySetMapping Name="OverloadCategories">
             <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
               <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
                 <ScalarProperty Name="DropOffDate" ColumnName="DropOffDate" />
                 <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
                 <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
@@ -1356,6 +1398,35 @@ FROM [dbo].[OverloadCategory] AS [OverloadCategory]</DefiningQuery>
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadownerCategory">
+              <MappingFragment StoreEntitySet="LoadownerCategory">
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+                <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+                <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadSpaces">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
+              <MappingFragment StoreEntitySet="LoadSpace">
+                <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.VehicleownerCategory">
+              <MappingFragment StoreEntitySet="VehicleownerCategory">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

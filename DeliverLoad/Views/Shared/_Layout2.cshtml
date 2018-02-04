@@ -1,5 +1,4 @@
-﻿@using DeliverLoad;
-@using DeliverLoad.Utils;
+﻿@using DeliverLoad.Utils;
 
 @{
     var IsMobileBrowser = Request.Browser.IsMobileDevice;
@@ -19,7 +18,7 @@
     <meta name="og:description" content="@Html.Raw(ViewBag.description)" />
     @*<meta property="og:url" content="http://www.chitchatchannel.com/">*@
 
-   <!--======For title======-->
+    <!--======For title======-->
     <title>@ViewBag.Title</title>
 
     <!--======Style Sheet======-->
@@ -28,9 +27,12 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
     <link href="~/Content/redactor/redactor.css" rel="stylesheet" />
+
+
     <!--=====Script For Popup & Slider =====-->
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Scripts/plugins/bootstrap-toastr/toastr.min.js"></script>
 
@@ -48,7 +50,7 @@
     <script src="~/Content/redactor/redactor.min.js"></script>
     <script src="~/Content/redactor/imagemanager.js"></script>
     <script src="~/Content/redactor/video.js"></script>
-    
+
     <script>
         window.fbAsyncInit = function () {
             FB.init({
@@ -135,13 +137,16 @@
                     <ul class="nav navbar-nav navbar-right">
                         @if (obj.UserType == "A")
                         {
-                            <li><a href="/Presenter/Index">My Channels</a></li>
-                            
+                            @*<li><a href="/Presenter/Index">My Channels</a></li>*@
+
+
+                            <li><a href="/Vehicleowner/Index">My Channels</a></li>
+
                         }
                         else
                         {
                             <li><a href="/Participant/Index">My Subscriptions</a></li>
-                             <li><a href="/Participant/ChannelList">View All Channel</a></li>
+                            <li><a href="/Participant/ChannelList">View All Channel</a></li>
                         }
                         <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
                         @if (obj.UserId == 33)
@@ -167,22 +172,24 @@
         @RenderBody()
     </div>
     @*<script src="~/Scripts/ckeditor.js"></script>*@
+    @Styles.Render("~/Content/themes/base/css")
+
 </body>
 </html>
 
 <script type="text/javascript">
-  
+
 
 
     $(document).ready(function () {
 
 
-     
-            var Title = '@TempData["GritterTitle"]';
-            var Message = '@TempData["GritterMessage"]';
-            if (Title != '' && Message != '')
-                DisplayNotification(Message, Title);
-      
+
+        var Title = '@TempData["GritterTitle"]';
+        var Message = '@TempData["GritterMessage"]';
+        if (Title != '' && Message != '')
+            DisplayNotification(Message, Title);
+
 
 
         $(".fancybox").fancybox({
