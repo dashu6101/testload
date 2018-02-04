@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -84,6 +84,44 @@
           <Property Name="TimeUtc" Type="datetime" Nullable="false" />
           <Property Name="Sequence" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AllXml" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoadownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="HasJoinedCategory" Type="bit" />
+          <Property Name="JoinedDate" Type="datetime" />
+          <Property Name="IsBlocked" Type="bit" />
+        </EntityType>
+        <EntityType Name="LoadSpace">
+          <Key>
+            <PropertyRef Name="LoadSpaceId" />
+          </Key>
+          <Property Name="LoadSpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoadSpaceTitle" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OverloadCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="Image" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsFree" Type="bit" />
+          <Property Name="IsAvailable" Type="bit" />
+          <Property Name="IsPresenterAvailability" Type="bit" />
+          <Property Name="PickupLocation" Type="varchar" MaxLength="500" />
+          <Property Name="PickupDate" Type="datetime" />
+          <Property Name="DropOffLocation" Type="varchar" MaxLength="500" />
+          <Property Name="DropOffDate" Type="datetime" />
+          <Property Name="LoadSpaceId" Type="int" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -184,6 +222,14 @@
           <Property Name="ContinentID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAuthenticated" Type="bit" />
+        </EntityType>
+        <EntityType Name="VehicleownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -430,11 +476,15 @@
           <EntitySet Name="ChannelRequestMaster" EntityType="Self.ChannelRequestMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContentVisitors" EntityType="Self.ContentVisitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoadownerCategory" EntityType="Self.LoadownerCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoadSpace" EntityType="Self.LoadSpace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OverloadCategory" EntityType="Self.OverloadCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParticipantCategory" EntityType="Self.ParticipantCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VehicleownerCategory" EntityType="Self.VehicleownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
@@ -492,8 +542,7 @@
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeliverLoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -969,11 +1018,15 @@
             <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="OverloadCategories" EntityType="DeliverLoadModel.OverloadCategory" />
+          <EntitySet Name="LoadownerCategories" EntityType="DeliverLoadModel.LoadownerCategory" />
+          <EntitySet Name="LoadSpaces" EntityType="DeliverLoadModel.LoadSpace" />
+          <EntitySet Name="VehicleownerCategories" EntityType="DeliverLoadModel.VehicleownerCategory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1003,6 +1056,52 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="OverloadCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsFree" Type="Boolean" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="IsPresenterAvailability" Type="Boolean" />
+          <Property Name="PickupLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PickupDate" Type="DateTime" Precision="3" />
+          <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DropOffDate" Type="DateTime" Precision="3" />
+          <Property Name="LoadSpaceId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="LoadownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="HasJoinedCategory" Type="Boolean" />
+          <Property Name="JoinedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlocked" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="LoadSpace">
+          <Key>
+            <PropertyRef Name="LoadSpaceId" />
+          </Key>
+          <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VehicleownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1281,6 +1380,56 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="OverloadCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
+              <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
+                <ScalarProperty Name="DropOffDate" ColumnName="DropOffDate" />
+                <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
+                <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
+                <ScalarProperty Name="PickupLocation" ColumnName="PickupLocation" />
+                <ScalarProperty Name="IsPresenterAvailability" ColumnName="IsPresenterAvailability" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsFree" ColumnName="IsFree" />
+                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadownerCategory">
+              <MappingFragment StoreEntitySet="LoadownerCategory">
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+                <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+                <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadSpaces">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
+              <MappingFragment StoreEntitySet="LoadSpace">
+                <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.VehicleownerCategory">
+              <MappingFragment StoreEntitySet="VehicleownerCategory">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

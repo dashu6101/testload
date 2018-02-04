@@ -1,0 +1,9 @@
+﻿@{
+    
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+    if (!WebSecurity.Initialized)
+    {
+        WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Users", "UserId", "UserName", autoCreateTables: true);
+    }
+}

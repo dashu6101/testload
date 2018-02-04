@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DeliverLoad.Models;
+using System.Web.Mvc;
 
 namespace DeliverLoad.Services
 {
@@ -247,6 +248,101 @@ namespace DeliverLoad.Services
             return categoryDetails;
         }
 
+
+
+        //New Requirement 
+        public CategoryModel getOwnerCategoryDetails(int CategoryId, int UserId)
+        {
+            var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
+            bool HasJoinedCategory = false;
+            if (Loadownerdetails != null)
+            {
+                HasJoinedCategory = (bool)Loadownerdetails.HasJoinedCategory;
+            }
+
+            var categoryDetails = (from C in dbContext.OverloadCategories
+                                   join PC in dbContext.VehicleownerCategories on C.CategoryId equals PC.CategoryId
+                                   join U in dbContext.Users on PC.UserId equals U.UserId
+                                   where C.CategoryId == CategoryId
+                                   select new CategoryModel
+                                   {
+                                       CategoryId = C.CategoryId,
+                                       Name = C.Name,
+                                       Description = C.Description,
+                                       Image = C.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + C.Image,
+                                       UserId = (int)PC.UserId,
+                                       HasJoinedCategory = HasJoinedCategory,
+                                       Price = (decimal)C.Price,
+                                       IsFreeChannel = (bool)C.IsFree,
+                                       FirstName = U.FirstName,
+                                       LastName = U.LastName,
+                                       ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                       ChannelNo = "Channel no:" + C.ChannelNo,
+                                       IsAuthenticated = U.IsAuthenticated == null ? false : (bool)U.IsAuthenticated,
+                                       PickupDate = C.PickupDate,
+                                       PickupLocation = C.PickupLocation,
+                                       DropOffDate = C.DropOffDate,
+                                       DropOffLocation = C.DropOffLocation,
+                                       LoadSpaceId = C.LoadSpaceId,
+                                   }).FirstOrDefault();
+
+
+            return categoryDetails;
+        }
+
+        public IEnumerable<CategoryModel> getAllLoadownerCategoryList()
+        {
+            //from C in dbContext.Categories
+            //                       join PC in dbContext.PresenterCategories on C.CategoryId equals PC.CategoryId
+            //                       join U in dbContext.Users on PC.UserId equals U.UserId
+            //                       where C.CategoryId == CategoryId
+            //                       select new CategoryModel
+
+            var categoryList = (from U in dbContext.Users
+                                join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
+                                join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
+                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                where U.UserType == "A"
+                                select new CategoryModel
+                                {
+                                    CategoryId = OC.CategoryId,
+                                    Description = OC.Description,
+                                    PickupLocation = OC.PickupLocation,
+                                    PickupDate = (DateTime)OC.PickupDate,
+                                    DropOffLocation = OC.DropOffLocation,
+                                    DropOffDate = (DateTime)OC.DropOffDate,
+                                    Name = OC.Name,
+                                    Image = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                    //  UserId = U.UserId,
+                                    ChannelNo = OC.ChannelNo,
+                                    Price = (decimal)OC.Price,
+                                    IsFreeChannel = (bool)OC.IsFree,
+                                    // JoinedDate = (DateTime)PC.JoinedDate
+
+                                    FirstName = U.FirstName,
+                                    LastName = U.LastName,
+                                    ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
+                                    LoadSpaceTitle = LS.LoadSpaceTitle
+                                }).OrderByDescending(x => x.Name);
+
+
+
+            return categoryList;
+        }
+
+        public SelectList getLoadSpaceList()
+        {
+
+
+            List<LoadSpace> objLoadSpacelist = (from data in dbContext.LoadSpaces
+                                                select data).ToList();
+
+            SelectList objmodeldata = new SelectList(objLoadSpacelist, "LoadSpaceId", "LoadSpaceTitle");
+            /*Assign value to model*/
+
+            return objmodeldata;
+        }
 
     }
 }

@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+
+@using DeliverLoad;
+@model IEnumerable<DeliverLoad.Models.CategoryModel>
+
+@{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);}
+
+@*@Html.Partial("_CategoryList")*@
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped table-hover sortable">
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="10">No Record's found.</td>
+            </tr>
+        }
+        else
+        {
+            <thead>
+                <tr class="danger">
+                    <th>Pic Profile</th>
+                    <th>Name</th>
+                    <th>Load#</th>
+                    <th>Pickup Date</th>
+                    <th>Pickup Location</th>
+                    <th>Drop of Date</th>
+                    <th>Drop of Location</th>
+                    <th>Space Type</th>
+                    <th>Comments</th>
+                    <th>Vehicle Image</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
+                    <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
+                    <td>@item.ChannelNo</td>
+                    <td>
+                        @if (item.PickupDate != null)
+                        {
+                            var GetDateTime = item.PickupDate.ToString();
+                            var GetDate = GetDateTime.Split(' ')[0];
+                            @GetDate;
+                        }
+
+                    </td>
+                    <td>@item.PickupLocation</td>
+                    <td>
+                        @if (item.DropOffDate != null)
+                        {
+                            var GetDateTime1 = item.DropOffDate.ToString();
+                            var GetDate1 = GetDateTime1.Split(' ')[0];
+                            @GetDate1;
+}
+                </td>
+                <td>@item.DropOffLocation</td>
+                <td>@item.LoadSpaceTitle</td>
+                <td>@Html.Raw(item.Description)</td>
+                <td><img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;"></td>
+                <td>
+                    @if (item.IsFreeChannel)
+                    {
+                        <p>Free Channel</p>
+
+                    }
+                    else
+                    {
+                        <p>$@item.Price</p>
+                    }
+
+                </td>
+
+            </tr>
+            }
+        }
+    </table>
+</div>

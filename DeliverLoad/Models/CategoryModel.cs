@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace DeliverLoad.Models
 {
@@ -51,6 +52,31 @@ namespace DeliverLoad.Models
         public bool IsChannelAvailable { get; set; }
 
         public bool IsAuthenticated { get; set; }
+
+        [Display(Name = "Pickup Location")]
+        [Required(ErrorMessage = "The Pick Up Location field is required.")]
+        public string PickupLocation { get; set; }
+
+        [Display(Name = "Pick Up Date")]
+        [Required(ErrorMessage = "The Pick Up Date field is required.")]
+        public DateTime? PickupDate { get; set; }
+
+        [Display(Name = "Drop off Location")]
+        [Required(ErrorMessage = "The Drop off Location field is required.")]
+        public string DropOffLocation { get; set; }
+
+        [Display(Name = "Drop off Date")]
+        [Required(ErrorMessage = "The Drop off Date field is required.")]
+        public DateTime? DropOffDate { get; set; }
+
+
+        [Required]
+        [Display(Name = "Load Space")]
+        public int? LoadSpaceId { get; set; }
+        public SelectList LoadSpaceList { get; set; }
+
+
+        public string LoadSpaceTitle { get; set; }
 
     }
 }
