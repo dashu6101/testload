@@ -72,7 +72,7 @@ namespace DeliverLoad.Controllers
 
         public ActionResult Index()
         {
-            var model = service.getPresenterCategoryList(sUser.UserId);
+            var model = service.getVehicleLoadCategoryList(sUser.UserId);
             return View(model);
         }
 

@@ -665,6 +665,7 @@
     <Content Include="Views\Vehicleowner\_CreateOrEditCategory.cshtml" />
     <Content Include="Views\Vehicleowner\_ParticipantList.cshtml" />
     <Content Include="Views\Vehicleowner\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_DeliveryLoadCategoryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

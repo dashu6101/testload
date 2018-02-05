@@ -489,5 +489,44 @@ namespace DeliverLoad.Services
             return "1";
 
         }
+
+        public IEnumerable<CategoryModel> getVehicleLoadCategoryList(int UserId)
+        {
+
+            var categoryList = (from U in dbContext.Users
+                                join VC in dbContext.VehicleownerCategories on U.UserId equals VC.UserId
+                                join OC in dbContext.OverloadCategories on VC.CategoryId equals OC.CategoryId
+                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                where U.UserId == UserId && U.UserType == "A"
+                                select new CategoryModel
+                                {
+                                    CategoryId = OC.CategoryId,
+                                    Name = OC.Name,
+                                    Image = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                    UserId = U.UserId,
+                                    CreatedDate = (DateTime)OC.CreatedDate,
+                                    ChannelNo = OC.ChannelNo,
+                                    Price = (decimal)OC.Price,
+                                    IsFreeChannel = (bool)OC.IsFree,
+                                    FirstName = U.FirstName,
+                                    LastName = U.LastName,
+                                    ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    IsChannelAvailable = OC.IsAvailable == null ? true : (bool)OC.IsAvailable,
+
+
+                                    
+                                    Description = OC.Description,
+                                    PickupLocation = OC.PickupLocation,
+                                    PickupDate = (DateTime)OC.PickupDate,
+                                    DropOffLocation = OC.DropOffLocation,
+                                    DropOffDate = (DateTime)OC.DropOffDate,
+                                  
+                                    LoadSpaceTitle = LS.LoadSpaceTitle
+
+                                }).OrderByDescending(x => x.CreatedDate);
+
+
+            return categoryList;
+        }
     }
 }
