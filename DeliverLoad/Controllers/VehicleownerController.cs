@@ -72,9 +72,21 @@ namespace DeliverLoad.Controllers
 
         public ActionResult Index()
         {
-            var model = service.getVehicleLoadCategoryList(sUser.UserId);
+            var model = service.getVehicleLoadCategoryList(sUser.UserId,new FindSpaceViewModel());
             return View(model);
         }
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Index(FindSpaceViewModel searchVM)
+        {
+            if(searchVM == null)
+            {
+                return RedirectToAction("Index", "FindSpace");
+            }
+            var model = service.getVehicleLoadCategoryList(sUser.UserId, searchVM);
+            return View(model);
+        }
+
 
         public ActionResult Create()
         {

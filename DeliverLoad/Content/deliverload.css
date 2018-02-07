@@ -1,4 +1,7 @@
-﻿.btn-theme{
+﻿.mt-15{
+    margin-top:15px;
+} 
+.btn-theme{
     font-weight:bold;
     border-radius:15px;
     font-size:16px;
@@ -12,15 +15,18 @@
     font-weight:bold;
 }
 .btn-green{
-    border-color:green;
+    border-color:green !important;
 }
 .btn-green:hover{
     background-color:green !important;
 }
+.light-bg,.light-bg .findspace {
+    background-color: #f9f9f9;
+}
 /************************ Footer ****************/
-    #map {
+#map {
     height: 100%;
-    }
+}
     /* Optional: Makes the sample page fill the window. */
     html, body {
     height: 100%;
@@ -50,22 +56,28 @@
 .heading_message{
     background:#fff;
 }
-.heading_message input[type="text"], .heading_message input[type="password"]{
-    border:1px solid #efff00;
-    outline:none !important;
-    font-weight:bold
+    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control {
+        border: 1px solid #efff00;
+        outline: none !important;
+        font-weight: bold
+    }
+    .heading_message input[type="submit"], .login input[type="submit"] {
+        background-color: #efff00 !important;
+        color: #000;
+        outline: none !important
+    }
+        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover {
+            background-color: #dbe615
+        }
+.login input {
+    box-shadow:none !important;
+    margin:10px auto
 }
-.heading_message input[type="submit"]{
-    background-color:#efff00;
-    color:#000;
-    outline:none !important
-}
-.heading_message input[type="submit"]:hover{
-    background-color:#dbe615
-}
-.heading_message a.nav-link{
-    vertical-align:top;
-    display:inline-block;
+
+
+.heading_message a.nav-link {
+    vertical-align: top;
+    display: inline-block;
     border-radius: 20px;
     padding: 8px;
     border: none;
@@ -74,19 +86,21 @@
     font-weight: bold;
     font-size: 14px;
     color: #dbe615;
-    text-decoration:none 
+    text-decoration: none
 }
 .heading_message a.nav-link:hover{
     background-color:#efff00;
     color:#000;
 }
-
+.siteheader{
+    border-bottom:1px solid #eaeaea;
+}
 /************************ Home Page***********************/
-.home-banner{
-    background:url('./images/slider-back.jpg');
-    min-height:500px;
-    padding:40px 15px;
-    background-size:cover;
+.home-banner {
+    background: url('./images/slider-back.jpg');
+    min-height: 500px;
+    padding: 40px 15px;
+    background-size: cover;
 }
 .home-banner .banner-box{
     max-width:300px;
@@ -105,12 +119,37 @@
     padding-top:15px;
     padding-bottom:15px;
 }
+.searchform {
+    margin-top: 400px ;
+}
+.findspace {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0px auto;
+    overflow:hidden
+}
+.findspace input{
+    border:2px solid green !important;
+    outline:none;
+    box-shadow:none !important; 
+}
+.offerride {
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    padding: 15px;
+    text-align: justify;
+}
+    .offerride p {
+        color: #9c9c9c;
+        font-size:14px;
+    }
 
 /***************************** Footer **********************/
-.footer{
-    background-color:#000;
-    color:#fff;
-    padding:15px 0px;
+.footer {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 0px;
 }
 ul.footer-list{
     list-style:none;

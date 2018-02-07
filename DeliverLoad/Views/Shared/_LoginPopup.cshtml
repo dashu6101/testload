@@ -1,0 +1,40 @@
+﻿@model DeliverLoad.Models.LoginModel
+
+<!-- Modal -->
+<div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+
+        <div class="modal-body login text-center">
+
+            @using (Ajax.BeginForm("AjaxLogin", "Account",null, new AjaxOptions { HttpMethod = "POST",OnComplete="LoginComplete" }, new { ViewBag.ReturnUrl }))
+            {
+                <div class="logo">
+                    <img src="~/Content/images/logo.png" style="height:50px;margin-top:5px" />
+                </div>
+                <input type="text" id="LoginUserName" name="LoginUserName" placeholder="Your email." class="form-control" />
+                <input type="password" id="LoginPassword" name="LoginPassword" placeholder="Your Password." class="form-control" />
+                <input type="submit" name="submit" value="Login" id="get" class="btn btn-theme" />
+                @Html.ValidationSummary(true)
+
+                <div class="text-danger" id="loginerror"></div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function LoginComplete(e) {
+        debugger;
+        var response = JSON.parse(e.responseText);
+        if (!response.Success) {
+            $('.loginerror').html(response.Message);
+        }
+        else {
+            //window.location.href = response.Data.ReturnUrl;
+            $('#loginModal').modal("hide");
+        }
+    }
+</script>

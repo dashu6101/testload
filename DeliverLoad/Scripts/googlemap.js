@@ -1,79 +1,162 @@
-﻿function initMap() {
-    var markerArray = [];
+﻿// This example displays an address form, using the autocomplete feature
+// of the Google Places API to help users fill in the information.
 
-    // Instantiate a directions service.
-    var directionsService = new google.maps.DirectionsService;
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-    // Create a map and center it on Manhattan.
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 13,
-        center: { lat: 40.771, lng: -73.974 }
-    });
+var placeSearch, autocomplete;
+var componentForm = {
+    street_number: 'short_name',
+    route: 'long_name',
+    locality: 'long_name',
+    administrative_area_level_1: 'short_name',
+    country: 'long_name',
+    postal_code: 'short_name'
+};
 
-    // Create a renderer for directions and bind it to the map.
-    var directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+function initAutocomplete() {
+    // Create the autocomplete object, restricting the search to geographical
+    // location types.
+    
+    //document.getElementsByTagName('input')[0]
+    autocompleteFrom = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */($('input#from')[0]),
+            { types: ['geocode'] });
 
-    // Instantiate an info window to hold step text.
-    var stepDisplay = new google.maps.InfoWindow;
+    autocompleteTo = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */($('input#to')[0]),
+        { types: ['geocode'] });
 
-    // Display the route between the initial start and end selections.
-    calculateAndDisplayRoute(
-        directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    // Listen to change events from the start and end lists.
-    var onChangeHandler = function () {
-        calculateAndDisplayRoute(
-            directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocompleteFrom.addListener('place_changed', fillInAddress);
+    autocompleteTo.addListener('place_changed', fillInAddress);
+    var mapId = document.getElementById('map');
+    if (mapId != null) {
+        var map = new google.maps.Map(mapId, {
+            mapTypeControl: false,
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        new AutocompleteDirectionsHandler(map)
     };
-    document.getElementById('start').addEventListener('change', onChangeHandler);
-    document.getElementById('end').addEventListener('change', onChangeHandler);
 }
 
-function calculateAndDisplayRoute(directionsDisplay, directionsService,
-    markerArray, stepDisplay, map) {
-    // First, remove any existing markers from the map.
-    for (var i = 0; i < markerArray.length; i++) {
-        markerArray[i].setMap(null);
-    }
+function fillInAddress() {
+    // Get the place details from the autocomplete object.
+    var placeFrom = autocompleteFrom.getPlace();
+    var placeTo = autocompleteFrom.getPlace();
+    //for (var component in componentForm) {
+    //    document.getElementById(component).value = '';
+    //    document.getElementById(component).disabled = false;
+    //}
 
-    // Retrieve the start and end locations and create a DirectionsRequest using
-    // WALKING directions.
-    directionsService.route({
-        origin: document.getElementById('start').value,
-        destination: document.getElementById('end').value,
-        travelMode: 'WALKING'
+    // Get each component of the address from the place details
+    // and fill the corresponding field on the form.
+
+    //for (var i = 0; i < place.address_components.length; i++) {
+    //    var addressType = place.address_components[i].types[0];
+    //    if (componentForm[addressType]) {
+    //        var val = place.address_components[i][componentForm[addressType]];
+    //        document.getElementById(addressType).value = val;
+    //    }
+    //}
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+        });
+    }
+}
+
+
+function AutocompleteDirectionsHandler(map) {
+    this.map = map;
+    this.originPlaceId = null;
+    this.destinationPlaceId = null;
+    this.travelMode = 'DRIVING';
+    var originInput = document.getElementById('from');
+    var destinationInput = document.getElementById('to');
+    var modeSelector = document.getElementById('mode-selector');
+    this.directionsService = new google.maps.DirectionsService;
+    this.directionsDisplay = new google.maps.DirectionsRenderer;
+    this.directionsDisplay.setMap(map);
+
+    var originAutocomplete = new google.maps.places.Autocomplete(
+        originInput, { placeIdOnly: true });
+    var destinationAutocomplete = new google.maps.places.Autocomplete(
+        destinationInput, { placeIdOnly: true });
+
+    //this.setupClickListener('changemode-walking', 'WALKING');
+    //this.setupClickListener('changemode-transit', 'TRANSIT');
+    //this.setupClickListener('changemode-driving', 'DRIVING');
+
+    this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+    this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
+
+    //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
+    //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(destinationInput);
+    //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
+}
+
+// Sets a listener on a radio button to change the filter type on Places
+// Autocomplete.
+//AutocompleteDirectionsHandler.prototype.setupClickListener = function(id, mode) {
+//  var radioButton = document.getElementById(id);
+//  var me = this;
+//  radioButton.addEventListener('click', function() {
+//    me.travelMode = mode;
+//    me.route();
+//  });
+//};
+
+AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function (autocomplete, mode) {
+    var me = this;
+    autocomplete.bindTo('bounds', this.map);
+    autocomplete.addListener('place_changed', function () {
+        var place = autocomplete.getPlace();
+        if (!place.place_id) {
+            window.alert("Please select an option from the dropdown list.");
+            return;
+        }
+        if (mode === 'ORIG') {
+            me.originPlaceId = place.place_id;
+        } else {
+            me.destinationPlaceId = place.place_id;
+        }
+        me.route();
+    });
+
+};
+
+AutocompleteDirectionsHandler.prototype.route = function () {
+    if (!this.originPlaceId || !this.destinationPlaceId) {
+        return;
+    }
+    var me = this;
+
+    this.directionsService.route({
+        origin: { 'placeId': this.originPlaceId },
+        destination: { 'placeId': this.destinationPlaceId },
+        travelMode: this.travelMode
     }, function (response, status) {
-        // Route the directions and pass the response to a function to create
-        // markers for each step.
         if (status === 'OK') {
-            document.getElementById('warnings-panel').innerHTML =
-                '<b>' + response.routes[0].warnings + '</b>';
-            directionsDisplay.setDirections(response);
-            showSteps(response, markerArray, stepDisplay, map);
+            me.directionsDisplay.setDirections(response);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
-}
-
-function showSteps(directionResult, markerArray, stepDisplay, map) {
-    // For each step, place a marker, and add the text to the marker's infowindow.
-    // Also attach the marker to an array so we can keep track of it and remove it
-    // when calculating new routes.
-    var myRoute = directionResult.routes[0].legs[0];
-    for (var i = 0; i < myRoute.steps.length; i++) {
-        var marker = markerArray[i] = markerArray[i] || new google.maps.Marker;
-        marker.setMap(map);
-        marker.setPosition(myRoute.steps[i].start_location);
-        attachInstructionText(
-            stepDisplay, marker, myRoute.steps[i].instructions, map);
-    }
-}
-
-function attachInstructionText(stepDisplay, marker, text, map) {
-    google.maps.event.addListener(marker, 'click', function () {
-        // Open an info window when the marker is clicked on, containing the text
-        // of the step.
-        stepDisplay.setContent(text);
-        stepDisplay.open(map, marker);
-    });
-}
+};

@@ -55,19 +55,19 @@ a {
     width: 15%;
     border-radius: 20px;
 }
-.heading_message input[type="submit"]{
-    border-radius: 20px;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    vertical-align: top;
-    margin: 10px 5px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #fff;
-    background: #B8452E;
-    min-width: 80px;
-}
+    .heading_message input[type="submit"], .login input[type="submit"] {
+        border-radius: 20px;
+        padding: 8px;
+        border: none;
+        cursor: pointer;
+        vertical-align: top;
+        margin: 10px 5px;
+        font-weight: bold;
+        font-size: 14px;
+        color: #fff;
+        background: #B8452E;
+        min-width: 80px;
+    }
 .heading_message .forget{
     display: inline-block;
     font-size: 14px;
