@@ -20,5 +20,8 @@ namespace DeliverLoad.Models
         public Nullable<bool> HasJoinedCategory { get; set; }
         public Nullable<System.DateTime> JoinedDate { get; set; }
         public Nullable<bool> IsBlocked { get; set; }
+    
+        public virtual OverloadCategory OverloadCategory { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -5,7 +5,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">
-           View All Vehicles Availables
+           @*View All Vehicles Availables*@
 
             @*@if (obj.UserType == "A")
             {
@@ -60,7 +60,7 @@
             }*@
 
 
-            <div style="text-align:center"><h2>My Vehicle Watch List</h2></div>
+            @*<div style="text-align:center"><h2>My Vehicle Watch List</h2></div>*@
             <div class="table-responsive">
                 <table class="table table-bordered table-condensed table-striped table-hover sortable">
 
@@ -139,7 +139,7 @@
         }
         else
         {
-            if (obj.UserType == "A")
+            @*if (obj.UserType == "A")
             {
                 <text><h2>
                         ChitChatChannel !<br />
@@ -148,7 +148,7 @@
 
                     <a href="@Url.Action("Create", "Vehicleowner")"> To start building content click here.</a>
                 </text>
-            }
+            }*@
 
         }
     </div>

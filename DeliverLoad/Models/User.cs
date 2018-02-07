@@ -22,6 +22,7 @@ namespace DeliverLoad.Models
             this.ParticipantCategories = new HashSet<ParticipantCategory>();
             this.PresenterCategories = new HashSet<PresenterCategory>();
             this.webpages_Roles = new HashSet<webpages_Roles>();
+            this.LoadownerCategories = new HashSet<LoadownerCategory>();
         }
     
         public int UserId { get; set; }
@@ -78,5 +79,6 @@ namespace DeliverLoad.Models
         public virtual ICollection<ParticipantCategory> ParticipantCategories { get; set; }
         public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
+        public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
     }
 }

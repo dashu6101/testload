@@ -151,8 +151,9 @@
                         }
                         else
                         {
+                            <li><a href="~/Loadowner/AddNewLoad">Add New Load</a></li>
                             <li><a href="/Participant/Index">My Subscriptions</a></li>
-                            <li><a href="/Participant/ChannelList">View All Channel</a></li>
+                            <li><a href="~/Loadowner/index">View All Vehicles Available</a></li>
                         }
                         <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
                         @if (obj.UserId == 33)
@@ -179,7 +180,7 @@
     </div>
     @*<script src="~/Scripts/ckeditor.js"></script>*@
     @Styles.Render("~/Content/themes/base/css")
-
+    @Scripts.Render("~/bundles/jqueryval")
 </body>
 </html>
 

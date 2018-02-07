@@ -666,6 +666,7 @@
     <Content Include="Views\Vehicleowner\_ParticipantList.cshtml" />
     <Content Include="Views\Vehicleowner\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_DeliveryLoadCategoryList.cshtml" />
+    <Content Include="Views\Loadowner\AddNewLoad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

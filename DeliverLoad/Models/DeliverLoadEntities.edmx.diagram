@@ -35,6 +35,8 @@
         <EntityTypeShape EntityType="DeliverLoadModel.LoadownerCategory" Width="1.5" PointX="13.375" PointY="5.75" />
         <EntityTypeShape EntityType="DeliverLoadModel.LoadSpace" Width="1.5" PointX="13.375" PointY="8.75" />
         <EntityTypeShape EntityType="DeliverLoadModel.VehicleownerCategory" Width="1.5" PointX="13.375" PointY="11.75" />
+        <AssociationConnector Association="DeliverLoadModel.FK_LoadownerCategory_Category" />
+        <AssociationConnector Association="DeliverLoadModel.FK_LoadownerCategory_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

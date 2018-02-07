@@ -45,6 +45,9 @@ namespace DeliverLoad.Models
         [Display(Name = "Is Free Channel?")]
         public bool IsFreeChannel { get; set; }
 
+        [Display(Name = "Is Free Channel?")]
+        public bool IsFreeVehicle { get; set; }
+
         public string ProfileImage { get; set; }
 
         public bool IsBlockedParticepant { get; set; }

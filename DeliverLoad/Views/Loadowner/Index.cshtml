@@ -8,7 +8,7 @@
 @{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);}
 
 @*@Html.Partial("_CategoryList")*@
-
+<div style="text-align:center"><h2>My Vehicle Watch List</h2></div>
 <div class="table-responsive">
     <table class="table table-bordered table-condensed table-striped table-hover sortable">
         @if (Model.Count() == 0)

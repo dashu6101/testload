@@ -14,6 +14,11 @@ namespace DeliverLoad.Models
     
     public partial class OverloadCategory
     {
+        public OverloadCategory()
+        {
+            this.LoadownerCategories = new HashSet<LoadownerCategory>();
+        }
+    
         public int CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -29,5 +34,7 @@ namespace DeliverLoad.Models
         public string DropOffLocation { get; set; }
         public Nullable<System.DateTime> DropOffDate { get; set; }
         public Nullable<int> LoadSpaceId { get; set; }
+    
+        public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
     }
 }

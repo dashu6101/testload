@@ -361,6 +361,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LoadownerCategory_Category">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoadownerCategory" Type="Self.LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoadownerCategory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoadownerCategory" Type="Self.LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ParticipantCategory_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -516,6 +544,14 @@
           <AssociationSet Name="FK_ContentVisitors_Users" Association="Self.FK_ContentVisitors_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ContentVisitors" EntitySet="ContentVisitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoadownerCategory_Category" Association="Self.FK_LoadownerCategory_Category">
+            <End Role="OverloadCategory" EntitySet="OverloadCategory" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoadownerCategory_Users" Association="Self.FK_LoadownerCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_ParticipantCategory_Category" Association="Self.FK_ParticipantCategory_Category">
             <End Role="Category" EntitySet="Category" />
@@ -748,6 +784,7 @@
           <NavigationProperty Name="ParticipantCategories" Relationship="Self.FK_ParticipantCategory_Users" FromRole="Users" ToRole="ParticipantCategory" />
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Users" FromRole="Users" ToRole="PresenterCategory" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
+          <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="User" ToRole="LoadownerCategory" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -1027,6 +1064,14 @@
           <EntitySet Name="LoadownerCategories" EntityType="DeliverLoadModel.LoadownerCategory" />
           <EntitySet Name="LoadSpaces" EntityType="DeliverLoadModel.LoadSpace" />
           <EntitySet Name="VehicleownerCategories" EntityType="DeliverLoadModel.VehicleownerCategory" />
+          <AssociationSet Name="FK_LoadownerCategory_Category" Association="DeliverLoadModel.FK_LoadownerCategory_Category">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoadownerCategory_Users" Association="DeliverLoadModel.FK_LoadownerCategory_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1075,6 +1120,7 @@
           <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="DropOffDate" Type="DateTime" Precision="3" />
           <Property Name="LoadSpaceId" Type="Int32" />
+          <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
         </EntityType>
         <EntityType Name="LoadownerCategory">
           <Key>
@@ -1086,6 +1132,8 @@
           <Property Name="HasJoinedCategory" Type="Boolean" />
           <Property Name="JoinedDate" Type="DateTime" Precision="3" />
           <Property Name="IsBlocked" Type="Boolean" />
+          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_LoadownerCategory_Category" FromRole="LoadownerCategory" ToRole="OverloadCategory" />
+          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="LoadownerCategory" ToRole="User" />
         </EntityType>
         <EntityType Name="LoadSpace">
           <Key>
@@ -1102,6 +1150,34 @@
           <Property Name="CategoryId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
         </EntityType>
+        <Association Name="FK_LoadownerCategory_Category">
+          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeliverLoadModel.LoadownerCategory" Role="LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoadownerCategory_Users">
+          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DeliverLoadModel.LoadownerCategory" Role="LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

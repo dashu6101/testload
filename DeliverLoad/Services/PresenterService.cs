@@ -494,10 +494,11 @@ namespace DeliverLoad.Services
         {
 
             var categoryList = (from U in dbContext.Users
-                                join VC in dbContext.VehicleownerCategories on U.UserId equals VC.UserId
+                                join VC in dbContext.LoadownerCategories on U.UserId equals VC.UserId
                                 join OC in dbContext.OverloadCategories on VC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                where U.UserId == UserId && U.UserType == "A"
+                                //where U.UserId == UserId 
+                                where U.UserType == "M"
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -527,6 +528,60 @@ namespace DeliverLoad.Services
 
 
             return categoryList;
+        }
+
+
+        public string CreateOverLoadCategory(CategoryModel model, int UserId, string ChannelNo)
+        {
+            try
+            {
+
+                OverloadCategory objCategory = new OverloadCategory();
+                objCategory.Name = model.Name;
+                objCategory.Description = model.Description;
+                objCategory.CreatedDate = DateTime.Now;
+                objCategory.Price = model.Price;
+                objCategory.IsFree = model.IsFreeChannel;
+                objCategory.PickupDate = model.PickupDate;
+                objCategory.PickupLocation = model.PickupLocation;
+                objCategory.DropOffDate = model.DropOffDate;
+                objCategory.DropOffLocation = model.DropOffLocation;
+                objCategory.LoadSpaceId = model.LoadSpaceId;
+                objCategory.IsAvailable = false;
+
+                var channelNo = GetMaxChannelNo(UserId, ChannelNo);
+
+                objCategory.ChannelNo = channelNo;
+
+
+                if (model.ImageUpload != null)
+                {
+                    string image = Guid.NewGuid().ToString();
+                    image = image + model.ImageUpload.FileName.Substring(model.ImageUpload.FileName.LastIndexOf('.'));
+                    string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
+
+                    model.ImageUpload.SaveAs(physicalPath);
+                    objCategory.Image = image;
+
+                }
+
+                dbContext.OverloadCategories.Add(objCategory);
+
+
+                LoadownerCategory objUC = new LoadownerCategory();
+
+                objUC.CategoryId = objCategory.CategoryId;
+                objUC.UserId = UserId;
+                dbContext.LoadownerCategories.Add(objUC);
+                dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return "1";
+
         }
     }
 }
