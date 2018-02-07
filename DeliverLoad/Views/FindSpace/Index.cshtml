@@ -1,6 +1,43 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-@Html.Partial("_FindSpaceForm")
+<style>
+    #map {
+        max-width: 600px;
+        max-height: 500px;
+    }
+</style>
+<div class="wraper light-bg">
+    @Html.Partial("_FindSpaceForm")
+</div>
+
+<div class="mt-15">
+    <div class="col-sm-6">
+        <div id="map" style="width:100%;height:400px;"></div>
+    </div>
+    <div class="col-sm-6 offerride">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+        <button type="button" class="btn btn-theme btn-green pull-right">Offer Ride</button>
+    </div>
+</div>
+<div id="warnings-panel"></div>
+
+
+<div class="modal fade" id="loginModal" role="dialog">
+    @Html.Partial("_LoginPopup")
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#findspace').on("submit", function (e) {
+            e.preventDefault();
+            var obj = '@{ DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName); }';
+            if (obj == '') {
+                $('.loginerror').html('');
+                $('#loginModal').modal("show");
+            }
+        });
+    })
+</script>

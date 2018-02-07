@@ -490,7 +490,7 @@ namespace DeliverLoad.Services
 
         }
 
-        public IEnumerable<CategoryModel> getVehicleLoadCategoryList(int UserId)
+        public IEnumerable<CategoryModel> getVehicleLoadCategoryList(int UserId,FindSpaceViewModel searchVM)
         {
 
             var categoryList = (from U in dbContext.Users
@@ -514,18 +514,29 @@ namespace DeliverLoad.Services
                                     IsChannelAvailable = OC.IsAvailable == null ? true : (bool)OC.IsAvailable,
 
 
-                                    
+
                                     Description = OC.Description,
                                     PickupLocation = OC.PickupLocation,
                                     PickupDate = (DateTime)OC.PickupDate,
                                     DropOffLocation = OC.DropOffLocation,
                                     DropOffDate = (DateTime)OC.DropOffDate,
-                                  
+
                                     LoadSpaceTitle = LS.LoadSpaceTitle
 
-                                }).OrderByDescending(x => x.CreatedDate);
+                                }).OrderByDescending(x => x.CreatedDate).ToList();
 
-
+            if(searchVM.from != null)
+            {
+                categoryList = categoryList.Where(c => c.PickupLocation.Contains(searchVM.from)).ToList();
+            }
+            if(searchVM.to != null)
+            {
+                categoryList = categoryList.Where(c => c.DropOffLocation.Contains(searchVM.to)).ToList();
+            }
+            if (searchVM.date != null)
+            {
+                categoryList = categoryList.Where(c => c.PickupDate == searchVM.date).ToList();
+            }
             return categoryList;
         }
     }

@@ -18,6 +18,13 @@ namespace DeliverLoad.Utils
         public string ChannelNo { get; set; }
     }
 
+    public class AjaxResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public Object Data { get; set; }
+    }
+
     public static class Utils
     {
 

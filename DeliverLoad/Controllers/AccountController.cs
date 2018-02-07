@@ -13,7 +13,7 @@ using Mvc.Mailer;
 using DeliverLoad.Mvc.Mailers;
 using System.Net.Mail;
 using System.Configuration;
-
+using DeliverLoad.Utils;
 
 namespace DeliverLoad.Controllers
 {
@@ -50,7 +50,6 @@ namespace DeliverLoad.Controllers
 
         //
         // POST: /Account/Login
-
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(LoginModel model, string returnUrl)
@@ -95,6 +94,54 @@ namespace DeliverLoad.Controllers
 
             return View("Index", model);
         }
+
+        // Ajax Login
+        [HttpPost]
+        public JsonResult AjaxLogin(LoginModel model, string returnUrl)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            if (ModelState.IsValid && model.LoginUserName != null && model.LoginPassword != null)
+            {
+
+                if (WebSecurity.Login(model.LoginUserName, model.LoginPassword, persistCookie: model.RememberMe))
+                {
+                    var UserDetails = service.GetUserDetails(model.LoginUserName);
+                    if (UserDetails.IsBloked == true)
+                    {
+                        ModelState.AddModelError("", "You account is blocked. Please contact support@chitchatchannel.com");
+                        WebSecurity.Logout();
+                        ajaxResponse.Message = "You account is blocked. Please contact support@deliverload.com";
+                    }
+                    else
+                    {
+                        ajaxResponse.Success = true;
+                        // return RedirectToLocal(returnUrl);
+                        if (UserDetails.UserType == "A")
+                        {
+                            //return RedirectToAction("Index", "Presenter");
+                            ajaxResponse.Data = new { RedirectUrl = Url.Action("Index", "Vehicleowner") }; 
+                        }
+                        else
+                        {
+                            //return RedirectToAction("Index", "Participant");
+                            ajaxResponse.Data = new { RedirectUrl = Url.Action("Index", "Loadowner") };
+                        }
+                    }
+
+                }
+                else
+                {
+                    ajaxResponse.Message = "User name and password are incorrect !!";
+                }
+            }
+            else
+            {
+                ajaxResponse.Message = "User name and password are required.";
+            }
+            return this.Json(ajaxResponse);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult LoginPreview(PresenterContentLinkViewModel model, string returnurl)

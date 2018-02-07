@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DeliverLoad.Models;
 
 namespace DeliverLoad.Controllers
 {
@@ -15,7 +16,10 @@ namespace DeliverLoad.Controllers
         {
             return View();
         }
-
-     
+        //[HttpPost]
+        //public ActionResult Index(FindSpaceViewModel searchVM)
+        //{
+        //    return RedirectToAction("Index")
+        //}
     }
 }

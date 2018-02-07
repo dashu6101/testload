@@ -8,5 +8,5 @@ $(document).ready(function(e) {
 	$('#get').click(function(e) {
 		//$('#form_wraper').css('display','none');
 		$('.form_message').css('display','block');
-	});
+    });
 });

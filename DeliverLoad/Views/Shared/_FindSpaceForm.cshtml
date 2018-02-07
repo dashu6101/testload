@@ -1,21 +1,23 @@
-﻿<div id="floating-panel">
-    <b>Start: </b>
-    <select id="start">
-        <option value="penn station, new york, ny">Penn Station</option>
-        <option value="grand central station, new york, ny">Grand Central Station</option>
-        <option value="625 8th Avenue, New York, NY, 10018">Port Authority Bus Terminal</option>
-        <option value="staten island ferry terminal, new york, ny">Staten Island Ferry Terminal</option>
-        <option value="101 E 125th Street, New York, NY">Harlem - 125th St Station</option>
-    </select>
-    <b>End: </b>
-    <select id="end">
-        <option value="260 Broadway New York NY 10007">City Hall</option>
-        <option value="W 49th St & 5th Ave, New York, NY 10020">Rockefeller Center</option>
-        <option value="moma, New York, NY">MOMA</option>
-        <option value="350 5th Ave, New York, NY, 10118">Empire State Building</option>
-        <option value="253 West 125th Street, New York, NY">Apollo Theater</option>
-        <option value="1 Wall St, New York, NY">Wall St</option>
-    </select>
+﻿@model DeliverLoad.Models.FindSpaceViewModel 
+<div class="findspace">
+    @using (Html.BeginForm("Index", "Vehicleowner", FormMethod.Post, new {@id="findspace", @class = "form-inline" }))
+    {
+        <div class="form-group col-sm-3">
+            @Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBoxFor(model => model.to, new { @id = "to", @class = "form-control", @placeholder = "To", @onfocus = "geolocate()" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date" })
+        </div>
+        <div class="col-sm-3 text-center">
+            <button type="submit" class="btn btn-theme btn-green">Find Space</button>
+        </div>
+    }
 </div>
-<div id="map"></div>
-<div id="warnings-panel"></div>
+    <script>
+        $(function () {
+            $("#date").datepicker();
+        });
+    </script>
