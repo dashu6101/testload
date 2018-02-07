@@ -10,3 +10,6 @@ $(document).ready(function(e) {
 		$('.form_message').css('display','block');
     });
 });
+function goTo(href) {
+    window.location.href = href;
+}

@@ -1,15 +1,21 @@
 ﻿.mt-15{
     margin-top:15px;
-} 
-.btn-theme{
-    font-weight:bold;
-    border-radius:15px;
-    font-size:16px;
-    padding:2px 15px;
-    color:#000;
-    background-color:transparent !important;
-    border-width:3px;
-    outline:none !important
+}
+.f-14{ font-size:14px !important}
+.f-16 {font-size: 16px;}
+.f-18 {font-size: 18px;}
+.f-20 {font-size: 20px;}
+.f-22 {font-size: 22px;}
+
+.btn-theme {
+    font-weight: bold;
+    border-radius: 15px;
+    font-size: 16px;
+    padding: 2px 15px;
+    color: #000;
+    background-color: transparent !important;
+    border-width: 3px;
+    outline: none !important
 }
 .bold{
     font-weight:bold;
@@ -22,6 +28,10 @@
 }
 .light-bg,.light-bg .findspace {
     background-color: #f9f9f9;
+}
+.py-10{
+    padding-top:10px;
+    padding-bottom:10px
 }
 /************************ Footer ****************/
 #map {
@@ -166,4 +176,39 @@ ul.footer-list li a{
 }
 ul.footer-list li a:hover{
     text-decoration:underline
+}
+
+/******************************* Vehicle Details ************************/
+.vehicle_details p{
+    font-size:18px;
+    color:#888
+}
+.border-box{
+    border:1px solid #eaeaea;
+    border-radius:4px;
+    padding:10px;
+}
+.border-bottom {
+    border-bottom: 1px solid #eaeaea;
+}
+.vehicle_details table tr td:first-child {
+    width: 25%;
+    color: #0d7198;
+    font-weight: bold;
+}
+.vehicle_details table tr td {
+    border:0px !important
+}
+.vehicle_details .colored-text {
+    color: #0d7198 !important;
+}
+.vehicle_details .comment, .vehicle_details .border-bottom {
+    overflow: hidden
+}
+.vehicle_details .comment img {
+    max-width: 80px;
+    display: inline-block;
+}
+.vehicle_details a.link{
+    color:#62cee1;
 }

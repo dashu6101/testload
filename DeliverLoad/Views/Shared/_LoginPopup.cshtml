@@ -27,7 +27,6 @@
 
 <script>
     function LoginComplete(e) {
-        debugger;
         var response = JSON.parse(e.responseText);
         if (!response.Success) {
             $('.loginerror').html(response.Message);
@@ -35,6 +34,8 @@
         else {
             //window.location.href = response.Data.ReturnUrl;
             $('#loginModal').modal("hide");
+            $('#isauthenticated').val(true);
+            $('#findspace').submit();
         }
     }
 </script>
