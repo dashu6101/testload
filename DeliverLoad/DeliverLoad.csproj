@@ -673,6 +673,7 @@
     <Content Include="Views\FindSpace\Index.cshtml" />
     <Content Include="Views\Shared\_FindSpaceForm.cshtml" />
     <Content Include="Views\Shared\_LoginPopup.cshtml" />
+    <Content Include="Views\Vehicleowner\VehicleDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -79,12 +79,19 @@ namespace DeliverLoad.Controllers
         [AllowAnonymous]
         public ActionResult Index(FindSpaceViewModel searchVM)
         {
-            if(searchVM == null)
+            try
+            {
+                if(searchVM == null)
+                {
+                    return RedirectToAction("Index", "FindSpace");
+                }
+                var model = service.getVehicleLoadCategoryList(sUser.UserId, searchVM);
+                return View(model);
+            }
+            catch(Exception ex)
             {
                 return RedirectToAction("Index", "FindSpace");
             }
-            var model = service.getVehicleLoadCategoryList(sUser.UserId, searchVM);
-            return View(model);
         }
 
 
@@ -140,6 +147,30 @@ namespace DeliverLoad.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult VehicleDetails(string id)
+        {
+
+            //throw new Exception("channel not found");
+
+            UserModel UModel = null;
+            if (id != null)
+            {
+                ViewBag.CategoryId = id;
+            }
+            else
+            {
+                ViewBag.CategoryId = Session["CategoryId"];
+            }
+            int Categoryid = Convert.ToInt32(ViewBag.CategoryId);
+            var model = service.GetTreeVeiwList(Categoryid);
+            ViewBag.ChannelName = service.getCategoryDetails(Categoryid, sUser.UserId).Name;
+
+            UModel = service.GetUserDetails(User.Identity.Name);
+            ViewBag.ChannelNo = service.getCategoryDetails(Categoryid, sUser.UserId).ChannelNo;
+            ViewBag.UserName = UModel.ScreenName + "." + UModel.ChannelNo;
+            return View(model);
+        }
 
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]

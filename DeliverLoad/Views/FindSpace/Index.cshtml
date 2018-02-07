@@ -32,11 +32,12 @@
 <script>
     $(document).ready(function () {
         $('#findspace').on("submit", function (e) {
-            e.preventDefault();
-            var obj = '@{ DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName); }';
-            if (obj == '') {
+            var obj = '@(WebSecurity.CurrentUserName)';
+            var isAuth = $('#isauthenticated').val();
+            if (obj == '' && !(isAuth === 'true')) {
                 $('.loginerror').html('');
                 $('#loginModal').modal("show");
+                e.preventDefault();
             }
         });
     })

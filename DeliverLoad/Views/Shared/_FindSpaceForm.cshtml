@@ -11,6 +11,7 @@
         <div class="form-group col-sm-3">
             @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date" })
         </div>
+        @Html.HiddenFor(model => model.isauthenticated, false)
         <div class="col-sm-3 text-center">
             <button type="submit" class="btn btn-theme btn-green">Find Space</button>
         </div>
