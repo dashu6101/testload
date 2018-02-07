@@ -5,12 +5,12 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">
-            Channels
+           View All Vehicles Availables
 
-            @if (obj.UserType == "A")
+            @*@if (obj.UserType == "A")
             {
                 <a href="/Vehicleowner/Create" class="pull-right" id="btnSave">Create Channel</a>
-            }
+            }*@
 
         </h3>
 
@@ -20,10 +20,7 @@
         @if (Model.Any())
         {
 
-            <text><h2>
-                    ChitChatChannel !<br />
-                </h2>
-            </text>
+           
             if (obj.UserType == "M")
             {
                 if (ViewBag.IsChannelSelected == "1")
@@ -57,19 +54,20 @@
             {
                 <text> <h3>Here are some channels. </h3></text>
             }
-            else
+            @*else
             {
                 <h3>My Channels</h3>
-            }
+            }*@
 
 
-
+            <div style="text-align:center"><h2>My Vehicle Watch List</h2></div>
             <div class="table-responsive">
                 <table class="table table-bordered table-condensed table-striped table-hover sortable">
+
                     @if (Model.Count() == 0)
                     {
                         <tr>
-                            <td colspan="10">No Record's found.</td>
+                            <td colspan="11">No Record's found.</td>
                         </tr>
                     }
                     else
@@ -81,12 +79,13 @@
                                 <th>Load#</th>
                                 <th>Pickup Date</th>
                                 <th>Pickup Location</th>
-                                
+
                                 <th>Drop of Location</th>
                                 <th>Load Type</th>
                                 <th>Comments</th>
                                 <th>Load Image</th>
                                 <th>Rating</th>
+                                <th>Price Offered</th>
                             </tr>
                         </thead>
                         foreach (var item in Model)
@@ -100,19 +99,19 @@
                                     {
                                         var GetDateTime = item.PickupDate.ToString();
                                         var GetDate = GetDateTime.Split(' ')[0];
-                                        @GetDate;
+                                    @GetDate;
                                     }
 
                                 </td>
                                 <td>@item.PickupLocation</td>
                                 @*<td>
-                                    @if (item.DropOffDate != null)
-                                    {
-                                        var GetDateTime1 = item.DropOffDate.ToString();
-                                        var GetDate1 = GetDateTime1.Split(' ')[0];
-                                        @GetDate1;
-                                    }
-                                </td>*@
+                                        @if (item.DropOffDate != null)
+                                        {
+                                            var GetDateTime1 = item.DropOffDate.ToString();
+                                            var GetDate1 = GetDateTime1.Split(' ')[0];
+                                            @GetDate1;
+                                        }
+                                    </td>*@
                                 <td>@item.DropOffLocation</td>
                                 <td>@item.LoadSpaceTitle</td>
                                 <td>@Html.Raw(item.Description)</td>
@@ -120,15 +119,16 @@
                                 <td>
                                     @if (item.IsFreeChannel)
                                     {
-                                        <p>Free Channel</p>
+                                    <p>Free Channel</p>
 
                                     }
-                                    else
+                                    @*else
                                     {
-                                        <p>$@item.Price</p>
-                                    }
+                                    <p>$@item.Price</p>
+                                    }*@
 
                                 </td>
+                                <td><p>$@item.Price</p></td>
 
                             </tr>
                         }
