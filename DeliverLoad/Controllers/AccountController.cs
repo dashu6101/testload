@@ -71,8 +71,8 @@ namespace DeliverLoad.Controllers
                         // return RedirectToLocal(returnUrl);
                         if (UserDetails.UserType == "A")
                         {
-                          //return RedirectToAction("Index", "Presenter");
-                           return RedirectToAction("Index", "Vehicleowner");
+                          return RedirectToAction("Index", "Presenter");
+                           //return RedirectToAction("Index", "Vehicleowner");
                         }
                         else
                         {
