@@ -44,7 +44,7 @@
             </thead>
             foreach (var item in Model)
             {
-                <tr>
+                <tr onclick="goTo('@Url.Action("VehicleDetails","Vehicleowner",new { id = item.CategoryId })')">
                     <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
                     <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
                     <td>@item.ChannelNo</td>

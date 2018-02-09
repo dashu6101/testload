@@ -1,4 +1,5 @@
 ﻿@model DeliverLoad.Models.FindSpaceViewModel
+
 <div class="findspace">
     @using (Html.BeginForm("Index", "Vehicleowner", FormMethod.Post, new { @id = "findspace", @class = "form-inline" }))
     {
@@ -18,19 +19,15 @@
     }
 </div>
 
-<div class="modal fade" id="loginModal" role="dialog">
-    @Html.Partial("_LoginPopup")
-</div>
-
-
 <script>
         $(document).ready(function () {
             $("#date").datepicker();
             $('#findspace').on("submit", function (e) {
+                debugger;
                 var obj = '@(WebSecurity.CurrentUserName)';
                 var isAuth = $('#isauthenticated').val();
                 if (obj == '' && isAuth != 'true') {
-                    $('.loginerror').html('');
+                    $('#loginerror').html('');
                     $('#loginModal').modal("show");
                     e.preventDefault();
                 }

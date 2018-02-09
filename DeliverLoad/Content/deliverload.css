@@ -67,7 +67,7 @@
 .heading_message{
     background:#fff;
 }
-    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, input.form-control {
+    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, .heading_message select, input.form-control {
         border: 1px solid #efff00;
         outline: none !important;
         font-weight: bold

@@ -29,7 +29,7 @@
     function LoginComplete(e) {
         var response = JSON.parse(e.responseText);
         if (!response.Success) {
-            $('.loginerror').html(response.Message);
+            $('#loginerror').html(response.Message);
         }
         else {
             //window.location.href = response.Data.ReturnUrl;

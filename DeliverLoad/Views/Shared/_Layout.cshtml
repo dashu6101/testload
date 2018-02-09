@@ -46,10 +46,13 @@
 
     <link href="~/Content/deliverload.css" rel="stylesheet" />
 
-
+    <script src="~/Scripts/bootstrap.js" type="text/javascript"></script>
 </head>
 <body id="page">
     @*``````````````````````````````````````````````````````````````````````````````````````````*@
+    <div class="modal fade" id="loginModal" role="dialog">
+        @Html.Partial("_LoginPopup")
+    </div>
     @RenderBody()
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/googlemap.js"></script>
