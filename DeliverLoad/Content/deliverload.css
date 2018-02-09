@@ -66,18 +66,20 @@
 .heading_message{
     background:#fff;
 }
-    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control {
+    .heading_message input[type="text"],.heading_message lable, .heading_message select,.heading_message input[type="password"], .login input.form-control .AddNewLoad input.form-control{
         border: 1px solid #efff00;
         outline: none !important;
-        font-weight: bold
+        font-weight: bold;
+             box-shadow: none !important;
     }
-    .heading_message input[type="submit"], .login input[type="submit"] {
+    .heading_message input[type="submit"], .login input[type="submit"],.AddNewLoad input[type="submit"] {
         background-color: #efff00 !important;
         color: #000;
         outline: none !important
     }
-        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover {
-            background-color: #dbe615
+        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover,.AddNewLoad input[type="submit"]:hover {
+            background-color: #dbe615;
+              outline: none !important
         }
 .login input {
     box-shadow:none !important;

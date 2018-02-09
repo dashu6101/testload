@@ -28,10 +28,20 @@ function initAutocomplete() {
             /** @type {!HTMLInputElement} */($('input#to')[0]),
         { types: ['geocode'] });
 
+    autocompletePickupLocation = new google.maps.places.Autocomplete(
+           /** @type {!HTMLInputElement} */($('input#PickupLocation')[0]),
+           { types: ['geocode'] });
+
+    autocompleteDropOffLocation = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */($('input#DropOffLocation')[0]),
+        { types: ['geocode'] });
+
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
     autocompleteFrom.addListener('place_changed', fillInAddress);
     autocompleteTo.addListener('place_changed', fillInAddress);
+    autocompletePickupLocation.addListener('place_changed', fillInAddress);
+    autocompleteDropOffLocation.addListener('place_changed', fillInAddress);
     var mapId = document.getElementById('map');
     if (mapId != null) {
         var map = new google.maps.Map(mapId, {
@@ -47,6 +57,8 @@ function fillInAddress() {
     // Get the place details from the autocomplete object.
     var placeFrom = autocompleteFrom.getPlace();
     var placeTo = autocompleteFrom.getPlace();
+    var placeDropOffLocation = autocompleteDropOffLocation.getPlace();
+    var placePickupLocation = autocompletePickupLocation.getPlace();
     //for (var component in componentForm) {
     //    document.getElementById(component).value = '';
     //    document.getElementById(component).disabled = false;

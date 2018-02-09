@@ -13,8 +13,8 @@ namespace DeliverLoad.Models
         public int CategoryId { get; set; }
 
 
-        [Required(ErrorMessage = "The title field is required.")]
-        [Display(Name = "Title")]
+        [Required(ErrorMessage = "The name field is required.")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The description field is required.")]
@@ -22,7 +22,7 @@ namespace DeliverLoad.Models
 
         public string Image { get; set; }
 
-        [Display(Name = "Image Upload")]
+        [Display(Name = "Vehicle Image")]
         public HttpPostedFileBase ImageUpload { get; set; }
 
         public int UserId { get; set; }
@@ -42,10 +42,10 @@ namespace DeliverLoad.Models
 
         public DateTime JoinedDate { get; set; }
 
-        [Display(Name = "Is Free Channel?")]
+        [Display(Name = "Is Free Vehicle?")]
         public bool IsFreeChannel { get; set; }
 
-        [Display(Name = "Is Free Channel?")]
+        [Display(Name = "Is Free Vehicle?")]
         public bool IsFreeVehicle { get; set; }
 
         public string ProfileImage { get; set; }
@@ -74,7 +74,7 @@ namespace DeliverLoad.Models
 
 
         [Required]
-        [Display(Name = "Load Space")]
+        [Display(Name = "Vehicle")]
         public int? LoadSpaceId { get; set; }
         public SelectList LoadSpaceList { get; set; }
 
