@@ -19,26 +19,11 @@
     </div>
     <div class="col-sm-6 offerride">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-        <button type="button" class="btn btn-theme btn-green pull-right">Offer Ride</button>
+        <div class="col-sm-12 text-center">
+            <button type="button" class="btn btn-theme">Find Space</button>
+        </div>
     </div>
 </div>
 <div id="warnings-panel"></div>
 
 
-<div class="modal fade" id="loginModal" role="dialog">
-    @Html.Partial("_LoginPopup")
-</div>
-
-<script>
-    $(document).ready(function () {
-        $('#findspace').on("submit", function (e) {
-            var obj = '@(WebSecurity.CurrentUserName)';
-            var isAuth = $('#isauthenticated').val();
-            if (obj == '' && !(isAuth === 'true')) {
-                $('.loginerror').html('');
-                $('#loginModal').modal("show");
-                e.preventDefault();
-            }
-        });
-    })
-</script>

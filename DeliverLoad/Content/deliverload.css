@@ -7,19 +7,20 @@
 .f-20 {font-size: 20px;}
 .f-22 {font-size: 22px;}
 
+.f-normal {font-weight:normal !important}
 .btn-theme {
     font-weight: bold;
     border-radius: 15px;
     font-size: 16px;
     padding: 2px 15px;
     color: #000;
-    background-color: transparent !important;
     border-width: 3px;
     outline: none !important
 }
-.bold{
-    font-weight:bold;
-}
+
+.bold {
+        font-weight: bold;
+    }
 .btn-green{
     border-color:green !important;
 }
@@ -66,24 +67,31 @@
 .heading_message{
     background:#fff;
 }
-    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control {
+    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, input.form-control {
         border: 1px solid #efff00;
         outline: none !important;
         font-weight: bold
     }
-    .heading_message input[type="submit"], .login input[type="submit"] {
+    .heading_message input[type="submit"], .login input[type="submit"],.btn-theme {
         background-color: #efff00 !important;
         color: #000;
         outline: none !important
     }
-        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover {
+        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover, .btn-theme:hover {
             background-color: #dbe615
         }
 .login input {
     box-shadow:none !important;
     margin:10px auto
 }
+.btn-transparent {
+    background-color: transparent !important;
+    border: 2px solid #fff !important;
+}
 
+    .btn-transparent:hover {
+        background-color: #fff !important
+    }
 
 .heading_message a.nav-link {
     vertical-align: top;
@@ -111,6 +119,7 @@
     min-height: 500px;
     padding: 40px 15px;
     background-size: cover;
+    background-position:10%;
 }
 .home-banner .banner-box{
     max-width:300px;
@@ -118,11 +127,11 @@
     margin-left:10%
 }
 .home-banner .btn{
-    border-color:#fff;
+    /*border-color:#fff;*/
 }
 .home-banner .btn:hover{
-    border-color: #fff;
-    background-color: #fff !important;
+    /*border-color: #fff;
+    background-color: #fff !important;*/
     box-shadow: none;
 }
 .offer-block{
@@ -133,17 +142,18 @@
     margin-top: 400px ;
 }
 .findspace {
-    background-color: #fff;
+    /*background-color: #fff;*/
     padding: 20px;
     max-width: 900px;
     margin: 0px auto;
     overflow:hidden
 }
-.findspace input{
-    border:2px solid green !important;
-    outline:none;
-    box-shadow:none !important; 
-}
+    .findspace input {
+        /*border:2px solid green !important;*/
+        outline: none;
+        box-shadow: none !important;
+        max-width: 100%;
+    }
 .offerride {
     border: 1px solid #eaeaea;
     border-radius: 4px;

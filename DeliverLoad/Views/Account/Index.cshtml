@@ -1,4 +1,4 @@
-﻿    @model DeliverLoad.Models.LoginModel
+﻿@model DeliverLoad.Models.LoginModel
 
 
 <style type="text/css">
@@ -94,7 +94,7 @@
         <div class="wraper">
             <div class="banner-box">
                 <h1 class="text-center bold">Got a space to deliver load ?</h1>
-                <button class="btn btn-theme">Offer Space</button>
+                <button class="btn btn-theme btn-transparent">Offer Space</button>
             </div>
             <div class="searchform">
                 @Html.Partial("_FindSpaceForm")
@@ -102,19 +102,25 @@
         </div>
     </div>
     <div class="col-sm-12 offer-block">
-        <div class="col-sm-5">
+        <div class="col-sm-4">
             <h3 class="bold">Maximize your potential</h3>
-            <button class="btn btn-theme btn-green">Offer Space</button>
+            <button class="btn btn-theme">Offer Space</button>
             <img src="~/Content/images/back-left.jpg" class="img-responsive" style="margin-top:10px;"/>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-5">
+            <img src="~/Content/images/back-right.jpg" class="img-responsive" />
+        </div>
+        <div class="col-sm-3">
+            <h1 class="bold">Got a load<br /> to deliver ?</h1>
+        </div>
+        @*<div class="col-sm-7">
             <div class="col-sm-6">
                 <img src="~/Content/images/back-right.jpg" class="img-responsive"/>
             </div>
             <div class="col-sm-6">
                 <h1 class="bold">Got a load<br/> to deliver ?</h1>
             </div>
-        </div>
+        </div>*@
     </div>
         <div>
         @*<div class="box1">
@@ -174,7 +180,7 @@
                 </ul>
             </div>
             <div class="col-sm-4">
-                <p>©GoGagga 2018</p>
+                <p>©DeliverLoad 2018</p>
             </div>
             <div class="col-sm-4">
                 <ul class="footer-list pull-right">

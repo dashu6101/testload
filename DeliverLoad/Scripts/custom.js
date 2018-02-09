@@ -9,6 +9,7 @@ $(document).ready(function(e) {
 		//$('#form_wraper').css('display','none');
 		$('.form_message').css('display','block');
     });
+    
 });
 function goTo(href) {
     window.location.href = href;
