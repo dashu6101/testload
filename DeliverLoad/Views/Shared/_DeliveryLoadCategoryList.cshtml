@@ -2,22 +2,25 @@
 @model IEnumerable<DeliverLoad.Models.CategoryModel>
 
 @{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
-<div class="panel panel-primary">
+    <style type="text/css">
+    .yellowColor {
+        background-color: #efff00 !important;
+    }
+    table, tr, td {
+        border: 1px solid #efff00 !important;
+    }
+</style>
+@*<div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">
-           @*View All Vehicles Availables*@
-
-            @*@if (obj.UserType == "A")
-            {
-                <a href="/Vehicleowner/Create" class="pull-right" id="btnSave">Create Channel</a>
-            }*@
+          
 
         </h3>
 
-    </div>
+    </div>*@
 
-    <div class="panel-body">
-        @if (Model.Any())
+    @*<div class="panel-body">*@
+        if (Model.Any())
         {
 
            
@@ -41,7 +44,7 @@
 
                 <form class="navbar-form navbar" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="txtSearch1" placeholder="Search Channels">
+                        <input type="text" class="form-control" id="txtSearch1" placeholder="Search Vehicle #">
                         <span class="input-group-btn">
                             <button class="btn btn-success btnSearchByChannel" type="button">Search</button>
                         </span>
@@ -73,7 +76,7 @@
                     else
                     {
                         <thead>
-                            <tr class="danger">
+                            <tr class="yellowColor">
                                 <th>Pic Profile</th>
                                 <th>Name</th>
                                 <th>Load#</th>
@@ -151,8 +154,8 @@
             }*@
 
         }
-    </div>
-</div>
+    @*</div>*@
+@*</div>*@
 
     <div id="ChannelSummaryModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog">

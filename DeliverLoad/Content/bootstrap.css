@@ -5008,6 +5008,7 @@ a.list-group-item-danger.active:focus {
   border-bottom: 1px solid transparent;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
+  background-color: #efff00 !important
 }
 .panel-heading > .dropdown .dropdown-toggle {
   color: inherit;
@@ -5016,7 +5017,7 @@ a.list-group-item-danger.active:focus {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 16px;
-  color: inherit;
+  color: #000;
 }
 .panel-title > a {
   color: inherit;
@@ -5211,19 +5212,24 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #ddd;
 }
 .panel-primary {
-  border-color: #428bca;
+  
+   border: 1px solid #efff00 !important;
+ 
 }
 .panel-primary > .panel-heading {
   color: #fff;
   background-color: #428bca;
   border-color: #428bca;
+
 }
 .panel-primary > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #428bca;
+  
 }
 .panel-primary > .panel-heading .badge {
   color: #428bca;
   background-color: #fff;
+
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #428bca;
