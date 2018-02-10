@@ -59,7 +59,11 @@ namespace DeliverLoad.Controllers
 
                 if (WebSecurity.Login(model.LoginUserName, model.LoginPassword, persistCookie: model.RememberMe))
                 {
+
                     var UserDetails = service.GetUserDetails(model.LoginUserName);
+                    service.UpdateLogin(UserDetails.UserId);
+
+
                     if (UserDetails.IsBloked == true)
                     {
                         ModelState.AddModelError("", "You account is blocked. Please contact support@chitchatchannel.com");

@@ -421,7 +421,9 @@ namespace DeliverLoad.Services
                                     PickupDate = (DateTime)C.PickupDate,
                                     DropOffLocation = C.DropOffLocation,
                                     DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                       RegistrationDate = U.RegistrationDate,
+                                       LastOnline = U.LastOnline
                                    }).FirstOrDefault();
 
 
@@ -452,7 +454,9 @@ namespace DeliverLoad.Services
                                        PickupDate = (DateTime)C.PickupDate,
                                        DropOffLocation = C.DropOffLocation,
                                        DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                       RegistrationDate = U.RegistrationDate,
+                                       LastOnline = U.LastOnline
                                    }).FirstOrDefault();
 
             }
@@ -461,5 +465,48 @@ namespace DeliverLoad.Services
             return categoryDetails;
         }
 
+        public IEnumerable<CategoryModel> getJoinedOverLoadCategoryList(int UserId)
+        {
+
+            var categoryList = (from U in dbContext.Users
+                                join PC in dbContext.LoadownerCategories on U.UserId equals PC.UserId
+                                join C in dbContext.OverloadCategories on PC.CategoryId equals C.CategoryId
+                                join P in dbContext.VehicleownerCategories on PC.CategoryId equals P.CategoryId
+                                join PU in dbContext.Users on P.UserId equals PU.UserId
+                                join LS in dbContext.LoadSpaces on C.LoadSpaceId equals LS.LoadSpaceId
+                                where U.UserId == UserId && PC.HasJoinedCategory == true
+                                select new CategoryModel
+                                {
+                                    CategoryId = C.CategoryId,
+                                    Name = C.Name,
+                                    Image = C.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + C.Image,
+                                    UserId = U.UserId,
+                                    ChannelNo = C.ChannelNo,
+                                    Price = (decimal)C.Price,
+                                    JoinedDate = (DateTime)PC.JoinedDate,
+                                    IsFreeChannel = (bool)C.IsFree,
+                                    FirstName = PU.FirstName,
+                                    HasJoinedCategory = PC.HasJoinedCategory == null ? false : (bool)PC.HasJoinedCategory,
+                                    LastName = PU.LastName,
+                                    ProfileImage = PU.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + PU.ProfilePicture,
+                                    IsBlockedParticepant = PC.IsBlocked == null ? false : (bool)PC.IsBlocked,
+                                    IsChannelAvailable = C.IsAvailable == null ? false : (bool)C.IsAvailable,
+                                    PickupLocation = C.PickupLocation,
+                                       PickupDate = (DateTime)C.PickupDate,
+                                       DropOffLocation = C.DropOffLocation,
+                                       DropOffDate = (DateTime)C.DropOffDate,
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                    LastOnline = U.LastOnline
+                                }).OrderByDescending(x => x.JoinedDate);
+
+            //foreach (var item in categoryList)
+            //{
+            //    item.TotalParticipants = dbContext.ParticipantCategories.Where(x => x.CategoryId == item.CategoryId).Count();
+
+
+            //}
+
+            return categoryList;
+        }
     }
 }

@@ -120,5 +120,15 @@ namespace DeliverLoad.Services
             return "1";
         }
 
+        public void UpdateLogin(int UserId)
+        {
+            var userDetails = dbContext.Users.Where(x => x.UserId == UserId).FirstOrDefault();
+            userDetails.LastOnline = DateTime.Now;
+            dbContext.SaveChanges();
+           
+
+        }
+
+
     }
 }

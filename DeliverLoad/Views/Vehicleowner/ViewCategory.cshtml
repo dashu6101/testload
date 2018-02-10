@@ -16,10 +16,9 @@
             Create Ride Alert
         </button>
     </div>
-    @*<div class="col-sm-4 text-right">
-        <p>Offer published on Jan 19th<br/>
-        Seen 23 time</p>
-    </div>*@
+    <div class="col-sm-4 text-right">
+        <p>&nbsp;</p>
+    </div>
     <div class="clear-fix"></div>
     <div class="col-sm-8">
         <div class="border-box">
@@ -35,7 +34,28 @@
                     </tr>
                     <tr>
                         <td>Departure Time</td>
-                        <td>@Model.DropOffDate</td>
+                        <td>@{var displayPickup = "";}
+@if (Model.PickupDate != null)
+{
+    var date = Model.PickupDate.Value.ToString("dd/MM/yyyy");
+    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+    if (date == TodayDate)
+    {
+        displayPickup = "Today";
+
+    }
+    else
+    {
+        displayPickup = Model.PickupDate.Value.ToString("dd MMM yyyy");
+    }
+
+    @displayPickup
+
+}
+
+
+
+                       </td>
                     </tr>
                 </tbody>
             </table>
@@ -59,7 +79,7 @@
                 </div>
                 <div class="col-xs-6 ">
                     @Model.LoadSpaceTitle <br />
-                    @*<span class="f-16">Available Space</span>*@
+                    <span class="f-16">&nbsp;</span>
                 </div>
             </div>
             <div class="border-bottom f-22 text-center py-10">
@@ -73,7 +93,7 @@
         <div class="border-box mt-15">
             <h3 class="border-bottom colored-text">@Model.LoadSpaceTitle Owner</h3>
             <img src="@Model.ProfileImage" class="img-responsive" style="max-width:200px;"/>
-            <h2>@Model.LoadSpaceTitle</h2>
+            <h2>@Model.FirstName @Model.LastName</h2>
             <span class="text-success">Phone Number Verified</span><br />
             <span class="text-success">Email address Verified</span><br />
             <span class="text-success">337 facebook friend</span>
@@ -81,8 +101,36 @@
         <div class="border-box colored-text">
             <h4>Member Activity</h4>
             <p class="f-14">8 rides offered</p>
-            <p class="f-14">Last online: Today - 3:42</p>
-            <p class="f-14">Member since:Apr 2016</p>
+            <p class="f-14">Last online: 
+            @{var displayLastOnline = "";}
+                @if (Model.LastOnline!= null)
+                {
+                    var date = Model.LastOnline.Value.ToString("dd/MM/yyyy");
+                    var TodayDate =  DateTime.Now.ToString("dd/MM/yyyy");
+                    if (date == TodayDate)
+                    {
+                        displayLastOnline = "Today - " + Model.LastOnline.Value.ToString("hh:mm");
+
+                    }
+                    else
+                    {
+                        displayLastOnline = Model.LastOnline.Value.ToString("dd MMM yyyy hh:mm");
+                    }
+                    
+                    @displayLastOnline
+
+                }
+            
+            
+            </p>
+            <p class="f-14">Member since: 
+            @if (Model.RegistrationDate != null)
+            {
+                @Model.RegistrationDate.Value.ToString("MMM yyyy");
+                  
+            }
+            
+            </p>
             <a href="#" class="link">see public profile</a>
         </div>
     </div>
