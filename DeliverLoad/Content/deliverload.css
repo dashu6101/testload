@@ -1,11 +1,26 @@
-﻿.mt-15{
-    margin-top:15px;
+﻿.mt-15 {
+    margin-top: 15px;
 }
-.f-14{ font-size:14px !important}
-.f-16 {font-size: 16px;}
-.f-18 {font-size: 18px;}
-.f-20 {font-size: 20px;}
-.f-22 {font-size: 22px;}
+
+.f-14 {
+    font-size: 14px !important;
+}
+
+.f-16 {
+    font-size: 16px;
+}
+
+.f-18 {
+    font-size: 18px;
+}
+
+.f-20 {
+    font-size: 20px;
+}
+
+.f-22 {
+    font-size: 22px;
+}
 
 .btn-theme {
     font-weight: bold;
@@ -15,35 +30,41 @@
     color: #000;
     background-color: transparent !important;
     border-width: 3px;
-    outline: none !important
+    outline: none !important;
 }
-.bold{
-    font-weight:bold;
+
+.bold {
+    font-weight: bold;
 }
-.btn-green{
-    border-color:green !important;
+
+.btn-green {
+    border-color: green !important;
 }
-.btn-green:hover{
-    background-color:green !important;
-}
-.light-bg,.light-bg .findspace {
+
+    .btn-green:hover {
+        background-color: green !important;
+    }
+
+.light-bg, .light-bg .findspace {
     background-color: #f9f9f9;
 }
-.py-10{
-    padding-top:10px;
-    padding-bottom:10px
+
+.py-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 /************************ Footer ****************/
 #map {
     height: 100%;
 }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
+/* Optional: Makes the sample page fill the window. */
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    }
-    #floating-panel {
+}
+
+#floating-panel {
     position: absolute;
     top: 10px;
     left: 25%;
@@ -55,35 +76,40 @@
     font-family: 'Roboto','sans-serif';
     line-height: 30px;
     padding-left: 10px;
-    }
-    #warnings-panel {
+}
+
+#warnings-panel {
     width: 100%;
-    height:10%;
+    height: 10%;
     text-align: center;
-    }
+}
 
 /****************** Top Navbar  *****************/
-.heading_message{
-    background:#fff;
+.heading_message {
+    background: #fff;
 }
-    .heading_message input[type="text"],.heading_message lable, .heading_message select,.heading_message input[type="password"], .login input.form-control .AddNewLoad input.form-control{
+
+    .heading_message input[type="text"], .heading_message lable, .heading_message select, .heading_message input[type="password"], .login input.form-control {
         border: 1px solid #efff00;
         outline: none !important;
         font-weight: bold;
-             box-shadow: none !important;
+        box-shadow: none !important;
     }
-    .heading_message input[type="submit"], .login input[type="submit"],.AddNewLoad input[type="submit"] {
+
+    .heading_message input[type="submit"], .login input[type="submit"], .AddNewLoad input[type="submit"] {
         background-color: #efff00 !important;
         color: #000;
-        outline: none !important
+        outline: none !important;
     }
-        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover,.AddNewLoad input[type="submit"]:hover {
+
+        .heading_message input[type="submit"]:hover, .login input[type="submit"]:hover, .AddNewLoad input[type="submit"]:hover{
             background-color: #dbe615;
-              outline: none !important
+            outline: none !important;
         }
+
 .login input {
-    box-shadow:none !important;
-    margin:10px auto
+    box-shadow: none !important;
+    margin: 10px auto;
 }
 
 
@@ -98,14 +124,16 @@
     font-weight: bold;
     font-size: 14px;
     color: #dbe615;
-    text-decoration: none
+    text-decoration: none;
 }
-.heading_message a.nav-link:hover{
-    background-color:#efff00;
-    color:#000;
-}
-.siteheader{
-    border-bottom:1px solid #eaeaea;
+
+    .heading_message a.nav-link:hover {
+        background-color: #efff00;
+        color: #000;
+    }
+
+.siteheader {
+    border-bottom: 1px solid #eaeaea;
 }
 /************************ Home Page***********************/
 .home-banner {
@@ -114,47 +142,56 @@
     padding: 40px 15px;
     background-size: cover;
 }
-.home-banner .banner-box{
-    max-width:300px;
-    text-align:center;
-    margin-left:10%
+
+    .home-banner .banner-box {
+        max-width: 300px;
+        text-align: center;
+        margin-left: 10%;
+    }
+
+    .home-banner .btn {
+        border-color: #fff;
+    }
+
+        .home-banner .btn:hover {
+            border-color: #fff;
+            background-color: #fff !important;
+            box-shadow: none;
+        }
+
+.offer-block {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
-.home-banner .btn{
-    border-color:#fff;
-}
-.home-banner .btn:hover{
-    border-color: #fff;
-    background-color: #fff !important;
-    box-shadow: none;
-}
-.offer-block{
-    padding-top:15px;
-    padding-bottom:15px;
-}
+
 .searchform {
-    margin-top: 400px ;
+    margin-top: 400px;
 }
+
 .findspace {
     background-color: #fff;
     padding: 20px;
     max-width: 900px;
     margin: 0px auto;
-    overflow:hidden
+    overflow: hidden;
 }
-.findspace input{
-    border:2px solid green !important;
-    outline:none;
-    box-shadow:none !important; 
-}
+
+    .findspace input {
+        border: 2px solid green !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+
 .offerride {
     border: 1px solid #eaeaea;
     border-radius: 4px;
     padding: 15px;
     text-align: justify;
 }
+
     .offerride p {
         color: #9c9c9c;
-        font-size:14px;
+        font-size: 14px;
     }
 
 /***************************** Footer **********************/
@@ -163,54 +200,66 @@
     color: #fff;
     padding: 15px 0px;
 }
-ul.footer-list{
-    list-style:none;
-    list-style-type:none;
-    color:#fff !important
-}
-ul.footer-list li{
-    display:inline;
-    margin: 0px 10px;
-}
-ul.footer-list li a{
-    text-decoration:none;
-    color:#fff;
-}
-ul.footer-list li a:hover{
-    text-decoration:underline
+
+ul.footer-list {
+    list-style: none;
+    list-style-type: none;
+    color: #fff !important;
 }
 
+    ul.footer-list li {
+        display: inline;
+        margin: 0px 10px;
+    }
+
+        ul.footer-list li a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+            ul.footer-list li a:hover {
+                text-decoration: underline;
+            }
+
 /******************************* Vehicle Details ************************/
-.vehicle_details p{
-    font-size:18px;
-    color:#888
+.vehicle_details p {
+    font-size: 18px;
+    color: #888;
 }
-.border-box{
-    border:1px solid #eaeaea;
-    border-radius:4px;
-    padding:10px;
+
+.border-box {
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    padding: 10px;
 }
+
 .border-bottom {
     border-bottom: 1px solid #eaeaea;
 }
+
 .vehicle_details table tr td:first-child {
     width: 25%;
     color: #0d7198;
     font-weight: bold;
 }
+
 .vehicle_details table tr td {
-    border:0px !important
+    border: 0px !important;
 }
+
 .vehicle_details .colored-text {
     color: #0d7198 !important;
 }
+
 .vehicle_details .comment, .vehicle_details .border-bottom {
-    overflow: hidden
+    overflow: hidden;
 }
-.vehicle_details .comment img {
-    max-width: 80px;
-    display: inline-block;
-}
-.vehicle_details a.link{
-    color:#62cee1;
+
+    .vehicle_details .comment img {
+        max-width: 80px;
+        display: inline-block;
+    }
+
+.vehicle_details a.link {
+    color: #62cee1;
 }

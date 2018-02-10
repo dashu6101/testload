@@ -10,11 +10,11 @@
 }
 
 <style type="text/css">
-    
     .field-validation-error {
         color: Red;
     }
-    .heading_message input[type="submit"] {
+
+    .heading_message button {
         border-radius: 20px;
         padding: 8px;
         border: none;
@@ -26,18 +26,26 @@
         color: #fff;
         background: #B8452E;
         min-width: 80px;
+        color: #000;
     }
+
+    .heading_message button {
+        background-color: #efff00 !important;
+        color: #000;
+        outline: none !important;
+    }
+
     .heading_message select {
         box-shadow: 0 5px 10px -2px rgba(0,0,0,.16) !important;
         -webkit-box-shadow: 0 5px 10px -2px rgba(0,0,0,.16) !important;
     }
+
     .yellowColor {
         border: 1px solid #efff00;
         outline: none !important;
         font-weight: bold;
         box-shadow: none !important;
     }
-    
 </style>
 
 <link href="~/Content/deliverload.css" rel="stylesheet" />
@@ -83,7 +91,7 @@
                                     @Html.LabelFor(m => m.LoadSpaceId)
                                 </div>
                                 <div class="col-md-7">
-                                    
+
                                     @Html.DropDownListFor(m => m.LoadSpaceId, Model.LoadSpaceList as SelectList, "Select", htmlAttributes: new { @class = "form-control" })
 
                                     @*@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Write Channel Name" })*@
@@ -121,11 +129,11 @@
                                 </div>
                                 <div class="col-md-7">
                                     @*@if (IsMobileBrowser)
-                                    {
-                                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control MobileBrowser", placeholder = "Write Channel Description", @style = "width:100%;" })
-                                    }
-                                    else
-                                    {*@
+                                        {
+                                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control MobileBrowser", placeholder = "Write Channel Description", @style = "width:100%;" })
+                                        }
+                                        else
+                                        {*@
 
                                     @*@Html.TextAreaFor(m => m.Description, new { @class = "ckeditor", placeholder = "Write Channel Description", @style = "width:100%;" })*@
                                     @Html.TextAreaFor(m => m.Description, new { placeholder = "Write Channel Description", @style = "width: 100%;margin: auto; padding: 50px;border: 1px solid #efff00", @class = "yellowColor" })
@@ -155,10 +163,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="col-md-2">
-                                    @Html.LabelFor(m => m.IsFreeVehicle)
+                                    @Html.LabelFor(m => m.IsFreeChannel)
                                 </div>
                                 <div class="col-md-7">
-                                    @Html.HiddenFor(m => m.IsFreeVehicle)
+                                    @Html.HiddenFor(m => m.IsFreeChannel)
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-default yellowColor" id="lblYes">
                                             <input type="radio" name="Presenter" id="rdbYes" value="">Yes
@@ -251,36 +259,36 @@
                         </div>
                     </div>
                     @*<div class="form-group" id="TermsAndCondition">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-md-2">
-
-                                </div>
-                                <div class="col-md-7">
-                                    I have read and agree to the  <input type="checkbox" class="checkbox-inline checkbox" id="chkTerms" required data-val-required="You must agree to the terms and conditions." data-val="true" /><a id="lnkTerms" data-toggle="modal" data-target="#myModal" href="javascript:void(0);">Terms and Conditions</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
-
-                    @*if (Model.CategoryId != null)
-                    {
-                        <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="col-md-2">
-                                        @Html.LabelFor(m => m.Image)
-                                    </div>
-                                    <div class="col-md-10">
-                                        <img src="@Model.Image" style="width:50px;height:50px;" />
 
                                     </div>
-
-
+                                    <div class="col-md-7">
+                                        I have read and agree to the  <input type="checkbox" class="checkbox-inline checkbox" id="chkTerms" required data-val-required="You must agree to the terms and conditions." data-val="true" /><a id="lnkTerms" data-toggle="modal" data-target="#myModal" href="javascript:void(0);">Terms and Conditions</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    }*@
+                        </div>*@
+
+                    @*if (Model.CategoryId != null)
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-md-2">
+                                            @Html.LabelFor(m => m.Image)
+                                        </div>
+                                        <div class="col-md-10">
+                                            <img src="@Model.Image" style="width:50px;height:50px;" />
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        }*@
 
                     <div class="form-group">
                         <div class="row">
@@ -291,19 +299,20 @@
 
                                     </div>
                                     <div class="col-md-10">
+                                        <button type="submit" class="pull-right" id="btnSave">Save</button>
 
-                                        <input type="submit" class="pull-right" id="btnSave" value="Save">
+                                        @*<input type="submit" class="pull-right" id="btnSave" value="Save">*@
                                         @*<button type="submit" class="pull-right" id="btnSave">Save</button>*@
 
                                     </div>
                                 </div>
                                 @*<div id="TermsAndCondition">
-                                    <div class="col-md-2">
+                                        <div class="col-md-2">
 
-                                    </div>
+                                        </div>
 
 
-                                </div>*@
+                                    </div>*@
 
 
                             </div>
@@ -327,9 +336,9 @@
                     @*<input type="hidden" name="custom" value="@System.Configuration.ConfigurationManager.AppSettings["myKey"]">*@
 
                     @*<label class="col-md-3 control-label">Please Enter Recharge Amount:</label>
-                    <div class="col-md-2">
-                        <input type="text" id="amount" name="amount" class="form-control" placeholder="Enter Amount" />
-                    </div>*@
+                        <div class="col-md-2">
+                            <input type="text" id="amount" name="amount" class="form-control" placeholder="Enter Amount" />
+                        </div>*@
                     <br />
                 </form>
             </div>
@@ -344,17 +353,22 @@
     #cke_Description {
         width: auto !important;
     }
+
+    .redactor-editor {
+        border: 1px solid #efff00;
+    }
 </style>
 
 @*@section Scripts {
-    @RenderSection("scripts", required: false)
-   
+        @RenderSection("scripts", required: false)
 
-}*@
+
+    }*@
 
 <script type="text/javascript">
 
     $(document).ready(function () {
+        $(".redactor-editor").css("border", "1px solid #efff00")
         $("#PickupDate").datepicker({ dateFormat: 'mm/dd/yy' });
         $("#DropOffDate").datepicker({ dateFormat: 'mm/dd/yy' });
 
@@ -395,7 +409,7 @@
                 //$("#saveButtons").show();
             }
             else {
-            //    $("#saveButtons").hide();
+                //    $("#saveButtons").hide();
             }
 
         }
@@ -405,7 +419,7 @@
             $('#IsFreeChannel').val(true);
             $("#Price").attr("disabled", "disabled");
             $("#TermsAndCondition").hide();
-           // $("#saveButtons").show();
+            // $("#saveButtons").show();
         }
 
         $("#lblYes").click(function () {
@@ -414,7 +428,7 @@
             $("#lblYes").addClass("active");
             $("#lblNo").removeClass("active");
             $("#TermsAndCondition").hide();
-           // $("#saveButtons").show();
+            // $("#saveButtons").show();
 
 
         });
@@ -426,7 +440,7 @@
             $("#lblYes").removeClass("active");
             if (Authentication == "True") {
                 $("#TermsAndCondition").hide();
-               // $("#saveButtons").show();
+                // $("#saveButtons").show();
             }
             else {
                 $("#TermsAndCondition").show();
@@ -443,6 +457,7 @@
                 $("#frmCategory").submit();
             } else {
                 DisplayNotification("Channel price must not be zero!", 'error');
+                return false;
             }
         }
         else {
