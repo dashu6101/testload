@@ -490,7 +490,7 @@ namespace DeliverLoad.Services
 
         }
 
-        public IEnumerable<CategoryModel> getVehicleLoadCategoryList(int UserId,FindSpaceViewModel searchVM)
+        public IEnumerable<CategoryModel> getVehicleLoadCategoryList(int UserId, FindSpaceViewModel searchVM)
         {
 
             var categoryList = (from U in dbContext.Users
@@ -526,11 +526,11 @@ namespace DeliverLoad.Services
 
                                 }).OrderByDescending(x => x.CreatedDate).ToList();
 
-            if(searchVM.from != null)
+            if (searchVM.from != null)
             {
                 categoryList = categoryList.Where(c => c.PickupLocation.Contains(searchVM.from)).ToList();
             }
-            if(searchVM.to != null)
+            if (searchVM.to != null)
             {
                 categoryList = categoryList.Where(c => c.DropOffLocation.Contains(searchVM.to)).ToList();
             }
@@ -542,7 +542,7 @@ namespace DeliverLoad.Services
         }
 
 
-        public string CreateOverLoadCategory(CategoryModel model, int UserId, string ChannelNo)
+        public string CreateOverLoadCategory(CategoryModel model, int UserId, string ChannelNo, string PostType)
         {
             try
             {
@@ -569,7 +569,9 @@ namespace DeliverLoad.Services
                 {
                     string image = Guid.NewGuid().ToString();
                     image = image + model.ImageUpload.FileName.Substring(model.ImageUpload.FileName.LastIndexOf('.'));
-                    string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
+                    string physicalPath = System.IO.Path.Combine(
+                                  System.Web.HttpContext.Current.Server.MapPath("~/images/category/"), image);
+                    //string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
 
                     model.ImageUpload.SaveAs(physicalPath);
                     objCategory.Image = image;
@@ -578,13 +580,24 @@ namespace DeliverLoad.Services
 
                 dbContext.OverloadCategories.Add(objCategory);
 
+                if (PostType == "Vehicles")
+                {
+                    VehicleownerCategory objVC = new VehicleownerCategory();
 
-                LoadownerCategory objUC = new LoadownerCategory();
+                    objVC.CategoryId = objCategory.CategoryId;
+                    objVC.UserId = UserId;
+                    dbContext.VehicleownerCategories.Add(objVC);
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    LoadownerCategory objUC = new LoadownerCategory();
 
-                objUC.CategoryId = objCategory.CategoryId;
-                objUC.UserId = UserId;
-                dbContext.LoadownerCategories.Add(objUC);
-                dbContext.SaveChanges();
+                    objUC.CategoryId = objCategory.CategoryId;
+                    objUC.UserId = UserId;
+                    dbContext.LoadownerCategories.Add(objUC);
+                    dbContext.SaveChanges();
+                }
             }
             catch (Exception ex)
             {

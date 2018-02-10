@@ -72,7 +72,7 @@ namespace DeliverLoad.Controllers
 
         public ActionResult Index()
         {
-            var model = service.getVehicleLoadCategoryList(sUser.UserId,new FindSpaceViewModel());
+            var model = service.getVehicleLoadCategoryList(sUser.UserId, new FindSpaceViewModel());
             return View(model);
         }
         [HttpPost]
@@ -81,14 +81,14 @@ namespace DeliverLoad.Controllers
         {
             try
             {
-                if(searchVM == null)
+                if (searchVM == null)
                 {
                     return RedirectToAction("Index", "FindSpace");
                 }
                 var model = service.getVehicleLoadCategoryList(sUser.UserId, searchVM);
                 return View(model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return RedirectToAction("Index", "FindSpace");
             }
@@ -148,12 +148,12 @@ namespace DeliverLoad.Controllers
         }
 
         [HttpGet]
-        public ActionResult VehicleDetails(string id)
+        public ActionResult ViewCategory(string id, string Type)
         {
 
             //throw new Exception("channel not found");
 
-            UserModel UModel = null;
+
             if (id != null)
             {
                 ViewBag.CategoryId = id;
@@ -162,13 +162,15 @@ namespace DeliverLoad.Controllers
             {
                 ViewBag.CategoryId = Session["CategoryId"];
             }
-            int Categoryid = Convert.ToInt32(ViewBag.CategoryId);
-            var model = service.GetTreeVeiwList(Categoryid);
-            ViewBag.ChannelName = service.getCategoryDetails(Categoryid, sUser.UserId).Name;
+            ViewBag.Type = Type;
 
-            UModel = service.GetUserDetails(User.Identity.Name);
-            ViewBag.ChannelNo = service.getCategoryDetails(Categoryid, sUser.UserId).ChannelNo;
-            ViewBag.UserName = UModel.ScreenName + "." + UModel.ChannelNo;
+            //int Categoryid = Convert.ToInt32(ViewBag.CategoryId);
+            //var model = service.GetTreeVeiwList(Categoryid);
+            CategoryModel model = service.getDeliveryLoadCategoryDetails(Convert.ToInt32(id), sUser.UserId, Type);
+
+            //UModel = service.GetUserDetails(User.Identity.Name);
+            //ViewBag.ChannelNo = service.getCategoryDetails(Categoryid, sUser.UserId).ChannelNo;
+            //ViewBag.UserName = UModel.ScreenName + "." + UModel.ChannelNo;
             return View(model);
         }
 
@@ -464,6 +466,29 @@ namespace DeliverLoad.Controllers
         public ActionResult RightAndContentPolicy()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddNewVehicles()
+        {
+            CategoryModel model = new CategoryModel();
+            model.LoadSpaceList = service.getLoadSpaceList();
+            return View(model);
+        }
+
+
+        [ValidateInput(false)]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNewPostVehicles(CategoryModel model)
+        {
+            if (model.CategoryId == 0)
+            {
+
+                string returnvalue = service.CreateOverLoadCategory(model, sUser.UserId, sUser.ChannelNo, "Vehicles");
+
+            }
+
+            return RedirectToAction("Index");
         }
 
         #region
@@ -883,7 +908,7 @@ namespace DeliverLoad.Controllers
 
             //var client = new SmtpClientWrapper();
             //mail.SendAsync("async send", client);
-                        
+
             string subject = "Video encoding successful";
             string body = "";
 
@@ -894,7 +919,7 @@ namespace DeliverLoad.Controllers
             body += "<p>Login to take a <a href=\"http://www.chitchatchannel.com/\">look</a></p>";
             body += "<p>Sincerely,</p><p>ChitChatChannel Admin.</p>";
             body += "<p>-------------------------------------------------<br/>This e-mail and any files transmitted with it may contain privileged or confidential information. It is solely for use by the individual for whom it is intended, even if addressed incorrectly. If you received this e-mail in error, please notify the sender; do not disclose, copy, distribute, or take any action in reliance on the contents of this information; and delete it from your system. Any other use of this e-mail is prohibited. Thank you for your compliance.<br/>";
-            body +=  "--------------------------------------------------</p>";
+            body += "--------------------------------------------------</p>";
 
             var msg = new MailMessage("support@chitchatchannel.com", user.UserName);
             msg.Subject = subject;
@@ -902,11 +927,11 @@ namespace DeliverLoad.Controllers
 
             msg.IsBodyHtml = true;
 
-            var client = new SmtpClient();                        
+            var client = new SmtpClient();
             client.Send(msg);
 
             return streamingUrl;
-        }      
+        }
 
         #endregion
     }

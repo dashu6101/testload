@@ -2,147 +2,148 @@
 @model IEnumerable<DeliverLoad.Models.CategoryModel>
 
 @{  var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
-    <style type="text/css">
+<style type="text/css">
     .yellowColor {
         background-color: #efff00 !important;
     }
+
     table, tr, td {
         border: 1px solid #efff00 !important;
     }
 </style>
-@*<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-          
+    @*<div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
 
-        </h3>
 
-    </div>*@
+            </h3>
+
+        </div>*@
 
     @*<div class="panel-body">*@
-        if (Model.Any())
+    if (Model.Any())
+    {
+
+
+        if (obj.UserType == "M")
         {
-
-           
-            if (obj.UserType == "M")
+            if (ViewBag.IsChannelSelected == "1")
             {
-                if (ViewBag.IsChannelSelected == "1")
-                {
-                    <text>
-                        <br />
-                        To start viewing content, select or search for a channel, <a href="/Participant/ChannelList">or click here to view all channel</a> <br />
-                    </text>
-                }
-                else
-                {
-                    <text>
-                        <br />
-                        To start viewing content, select or search for a channel. <br />
-                    </text>
-                }
-
-
-                <form class="navbar-form navbar" role="search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="txtSearch1" placeholder="Search Vehicle #">
-                        <span class="input-group-btn">
-                            <button class="btn btn-success btnSearchByChannel" type="button">Search</button>
-                        </span>
-                    </div>
-
-                </form>
-
-            }
-            if (ViewBag.IsChannelSelected == "0")
-            {
-                <text> <h3>Here are some channels. </h3></text>
+                <text>
+                    <br />
+                    To start viewing content, select or search for a channel, <a href="/Participant/ChannelList">or click here to view all channel</a> <br />
+                </text>
             }
             @*else
+            {
+                <text>
+                    <br />
+                    To start viewing content, select or search for a channel. <br />
+                </text>
+            }*@
+
+
+            @*<form class="navbar-form navbar" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="txtSearch1" placeholder="Search Vehicle #">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btnSearchByChannel" type="button">Search</button>
+                    </span>
+                </div>
+
+            </form>*@
+
+        }
+        if (ViewBag.IsChannelSelected == "0")
+        {
+            <text> <h3>Here are some channels. </h3></text>
+        }
+        @*else
             {
                 <h3>My Channels</h3>
             }*@
 
 
-            @*<div style="text-align:center"><h2>My Vehicle Watch List</h2></div>*@
-            <div class="table-responsive">
-                <table class="table table-bordered table-condensed table-striped table-hover sortable">
+        @*<div style="text-align:center"><h2>My Vehicle Watch List</h2></div>*@
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-striped table-hover sortable">
 
-                    @if (Model.Count() == 0)
-                    {
-                        <tr>
-                            <td colspan="11">No Record's found.</td>
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="11">No Record's found.</td>
+                    </tr>
+                }
+                else
+                {
+                    <thead>
+                        <tr class="yellowColor">
+                            <th>Pic Profile</th>
+                            <th>Name</th>
+                            <th>Load#</th>
+                            <th>Pickup Date</th>
+                            <th>Pickup Location</th>
+
+                            <th>Drop of Location</th>
+                            <th>Load Type</th>
+                            <th>Comments</th>
+                            <th>Load Image</th>
+                            <th>Rating</th>
+                            <th>Price Offered</th>
                         </tr>
-                    }
-                    else
+                    </thead>
+                    foreach (var item in Model)
                     {
-                        <thead>
-                            <tr class="yellowColor">
-                                <th>Pic Profile</th>
-                                <th>Name</th>
-                                <th>Load#</th>
-                                <th>Pickup Date</th>
-                                <th>Pickup Location</th>
-
-                                <th>Drop of Location</th>
-                                <th>Load Type</th>
-                                <th>Comments</th>
-                                <th>Load Image</th>
-                                <th>Rating</th>
-                                <th>Price Offered</th>
-                            </tr>
-                        </thead>
-                        foreach (var item in Model)
-                        {
-                            <tr onclick="goTo('@Url.Action("VehicleDetails","Vehicleowner",new { id = item.CategoryId })')">
-                                <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
-                                <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
-                                <td>@item.ChannelNo</td>
-                                <td>
-                                    @if (item.PickupDate != null)
-                                    {
-                                        var GetDateTime = item.PickupDate.ToString();
-                                        var GetDate = GetDateTime.Split(' ')[0];
+                        <tr onclick="goTo('@Url.Action("ViewCategory","Vehicleowner",new { id = item.CategoryId,Type="Load" })')">
+                            <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
+                            <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
+                            <td>@item.ChannelNo</td>
+                            <td>
+                                @if (item.PickupDate != null)
+                                {
+                                    var GetDateTime = item.PickupDate.ToString();
+                                    var GetDate = GetDateTime.Split(' ')[0];
                                     @GetDate;
-                                    }
+                                }
 
-                                </td>
-                                <td>@item.PickupLocation</td>
-                                @*<td>
-                                        @if (item.DropOffDate != null)
-                                        {
-                                            var GetDateTime1 = item.DropOffDate.ToString();
-                                            var GetDate1 = GetDateTime1.Split(' ')[0];
-                                            @GetDate1;
-                                        }
-                                    </td>*@
-                                <td>@item.DropOffLocation</td>
-                                <td>@item.LoadSpaceTitle</td>
-                                <td>@Html.Raw(item.Description)</td>
-                                <td><img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;"></td>
-                                <td>
-                                    @if (item.IsFreeChannel)
+                            </td>
+                            <td>@item.PickupLocation</td>
+                            @*<td>
+                                    @if (item.DropOffDate != null)
                                     {
+                                        var GetDateTime1 = item.DropOffDate.ToString();
+                                        var GetDate1 = GetDateTime1.Split(' ')[0];
+                                        @GetDate1;
+                                    }
+                                </td>*@
+                            <td>@item.DropOffLocation</td>
+                            <td>@item.LoadSpaceTitle</td>
+                            <td>@Html.Raw(item.Description)</td>
+                            <td><img class="media-object thumbnail" src="@item.Image" alt="" style="width:100px;height:100px;"></td>
+                            <td>
+                                @if (item.IsFreeChannel)
+                                {
                                     <p>Free Channel</p>
 
-                                    }
-                                    @*else
+                                }
+                                @*else
                                     {
                                     <p>$@item.Price</p>
                                     }*@
 
-                                </td>
-                                <td><p>$@item.Price</p></td>
+                            </td>
+                            <td><p>$@item.Price</p></td>
 
-                            </tr>
-                        }
+                        </tr>
                     }
-                </table>
-            </div>
+                }
+            </table>
+        </div>
 
-        }
-        else
-        {
-            @*if (obj.UserType == "A")
+    }
+    else
+    {
+        @*if (obj.UserType == "A")
             {
                 <text><h2>
                         ChitChatChannel !<br />
@@ -153,9 +154,9 @@
                 </text>
             }*@
 
-        }
+    }
     @*</div>*@
-@*</div>*@
+    @*</div>*@
 
     <div id="ChannelSummaryModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog">

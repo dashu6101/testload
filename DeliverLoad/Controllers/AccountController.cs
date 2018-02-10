@@ -31,15 +31,15 @@ namespace DeliverLoad.Controllers
             set { _userMailer = value; }
         }
 
-        private DeliverLoadService service = new DeliverLoadService();        
+        private DeliverLoadService service = new DeliverLoadService();
 
         [AllowAnonymous]
         public ActionResult Index(string returnUrl)
-        {           
+        {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        
+
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -60,7 +60,7 @@ namespace DeliverLoad.Controllers
                 if (WebSecurity.Login(model.LoginUserName, model.LoginPassword, persistCookie: model.RememberMe))
                 {
                     var UserDetails = service.GetUserDetails(model.LoginUserName);
-                    if (UserDetails.IsBloked==true)
+                    if (UserDetails.IsBloked == true)
                     {
                         ModelState.AddModelError("", "You account is blocked. Please contact support@chitchatchannel.com");
                         WebSecurity.Logout();
@@ -71,17 +71,17 @@ namespace DeliverLoad.Controllers
                         // return RedirectToLocal(returnUrl);
                         if (UserDetails.UserType == "A")
                         {
-                         // return RedirectToAction("Index", "Presenter");
-                           return RedirectToAction("Index", "Vehicleowner");
+                            //return RedirectToAction("Index", "Presenter");
+                            return RedirectToAction("Index", "Vehicleowner");
                         }
                         else
                         {
                             //return RedirectToAction("Index", "Participant");
 
-                           return RedirectToAction("Index", "Loadowner");
+                            return RedirectToAction("Index", "Loadowner");
                         }
                     }
-                    
+
                 }
 
                 // If we got this far, something failed, redisplay form
@@ -120,7 +120,7 @@ namespace DeliverLoad.Controllers
                         if (UserDetails.UserType == "A")
                         {
                             //return RedirectToAction("Index", "Presenter");
-                            ajaxResponse.Data = new { RedirectUrl = Url.Action("Index", "Vehicleowner") }; 
+                            ajaxResponse.Data = new { RedirectUrl = Url.Action("Index", "Vehicleowner") };
                         }
                         else
                         {
@@ -170,8 +170,8 @@ namespace DeliverLoad.Controllers
         //
         // POST: /Account/LogOff
 
-       // [HttpPost]
-       // [ValidateAntiForgeryToken]
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             WebSecurity.Logout();

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "AddNewLoad";
+    ViewBag.Title = "AddNewVehicles";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 @model DeliverLoad.Models.CategoryModel
@@ -70,7 +70,7 @@
     <div class="panel panel-primary" style="border: 1px solid #efff00;">
         <div class="panel-heading" style="background-color: #efff00 !important; color: #000 !important; border: 1px solid #efff00; ">
             <h3 class="panel-title">
-                Post New Load
+                Post New Vehicles
 
             </h3>
         </div>
@@ -78,7 +78,7 @@
         <div class="panel-body heading_message">
 
             <div class="col-md-12">
-                @using (Html.BeginForm("AddNewPostLoad", "Loadowner", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", id = "frmCategory" }))
+                @using (Html.BeginForm("AddNewPostVehicles", "Vehicleowner", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", id = "frmCategory" }))
                 {
                     @Html.AntiForgeryToken()
                     <input type="hidden" id="hdnAuthentication" value="@Athentication.ToString()" />
@@ -136,7 +136,7 @@
                                         {*@
 
                                     @*@Html.TextAreaFor(m => m.Description, new { @class = "ckeditor", placeholder = "Write Channel Description", @style = "width:100%;" })*@
-                                    @Html.TextAreaFor(m => m.Description, new { placeholder = "Write Load Description", @style = "width: 100%;margin: auto; padding: 50px;border: 1px solid #efff00", @class = "yellowColor" })
+                                    @Html.TextAreaFor(m => m.Description, new { placeholder = "Write Channel Description", @style = "width: 100%;margin: auto; padding: 50px;border: 1px solid #efff00", @class = "yellowColor" })
                                     @*}*@
                                 </div>
                                 <div class="col-md-3">
@@ -163,8 +163,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="col-md-2">
-                                    <label for="">Is Free?</label>
-                                
+                                    @Html.LabelFor(m => m.IsFreeChannel)
                                 </div>
                                 <div class="col-md-7">
                                     @Html.HiddenFor(m => m.IsFreeChannel)
@@ -191,7 +190,7 @@
                                     @Html.LabelFor(m => m.Price)
                                 </div>
                                 <div class="col-md-7">
-                                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "Price" })
+                                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "Channel Price" })
                                 </div>
                                 <div class="col-md-3">
                                     @Html.ValidationMessageFor(model => model.Price)

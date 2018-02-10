@@ -292,12 +292,6 @@ namespace DeliverLoad.Services
 
         public IEnumerable<CategoryModel> getAllLoadownerCategoryList()
         {
-            //from C in dbContext.Categories
-            //                       join PC in dbContext.PresenterCategories on C.CategoryId equals PC.CategoryId
-            //                       join U in dbContext.Users on PC.UserId equals U.UserId
-            //                       where C.CategoryId == CategoryId
-            //                       select new CategoryModel
-
             var categoryList = (from U in dbContext.Users
                                 join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
@@ -342,6 +336,81 @@ namespace DeliverLoad.Services
             /*Assign value to model*/
 
             return objmodeldata;
+        }
+
+        public CategoryModel getDeliveryLoadCategoryDetails(int CategoryId, int UserId, string Type)
+        {
+            var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
+            bool HasJoinedCategory = false;
+            //if (Loadownerdetails != null)
+            //{
+            //    HasJoinedCategory = (bool)Loadownerdetails.HasJoinedCategory;
+            //}
+            var categoryDetails = new CategoryModel();
+            if (Type == "Load")
+            {
+                categoryDetails = (from C in dbContext.OverloadCategories
+                                   join PC in dbContext.LoadownerCategories on C.CategoryId equals PC.CategoryId
+                                   join U in dbContext.Users on PC.UserId equals U.UserId
+                                   join LS in dbContext.LoadSpaces on C.LoadSpaceId equals LS.LoadSpaceId
+                                   where C.CategoryId == CategoryId
+                                   select new CategoryModel
+                                   {
+                                       CategoryId = C.CategoryId,
+                                       Name = C.Name,
+                                       Description = C.Description,
+                                       Image = C.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + C.Image,
+                                       UserId = (int)PC.UserId,
+                                       HasJoinedCategory = HasJoinedCategory,
+                                       Price = (decimal)C.Price,
+                                       IsFreeChannel = (bool)C.IsFree,
+                                       FirstName = U.FirstName,
+                                       LastName = U.LastName,
+                                       ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                       ChannelNo = "Channel no:" + C.ChannelNo,
+                                       IsAuthenticated = U.IsAuthenticated == null ? false : (bool)U.IsAuthenticated,
+                                         PickupLocation = C.PickupLocation,
+                                    PickupDate = (DateTime)C.PickupDate,
+                                    DropOffLocation = C.DropOffLocation,
+                                    DropOffDate = (DateTime)C.DropOffDate,
+                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                   }).FirstOrDefault();
+
+
+            }
+            else
+            {
+                categoryDetails = (from C in dbContext.OverloadCategories
+                                   join PC in dbContext.VehicleownerCategories on C.CategoryId equals PC.CategoryId
+                                   join U in dbContext.Users on PC.UserId equals U.UserId
+                                   join LS in dbContext.LoadSpaces on C.LoadSpaceId equals LS.LoadSpaceId
+                                   where C.CategoryId == CategoryId
+                                   select new CategoryModel
+                                   {
+                                       CategoryId = C.CategoryId,
+                                       Name = C.Name,
+                                       Description = C.Description,
+                                       Image = C.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + C.Image,
+                                       UserId = (int)PC.UserId,
+                                       HasJoinedCategory = HasJoinedCategory,
+                                       Price = (decimal)C.Price,
+                                       IsFreeChannel = (bool)C.IsFree,
+                                       FirstName = U.FirstName,
+                                       LastName = U.LastName,
+                                       ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                       ChannelNo = "Channel no:" + C.ChannelNo,
+                                       IsAuthenticated = U.IsAuthenticated == null ? false : (bool)U.IsAuthenticated,
+                                       PickupLocation = C.PickupLocation,
+                                       PickupDate = (DateTime)C.PickupDate,
+                                       DropOffLocation = C.DropOffLocation,
+                                       DropOffDate = (DateTime)C.DropOffDate,
+                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                   }).FirstOrDefault();
+
+            }
+
+
+            return categoryDetails;
         }
 
     }

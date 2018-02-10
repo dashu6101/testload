@@ -17,14 +17,14 @@
     <meta name="og:title" content="Deliver Load" />
     <meta name="og:description" content="Deliver Load" />
     @*
-    <meta property="og:url" content="http://www.chitchatchannel.com/">*@
+        <meta property="og:url" content="http://www.chitchatchannel.com/">*@
 
     <!--======For title======-->
     <title>Deliver Load</title>
     @*@ViewBag.PageTitle @ViewBag.Title @Html.Raw(ViewBag.description)*@
     <!--======Style Sheet======-->
     @*
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Scripts/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
@@ -112,7 +112,7 @@
     <div class="modal fade" id="loginModal" role="dialog">
         @if (WebSecurity.CurrentUserName == "")
         {
-         @Html.Partial("_LoginPopup")
+            @Html.Partial("_LoginPopup")
         }
     </div>
     <div id="fb-root"></div>
@@ -133,52 +133,52 @@
             <div class="navbar-collapse collapse">
                 @{
 
-                @*if(Session["sUser"] == null){
-                <script type="text/javascript">
-                                window.location.href = "@Url.Action("index","account")";
-                </script>
-                }*@
+                    @*if(Session["sUser"] == null){
+                        <script type="text/javascript">
+                                        window.location.href = "@Url.Action("index","account")";
+                        </script>
+                        }*@
 
-                var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
+                    var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
 
-                if (obj == null)
-                {
-                <script type="text/javascript">
-                    /**/
-                    window.location.href = "@Url.Action("index", "account")";
-                    /**/
-
-                </script>
-                }
-
-                <ul class="nav navbar-nav navbar-right">
-                    @if (obj.UserType == "A")
+                    if (obj == null)
                     {
-                    @*
-                    <li><a href="/Presenter/Index">My Channels</a></li>*@
+                        <script type="text/javascript">
+                            /**/
+                            window.location.href = "@Url.Action("index", "account")";
+                            /**/
 
-
-                    <li><a href="/Vehicleowner/Index">My Vehicles</a></li>
-
-                    }
-                    else
-                    {
-                    <li><a href="~/Loadowner/AddNewLoad">Add New Load</a></li>
-                    <li><a href="~/Loadowner/index">My Watch List </a></li>
-                    <li><a href="~/Loadowner/index">View All Vehicles Available</a></li>
-                    }
-                    <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
-                    @if (obj.UserId == 33)
-                    {
-                    <li><a href="/Presenter/Subscriber">My Subscribers</a></li>
-                    <li><a href="/Presenter/UserList">Users</a></li>
+                        </script>
                     }
 
-                    <li>
-                        @Html.Partial("_LoginPartial")
-                    </li>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (obj.UserType == "A")
+                        {
+                            @*
+                                <li><a href="/Presenter/Index">My Channels</a></li>*@
 
-                </ul>
+                            <li><a href="~/Vehicleowner/AddNewVehicles">Add Vehicles</a></li>
+                            <li><a href="~/Vehicleowner/Index">My Vehicles</a></li>
+
+                        }
+                        else
+                        {
+                            <li><a href="~/Loadowner/AddNewLoad">Add New Load</a></li>
+                            <li><a href="~/Loadowner/index">My Watch List</a></li>
+                            <li><a href="~/Loadowner/index">View All Vehicles Available</a></li>
+                        }
+                        <li><a class="fancybox_3" href="/Home/Faq">FAQ</a></li>
+                        @if (obj.UserId == 33)
+                        {
+                            <li><a href="/Presenter/Subscriber">My Subscribers</a></li>
+                            <li><a href="/Presenter/UserList">Users</a></li>
+                        }
+
+                        <li>
+                            @Html.Partial("_LoginPartial")
+                        </li>
+
+                    </ul>
 
                 }
             </div>
@@ -192,7 +192,7 @@
     </div>
 
     @*
-    <script src="~/Scripts/ckeditor.js"></script>*@
+        <script src="~/Scripts/ckeditor.js"></script>*@
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/googlemap.js"></script>
@@ -212,154 +212,154 @@
 
         /**/
         var Title = '@TempData["GritterTitle"]';
-    /**/
-    /**/
-    var Message = '@TempData["GritterMessage"]';
-    /**/
-    if (Title != '' && Message != '')
-        DisplayNotification(Message, Title);
+        /**/
+        /**/
+        var Message = '@TempData["GritterMessage"]';
+        /**/
+        if (Title != '' && Message != '')
+            DisplayNotification(Message, Title);
 
 
 
-    $(".fancybox").fancybox({
-        type: "iframe",
-        width: 350, // or whatever
-        height: 250
-    });
-    $(".fancybox_2").fancybox({
-        type: "iframe",
-        width: 350, // or whatever
-        height: 500
-    });
-    $(".fancybox_3").fancybox({
-        type: "iframe",
-    });
+        $(".fancybox").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 250
+        });
+        $(".fancybox_2").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 500
+        });
+        $(".fancybox_3").fancybox({
+            type: "iframe",
+        });
 
-    /**/
-    var IsMobileBrowser = '@IsMobileBrowser';
-    /**/
+        /**/
+        var IsMobileBrowser = '@IsMobileBrowser';
+        /**/
 
-    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 20, // The length of each line
-        width: 10, // The line thickness
-        radius: 30, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: '#000', // #rgb or #rrggbb or array of colors
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: '50%', // Top position relative to parent
-        left: '50%' // Left position relative to parent
-    };
+        var opts = {
+            lines: 13, // The number of lines to draw
+            length: 20, // The length of each line
+            width: 10, // The line thickness
+            radius: 30, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#000', // #rgb or #rrggbb or array of colors
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: '50%', // Top position relative to parent
+            left: '50%' // Left position relative to parent
+        };
 
-    $(document).ajaxStart(function () {
-        var target = $("body");
-        spinner = new Spinner(opts).spin(document.getElementById('Loading'));
-        $("#Loading").show();
-        //target.append(spinner.el);
-    });
+        $(document).ajaxStart(function () {
+            var target = $("body");
+            spinner = new Spinner(opts).spin(document.getElementById('Loading'));
+            $("#Loading").show();
+            //target.append(spinner.el);
+        });
 
-    $(document).ajaxComplete(function () {
-        $("#Loading").hide();
-        spinner.stop();
-    });
+        $(document).ajaxComplete(function () {
+            $("#Loading").hide();
+            spinner.stop();
+        });
 
-    $(".btnSearchByChannel").click(function () {
-        var id = $('#txtSearch').val();
-        var id1 = $('#txtSearch1').val();
+        $(".btnSearchByChannel").click(function () {
+            var id = $('#txtSearch').val();
+            var id1 = $('#txtSearch1').val();
 
-        if ((id != "" && id != null)) {
-            if (isNaN(id)) {
-                window.location.href = '/Presenter/GetChannelByName?Name=' + id;
+            if ((id != "" && id != null)) {
+                if (isNaN(id)) {
+                    window.location.href = '/Presenter/GetChannelByName?Name=' + id;
+                }
+                else {
+
+                    var ChannelNo = id.split('.');
+                    if (ChannelNo[1] != 'undefined' && ChannelNo[1] != null) {
+                        window.location.href = '/Presenter/GetChannelByChannelNo?ChannelNo=' + id;
+                    }
+
+                    else {
+                        window.location.href = '/Presenter/PresenterDetails?ChannelNo=' + ChannelNo[0];
+                    }
+                }
+            }
+            else if ((id1 != "" && id1 != null)) {
+                if (isNaN(id1)) {
+                    window.location.href = '/Presenter/GetChannelByName?Name=' + id1;
+                }
+                else {
+
+                    var ChannelNo = id1.split('.');
+                    if (ChannelNo[1] != 'undefined' && ChannelNo[1] != null) {
+                        window.location.href = '/Presenter/GetChannelByChannelNo?ChannelNo=' + id1;
+                    }
+
+                    else {
+                        window.location.href = '/Presenter/PresenterDetails?ChannelNo=' + ChannelNo[0];
+                    }
+                }
             }
             else {
+                DisplayNotification('Please enter channel no. or channel name.', 'error');
 
-                var ChannelNo = id.split('.');
-                if (ChannelNo[1] != 'undefined' && ChannelNo[1] != null) {
-                    window.location.href = '/Presenter/GetChannelByChannelNo?ChannelNo=' + id;
-                }
-
-                else {
-                    window.location.href = '/Presenter/PresenterDetails?ChannelNo=' + ChannelNo[0];
-                }
             }
-        }
-        else if ((id1 != "" && id1 != null)) {
-            if (isNaN(id1)) {
-                window.location.href = '/Presenter/GetChannelByName?Name=' + id1;
-            }
-            else {
-
-                var ChannelNo = id1.split('.');
-                if (ChannelNo[1] != 'undefined' && ChannelNo[1] != null) {
-                    window.location.href = '/Presenter/GetChannelByChannelNo?ChannelNo=' + id1;
-                }
-
-                else {
-                    window.location.href = '/Presenter/PresenterDetails?ChannelNo=' + ChannelNo[0];
-                }
-            }
-        }
-        else {
-            DisplayNotification('Please enter channel no. or channel name.', 'error');
-
-        }
+        });
     });
-});
 
-function DisplayNotification(returnvalue, status) {
-    if (returnvalue != null) {
-        if (status == "success") {
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "0",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut",
-                "tapToDismiss": true
-            };
+    function DisplayNotification(returnvalue, status) {
+        if (returnvalue != null) {
+            if (status == "success") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "0",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": true
+                };
 
-            toastr.success(returnvalue);
-        }
-        else if (status == "error") {
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "0",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut",
-                "tapToDismiss": true
-            };
-            toastr.error(returnvalue);
+                toastr.success(returnvalue);
+            }
+            else if (status == "error") {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "0",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut",
+                    "tapToDismiss": true
+                };
+                toastr.error(returnvalue);
+            }
         }
     }
-}
 
 </script>
 <script>

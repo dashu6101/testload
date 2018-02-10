@@ -20,6 +20,7 @@ namespace DeliverLoad.Models
             this.ChannelRequestMasters = new HashSet<ChannelRequestMaster>();
             this.ParticipantCategories = new HashSet<ParticipantCategory>();
             this.PresenterCategories = new HashSet<PresenterCategory>();
+            this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
         }
     
         public int CategoryId { get; set; }
@@ -37,5 +38,6 @@ namespace DeliverLoad.Models
         public virtual ICollection<ChannelRequestMaster> ChannelRequestMasters { get; set; }
         public virtual ICollection<ParticipantCategory> ParticipantCategories { get; set; }
         public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
+        public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
     }
 }
