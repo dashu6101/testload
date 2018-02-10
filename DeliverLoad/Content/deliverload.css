@@ -68,12 +68,12 @@
     background:#fff;
 }
     .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, .heading_message select, input.form-control {
-        border: 1px solid #efff00;
+        border: 1px solid #e2db06;/*#e2db06*/
         outline: none !important;
         font-weight: bold
     }
     .heading_message input[type="submit"], .login input[type="submit"],.btn-theme {
-        background-color: #efff00 !important;
+        background-color: #e2db06 !important;
         color: #000;
         outline: none !important
     }
@@ -107,7 +107,7 @@
     text-decoration: none
 }
 .heading_message a.nav-link:hover{
-    background-color:#efff00;
+    background-color:#e2db06;
     color:#000;
 }
 .siteheader{

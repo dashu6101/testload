@@ -1,7 +1,7 @@
 ﻿@model DeliverLoad.Models.FindSpaceViewModel
 
 <div class="findspace">
-    @using (Html.BeginForm("Index", "Vehicleowner", FormMethod.Post, new { @id = "findspace", @class = "form-inline" }))
+    @using (Html.BeginForm("Index", "Loadowner", FormMethod.Post, new { @id = "findspace", @class = "form-inline" }))
     {
         <div class="form-group col-sm-3">
             @Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })
@@ -23,7 +23,6 @@
         $(document).ready(function () {
             $("#date").datepicker();
             $('#findspace').on("submit", function (e) {
-                debugger;
                 var obj = '@(WebSecurity.CurrentUserName)';
                 var isAuth = $('#isauthenticated').val();
                 if (obj == '' && isAuth != 'true') {

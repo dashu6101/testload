@@ -1,5 +1,5 @@
 ﻿@model DeliverLoad.Models.LoginModel
-
+@using DeliverLoad.Models;
 
 <style type="text/css">
     .field-validation-error {
@@ -97,7 +97,7 @@
                 <a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent" >Offer Space</a>
             </div>
             <div class="searchform">
-               @*@Html.Partial("_FindSpaceForm")*@
+               @Html.Partial("_FindSpaceForm",new FindSpaceViewModel())
             </div>
         </div>
     </div>

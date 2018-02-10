@@ -296,7 +296,7 @@ namespace DeliverLoad.Services
                                 join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                where U.UserType == "A"
+                                where U.UserType == "M"
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -324,6 +324,54 @@ namespace DeliverLoad.Services
 
             return categoryList;
         }
+
+        public IEnumerable<CategoryModel> getLoadownerCategoryListBySearch(FindSpaceViewModel searchVM)
+        {
+            var categoryList = (from U in dbContext.Users
+                                join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
+                                join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
+                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                where U.UserType == "M"
+                                select new CategoryModel
+                                {
+                                    CategoryId = OC.CategoryId,
+                                    Description = OC.Description,
+                                    PickupLocation = OC.PickupLocation,
+                                    PickupDate = (DateTime)OC.PickupDate,
+                                    DropOffLocation = OC.DropOffLocation,
+                                    DropOffDate = (DateTime)OC.DropOffDate,
+                                    Name = OC.Name,
+                                    Image = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                    //  UserId = U.UserId,
+                                    ChannelNo = OC.ChannelNo,
+                                    Price = (decimal)OC.Price,
+                                    IsFreeChannel = (bool)OC.IsFree,
+                                    // JoinedDate = (DateTime)PC.JoinedDate
+
+                                    FirstName = U.FirstName,
+                                    LastName = U.LastName,
+                                    ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
+                                    LoadSpaceTitle = LS.LoadSpaceTitle
+                                }).OrderByDescending(x => x.Name).ToList();
+
+
+            if (searchVM.from != null)
+            {
+                categoryList = categoryList.Where(c => c.PickupLocation.Contains(searchVM.from)).ToList();
+            }
+            if (searchVM.to != null)
+            {
+                categoryList = categoryList.Where(c => c.DropOffLocation.Contains(searchVM.to)).ToList();
+            }
+            if (searchVM.date != null)
+            {
+                categoryList = categoryList.Where(c => c.PickupDate == searchVM.date).ToList();
+            }
+
+            return categoryList;
+        }
+
 
         public SelectList getLoadSpaceList()
         {

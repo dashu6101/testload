@@ -35,7 +35,28 @@ namespace DeliverLoad.Controllers
             return View(allcategoryList);
 
         }
-
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Index(FindSpaceViewModel searchVM)
+        {
+            try
+            {
+                if(sUser.UserType == "A")
+                {
+                    return RedirectToAction("Index", "Vehicleowner", searchVM);
+                }
+                if (searchVM == null)
+                {
+                    return RedirectToAction("Index", "FindSpace");
+                }
+                var model = service.getLoadownerCategoryListBySearch(searchVM);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "FindSpace");
+            }
+        }
 
         [HttpGet]
         public ActionResult AddNewLoad()
