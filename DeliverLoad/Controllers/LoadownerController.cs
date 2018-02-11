@@ -19,7 +19,7 @@ namespace DeliverLoad.Controllers
 
         public ActionResult Index()
         {
-            var model = service.getJoinedCategoryList(sUser.UserId);
+            var model = service.getJoinedOverLoadCategoryList(sUser.UserId);
 
             //display selected channel list.
             if (model.Any())
