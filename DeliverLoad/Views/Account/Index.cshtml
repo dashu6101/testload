@@ -11,49 +11,49 @@
 
 
 @*<ul class="cb-slideshow">
-    <li>
-        <span>Image 01</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-    <li>
-        <span>Image 02</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-    <li>
-        <span>Image 03</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-    <li>
-        <span>Image 04</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-    <li>
-        <span>Image 05</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-    <li>
-        <span>Image 06</span>
-        <!--<div>
-          <h3></h3>
-        </div>-->
-        <!--Put Heading If you want to cahnge heading with Slider-->
-    </li>
-</ul>*@
+        <li>
+            <span>Image 01</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 02</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 03</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 04</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 05</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+        <li>
+            <span>Image 06</span>
+            <!--<div>
+              <h3></h3>
+            </div>-->
+            <!--Put Heading If you want to cahnge heading with Slider-->
+        </li>
+    </ul>*@
 
 
 <!--=====Page Start====-->
@@ -82,7 +82,7 @@
                 @*<input type="text" id="LoginUserName" name="LoginUserName" placeholder="Your email." />
                     <input type="password" id="LoginPassword" name="LoginPassword" placeholder="Your Password." />*@
                 <input type="submit" name="Login" value="Login" id="get" />
-                <a href="#" class="nav-link">Signup</a>
+                <a href="#" class="nav-link" data-target="#registerModal" data-toggle="modal">Signup</a>
                 if (Request.Form.AllKeys.Contains("Login"))
                 {
                     @Html.ValidationSummary()
@@ -94,10 +94,10 @@
         <div class="wraper">
             <div class="banner-box">
                 <h1 class="text-center bold">Got a space to deliver load ?</h1>
-                <a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent" >Offer Space</a>
+                <a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent">Offer Space</a>
             </div>
             <div class="searchform">
-               @Html.Partial("_FindSpaceForm",new FindSpaceViewModel())
+                @Html.Partial("_FindSpaceForm", new FindSpaceViewModel())
             </div>
         </div>
     </div>
@@ -118,158 +118,160 @@
         </div>
     </div>
     @*<div class="col-sm-12 offer-block">
-        <div class="col-sm-4">
-            <h3 class="bold">Maximize your potential</h3>
-            <button class="btn btn-theme">Offer Space</button>
-            <img src="~/Content/images/back-left.jpg" class="img-responsive" style="margin-top:10px;"/>
-        </div>
-        <div class="col-sm-5">
-            <img src="~/Content/images/back-right.jpg" class="img-responsive" />
-        </div>
-        <div class="col-sm-3">
-            <h1 class="bold">Got a load<br /> to deliver ?</h1>
-        </div>
-    </div>*@
-        <div>
-        @*<div class="box1">
-            <div class="advertisement">
-
+            <div class="col-sm-4">
+                <h3 class="bold">Maximize your potential</h3>
+                <button class="btn btn-theme">Offer Space</button>
+                <img src="~/Content/images/back-left.jpg" class="img-responsive" style="margin-top:10px;"/>
             </div>
-            <div class="register">
-                <div class="form_wraper">
-                    <div class="title">
-                        <h2>Register</h2>
-                    </div>
-                    <p>Social Network where you ‎keep channels for your Books, Art, Music, Lectures, Opinion, Talk or Reality Show series - then set your price for such unique content while interacting with participants;  or simply have a blast chatting and viewing unique and sometimes free content others provide.</p>
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
-                    {
-                        @Html.AntiForgeryToken()
-
-                        if (Request.Form.AllKeys.Contains("Register"))
-                        {
-                            @Html.ValidationSummary()
-                        }
-                        <div class="Email">
-                            @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name" })
-
-                        </div>
-
-                        <div class="city">
-                            @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name" })
-
-                        </div>
-                        
-                        <div class="city">
-                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Email Address" })
-
-                        </div>
-                        
-                        <div class="city">
-                            @Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "Your Password." })
-                            @Html.ValidationMessageFor(m => m.Password)
-
-                        </div>
-                        <div class="submit_button">
-                            <input type="submit" name="Register" value="Register" id="btnRegister" />
-                            <img src="~/Images/ajax-loader.gif" class="AjaxLoaderRegister" style="display:none" />
-                        </div>
-                    }
-                    
-                </div>
+            <div class="col-sm-5">
+                <img src="~/Content/images/back-right.jpg" class="img-responsive" />
+            </div>
+            <div class="col-sm-3">
+                <h1 class="bold">Got a load<br /> to deliver ?</h1>
             </div>
         </div>*@
+    <div>
+        @*<div class="box1">
+                <div class="advertisement">
+
+                </div>
+                <div class="register">
+                    <div class="form_wraper">
+                        <div class="title">
+                            <h2>Register</h2>
+                        </div>
+                        <p>Social Network where you ‎keep channels for your Books, Art, Music, Lectures, Opinion, Talk or Reality Show series - then set your price for such unique content while interacting with participants;  or simply have a blast chatting and viewing unique and sometimes free content others provide.</p>
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, null))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            if (Request.Form.AllKeys.Contains("Register"))
+                            {
+                                @Html.ValidationSummary()
+                            }
+                            <div class="Email">
+                                @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name" })
+
+                            </div>
+
+                            <div class="city">
+                                @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name" })
+
+                            </div>
+
+                            <div class="city">
+                                @Html.TextBoxFor(m => m.UserName, new { placeholder = "Email Address" })
+
+                            </div>
+
+                            <div class="city">
+                                @Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "Your Password." })
+                                @Html.ValidationMessageFor(m => m.Password)
+
+                            </div>
+                            <div class="submit_button">
+                                <input type="submit" name="Register" value="Register" id="btnRegister" />
+                                <img src="~/Images/ajax-loader.gif" class="AjaxLoaderRegister" style="display:none" />
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>*@
+    </div>
+    <!--Footer-->
+    <div class="footer">
+        <div class="col-sm-4">
+            <ul class="footer-list pull-left">
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
         </div>
-        <!--Footer-->
-        <div class="footer">
-            <div class="col-sm-4">
-                <ul class="footer-list pull-left">
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-4">
-                <p>©DeliverLoad 2018</p>
-            </div>
-            <div class="col-sm-4">
-                <ul class="footer-list pull-right">
-                    <li><a href="#"><img src="~/Content/images/facebook.png" /></a></li>
-                    <li><a href="#"><img src="~/Content/images/twitter.png" /></a></li>
-                </ul>
-            </div>
+        <div class="col-sm-4">
+            <p>©DeliverLoad 2018</p>
         </div>
-    
+        <div class="col-sm-4">
+            <ul class="footer-list pull-right">
+                <li><a href="#"><img src="~/Content/images/facebook.png" /></a></li>
+                <li><a href="#"><img src="~/Content/images/twitter.png" /></a></li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 
 
-
+<div class="modal fade" id="registerModal" role="dialog">
+    @Html.Partial("_RegisterPopup", new RegisterModel())
+</div>
 
 <script type="text/javascript">
 
-    function SaveSuccessSubscription(result) {
-        $('#SubscriptionMailId').val('');
-        //    alert('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.');
-        DisplayNotification('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.', 'success');
-        $(".AjaxLoader").hide();
-    }
+        function SaveSuccessSubscription(result) {
+            $('#SubscriptionMailId').val('');
+            //    alert('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.');
+            DisplayNotification('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.', 'success');
+            $(".AjaxLoader").hide();
+        }
 
-    function SaveFailureSubscription(result) {
-        //  alert('Please enter an Email address.');
-        DisplayNotification('Please enter an Email address.', 'error');
-        $(".AjaxLoader").hide();
-    }
+        function SaveFailureSubscription(result) {
+            //  alert('Please enter an Email address.');
+            DisplayNotification('Please enter an Email address.', 'error');
+            $(".AjaxLoader").hide();
+        }
 
 
-    $(document).ready(function () {
-        $(".fancybox").fancybox({
-            type: "iframe",
-            width: 350, // or whatever
-            height: 250
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                type: "iframe",
+                width: 350, // or whatever
+                height: 250
+            });
+            $(".fancybox_2").fancybox({
+                type: "iframe",
+                width: 350, // or whatever
+                height: 500
+            });
+            $(".fancybox_3").fancybox({
+                type: "iframe",
+            });
         });
-        $(".fancybox_2").fancybox({
-            type: "iframe",
-            width: 350, // or whatever
-            height: 500
-        });
-        $(".fancybox_3").fancybox({
-            type: "iframe",
-        });
-    });
 
-    function DisplayNotification(returnvalue, status) {
-        
-        if (returnvalue != null) {
-            if (status == "success") {
-                toastr.success(returnvalue);
-            }
-            else if (status == "error") {
-                toastr.error(returnvalue);
+        function DisplayNotification(returnvalue, status) {
+
+            if (returnvalue != null) {
+                if (status == "success") {
+                    toastr.success(returnvalue);
+                }
+                else if (status == "error") {
+                    toastr.error(returnvalue);
+                }
             }
         }
-    }
 
-    $("#btnSubmitSubscription").click(function () {
-        $(".AjaxLoader").show();
-    });
+        $("#btnSubmitSubscription").click(function () {
+            $(".AjaxLoader").show();
+        });
 
-    //$(document).ajaxStart(function () {
-    //    $("input[type='submit']").click(function () {
-    //        var $this = $(this);
-    //        $this.attr('disabled', true);
-    //        setTimeout(function () {
-    //            $this.prop('disabled', false);
-    //        }, 3000);
-    //    });
-    //});
+        //$(document).ajaxStart(function () {
+        //    $("input[type='submit']").click(function () {
+        //        var $this = $(this);
+        //        $this.attr('disabled', true);
+        //        setTimeout(function () {
+        //            $this.prop('disabled', false);
+        //        }, 3000);
+        //    });
+        //});
 
-    $(document).ajaxComplete(function () {
-        $("#wait").css("display", "none");
-    });
+        $(document).ajaxComplete(function () {
+            $("#wait").css("display", "none");
+        });
 
-    $("#btnRegister").click(function () {
-        $(".AjaxLoaderRegister").show();
-    });
+        $("#btnRegister").click(function () {
+            $(".AjaxLoaderRegister").show();
+        });
 
-</script>
+    </script>
 
 
 
