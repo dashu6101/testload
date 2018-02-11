@@ -67,12 +67,12 @@
 .heading_message{
     background:#fff;
 }
-    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, .heading_message select, input.form-control {
+    .heading_message input[type="text"], .heading_message input[type="password"], .login input.form-control, .heading_message select, input.form-control, .heading_message .input-group-addon,.heading_message .active,.heading_message .btn-default:hover,.findspace .input-group-addon  {
         border: 1px solid #e2db06;/*#e2db06*/
         outline: none !important;
         font-weight: bold
     }
-    .heading_message input[type="submit"], .login input[type="submit"],.btn-theme {
+    .heading_message input[type="submit"], .login input[type="submit"],.btn-theme,.heading_message .input-group-addon,.heading_message .active,.heading_message .btn-default:hover,.findspace .input-group-addon  {
         background-color: #e2db06 !important;
         color: #000;
         outline: none !important
