@@ -22,7 +22,7 @@ namespace DeliverLoad.Models
 
         public string Image { get; set; }
 
-        [Display(Name = "Vehicle Image")]
+        [Display(Name = "Image")]
         public HttpPostedFileBase ImageUpload { get; set; }
 
         public int UserId { get; set; }
@@ -74,7 +74,7 @@ namespace DeliverLoad.Models
 
 
         [Required]
-        [Display(Name = "Vehicle")]
+        [Display(Name = "Load Type")]
         public int? LoadSpaceId { get; set; }
         public SelectList LoadSpaceList { get; set; }
 

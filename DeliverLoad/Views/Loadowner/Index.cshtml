@@ -40,11 +40,12 @@
                     <th>Comments</th>
                     <th>Vehicle Image</th>
                     <th>Rating</th>
+                    <th>Price Offered</th>
                 </tr>
             </thead>
             foreach (var item in Model)
             {
-                <tr onclick="goTo('@Url.Action("VehicleDetails","Vehicleowner",new { id = item.CategoryId })')">
+                <tr onclick="goTo('@Url.Action("ViewCategory", "Vehicleowner", new { id = item.CategoryId, Type = "Vehicle" })')">
                     <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
                     <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
                     <td>@item.ChannelNo</td>
@@ -76,12 +77,10 @@
                         <p>Free Channel</p>
 
                     }
-                    else
-                    {
-                        <p>$@item.Price</p>
-                    }
+                   
 
                 </td>
+                    <td>$@item.Price</td>
 
             </tr>
             }

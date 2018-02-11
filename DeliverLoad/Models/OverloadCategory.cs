@@ -17,6 +17,7 @@ namespace DeliverLoad.Models
         public OverloadCategory()
         {
             this.LoadownerCategories = new HashSet<LoadownerCategory>();
+            this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
         }
     
         public int CategoryId { get; set; }
@@ -36,5 +37,6 @@ namespace DeliverLoad.Models
         public Nullable<int> LoadSpaceId { get; set; }
     
         public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
+        public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
     }
 }

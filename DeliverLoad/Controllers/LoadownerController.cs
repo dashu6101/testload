@@ -76,7 +76,7 @@ namespace DeliverLoad.Controllers
             if (model.CategoryId == 0)
             {
                 //create category
-                string returnvalue = service.CreateOverLoadCategory(model, sUser.UserId, sUser.ChannelNo);
+                string returnvalue = service.CreateOverLoadCategory(model, sUser.UserId, sUser.ChannelNo,"Load");
 
             }
             //else

@@ -469,6 +469,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VehicleownerCategory_Category">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="0..1" />
+          <End Role="VehicleownerCategory" Type="Self.VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VehicleownerCategory_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="VehicleownerCategory" Type="Self.VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="ELMAH_GetErrorsXml" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Application" Type="nvarchar" Mode="In" />
           <Parameter Name="PageIndex" Type="int" Mode="In" />
@@ -577,6 +601,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Category" Association="Self.FK_VehicleownerCategory_Category">
+            <End Role="OverloadCategory" EntitySet="OverloadCategory" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Users" Association="Self.FK_VehicleownerCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategory" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -600,6 +632,7 @@
           <NavigationProperty Name="ChannelRequestMasters" Relationship="Self.FK_ChannelRequestMaster_Category" FromRole="Category" ToRole="ChannelRequestMaster" />
           <NavigationProperty Name="ParticipantCategories" Relationship="Self.FK_ParticipantCategory_Category" FromRole="Category" ToRole="ParticipantCategory" />
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Category" FromRole="Category" ToRole="PresenterCategory" />
+          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category" FromRole="Category" ToRole="VehicleownerCategory" />
         </EntityType>
         <EntityType Name="CategoryContent">
           <Key>
@@ -785,6 +818,7 @@
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Users" FromRole="Users" ToRole="PresenterCategory" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
           <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="User" ToRole="LoadownerCategory" />
+          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Users" FromRole="User" ToRole="VehicleownerCategory" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -1072,6 +1106,18 @@
             <End Role="User" EntitySet="Users" />
             <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Category" Association="DeliverLoadModel.FK_VehicleownerCategory_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Users" Association="DeliverLoadModel.FK_VehicleownerCategory_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Category1" Association="DeliverLoadModel.FK_VehicleownerCategory_Category1">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1121,6 +1167,7 @@
           <Property Name="DropOffDate" Type="DateTime" Precision="3" />
           <Property Name="LoadSpaceId" Type="Int32" />
           <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
+          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category1" FromRole="OverloadCategory" ToRole="VehicleownerCategory" />
         </EntityType>
         <EntityType Name="LoadownerCategory">
           <Key>
@@ -1149,6 +1196,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category" FromRole="VehicleownerCategory" ToRole="Category" />
+          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Users" FromRole="VehicleownerCategory" ToRole="User" />
+          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category1" FromRole="VehicleownerCategory" ToRole="OverloadCategory" />
         </EntityType>
         <Association Name="FK_LoadownerCategory_Category">
           <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="0..1">
@@ -1175,6 +1225,42 @@
             </Principal>
             <Dependent Role="LoadownerCategory">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VehicleownerCategory_Category">
+          <End Type="DeliverLoadModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VehicleownerCategory_Users">
+          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VehicleownerCategory_Category1">
+          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="0..1" />
+          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

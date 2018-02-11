@@ -17,5 +17,9 @@ namespace DeliverLoad.Models
         public int Id { get; set; }
         public Nullable<int> CategoryId { get; set; }
         public Nullable<int> UserId { get; set; }
+    
+        public virtual Category Category { get; set; }
+        public virtual User User { get; set; }
+        public virtual OverloadCategory OverloadCategory { get; set; }
     }
 }
