@@ -374,7 +374,8 @@ namespace DeliverLoad.Services
                                     DropOffLocation = C.DropOffLocation,
                                     DropOffDate = (DateTime)C.DropOffDate,
                                        LoadSpaceTitle = LS.LoadSpaceTitle,
-                                       RegistrationDate = U.RegistrationDate
+                                       RegistrationDate = U.RegistrationDate,
+                                       LastOnline = U.LastOnline
                                    }).FirstOrDefault();
 
 
@@ -405,7 +406,9 @@ namespace DeliverLoad.Services
                                        PickupDate = (DateTime)C.PickupDate,
                                        DropOffLocation = C.DropOffLocation,
                                        DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                       RegistrationDate = U.RegistrationDate,
+                                       LastOnline = U.LastOnline
                                    }).FirstOrDefault();
 
             }
@@ -444,7 +447,8 @@ namespace DeliverLoad.Services
                                        PickupDate = (DateTime)C.PickupDate,
                                        DropOffLocation = C.DropOffLocation,
                                        DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                    LastOnline = U.LastOnline
                                 }).OrderByDescending(x => x.JoinedDate);
 
             //foreach (var item in categoryList)

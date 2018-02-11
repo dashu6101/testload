@@ -73,6 +73,7 @@ namespace DeliverLoad.Models
         public Nullable<decimal> ContinentID { get; set; }
         public string ChannelNo { get; set; }
         public Nullable<bool> IsAuthenticated { get; set; }
+        public Nullable<System.DateTime> LastOnline { get; set; }
     
         public virtual ICollection<CategoryContentComment> CategoryContentComments { get; set; }
         public virtual ICollection<ChannelRequestMaster> ChannelRequestMasters { get; set; }

@@ -34,7 +34,28 @@
                     </tr>
                     <tr>
                         <td>Departure Time</td>
-                        <td>@Model.DropOffDate</td>
+                        <td>@{var displayPickup = "";}
+@if (Model.PickupDate != null)
+{
+    var date = Model.PickupDate.Value.ToString("dd/MM/yyyy");
+    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+    if (date == TodayDate)
+    {
+        displayPickup = "Today";
+
+    }
+    else
+    {
+        displayPickup = Model.PickupDate.Value.ToString("dd MMM yyyy");
+    }
+
+    @displayPickup
+
+}
+
+
+
+                       </td>
                     </tr>
                 </tbody>
             </table>
@@ -80,8 +101,36 @@
         <div class="border-box colored-text">
             <h4>Member Activity</h4>
             <p class="f-14">8 rides offered</p>
-            <p class="f-14">Last online: Today - 3:42</p>
-            <p class="f-14">Member since: @Model.RegistrationDate</p>
+            <p class="f-14">Last online: 
+            @{var displayLastOnline = "";}
+                @if (Model.LastOnline!= null)
+                {
+                    var date = Model.LastOnline.Value.ToString("dd/MM/yyyy");
+                    var TodayDate =  DateTime.Now.ToString("dd/MM/yyyy");
+                    if (date == TodayDate)
+                    {
+                        displayLastOnline = "Today - " + Model.LastOnline.Value.ToString("hh:mm");
+
+                    }
+                    else
+                    {
+                        displayLastOnline = Model.LastOnline.Value.ToString("dd MMM yyyy hh:mm");
+                    }
+                    
+                    @displayLastOnline
+
+                }
+            
+            
+            </p>
+            <p class="f-14">Member since: 
+            @if (Model.RegistrationDate != null)
+            {
+                @Model.RegistrationDate.Value.ToString("MMM yyyy");
+                  
+            }
+            
+            </p>
             <a href="#" class="link">see public profile</a>
         </div>
     </div>

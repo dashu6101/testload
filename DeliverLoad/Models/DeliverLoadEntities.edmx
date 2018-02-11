@@ -222,6 +222,7 @@
           <Property Name="ContinentID" Type="decimal" Precision="18" Scale="0" />
           <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAuthenticated" Type="bit" />
+          <Property Name="LastOnline" Type="datetime" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -819,6 +820,7 @@
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
           <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="User" ToRole="LoadownerCategory" />
           <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Users" FromRole="User" ToRole="VehicleownerCategory" />
+          <Property Name="LastOnline" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -1411,6 +1413,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DeliverLoadModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LastOnline" ColumnName="LastOnline" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
