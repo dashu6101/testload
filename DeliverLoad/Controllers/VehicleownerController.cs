@@ -934,5 +934,23 @@ namespace DeliverLoad.Controllers
         }
 
         #endregion
+
+        #region Payment
+        public ActionResult Index(int CategoryID)
+        {
+            try
+            {
+                if (CategoryID > 0)
+                {
+                    return RedirectToAction("Index", "FindSpace");
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "FindSpace");
+            }
+        }
+        #endregion
     }
 }
