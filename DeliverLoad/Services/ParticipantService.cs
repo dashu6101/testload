@@ -296,7 +296,7 @@ namespace DeliverLoad.Services
                                 join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                where U.UserType == "M"
+                                where U.UserType == "A"
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -318,7 +318,7 @@ namespace DeliverLoad.Services
                                     ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
                                     IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
                                     LoadSpaceTitle = LS.LoadSpaceTitle
-                                }).OrderByDescending(x => x.Name);
+                                }).OrderByDescending(x => x.CategoryId);
 
 
 
@@ -417,10 +417,10 @@ namespace DeliverLoad.Services
                                        ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
                                        ChannelNo = "Channel no:" + C.ChannelNo,
                                        IsAuthenticated = U.IsAuthenticated == null ? false : (bool)U.IsAuthenticated,
-                                         PickupLocation = C.PickupLocation,
-                                    PickupDate = (DateTime)C.PickupDate,
-                                    DropOffLocation = C.DropOffLocation,
-                                    DropOffDate = (DateTime)C.DropOffDate,
+                                       PickupLocation = C.PickupLocation,
+                                       PickupDate = (DateTime)C.PickupDate,
+                                       DropOffLocation = C.DropOffLocation,
+                                       DropOffDate = (DateTime)C.DropOffDate,
                                        LoadSpaceTitle = LS.LoadSpaceTitle,
                                        RegistrationDate = U.RegistrationDate,
                                        LastOnline = U.LastOnline
@@ -492,10 +492,10 @@ namespace DeliverLoad.Services
                                     IsBlockedParticepant = PC.IsBlocked == null ? false : (bool)PC.IsBlocked,
                                     IsChannelAvailable = C.IsAvailable == null ? false : (bool)C.IsAvailable,
                                     PickupLocation = C.PickupLocation,
-                                       PickupDate = (DateTime)C.PickupDate,
-                                       DropOffLocation = C.DropOffLocation,
-                                       DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                    PickupDate = (DateTime)C.PickupDate,
+                                    DropOffLocation = C.DropOffLocation,
+                                    DropOffDate = (DateTime)C.DropOffDate,
+                                    LoadSpaceTitle = LS.LoadSpaceTitle,
                                     LastOnline = U.LastOnline
                                 }).OrderByDescending(x => x.JoinedDate);
 
@@ -505,6 +505,42 @@ namespace DeliverLoad.Services
 
 
             //}
+
+            return categoryList;
+        }
+
+        public IEnumerable<CategoryModel> getMyVehicleCategoryList(int UserId)
+        {
+            var categoryList = (from U in dbContext.Users
+                                join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
+                                join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
+                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                where U.UserType == "A" && U.UserId == UserId
+                                
+                                select new CategoryModel
+                                {
+                                    CategoryId = OC.CategoryId,
+                                    Description = OC.Description,
+                                    PickupLocation = OC.PickupLocation,
+                                    PickupDate = (DateTime)OC.PickupDate,
+                                    DropOffLocation = OC.DropOffLocation,
+                                    DropOffDate = (DateTime)OC.DropOffDate,
+                                    Name = OC.Name,
+                                    Image = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                    //  UserId = U.UserId,
+                                    ChannelNo = OC.ChannelNo,
+                                    Price = (decimal)OC.Price,
+                                    IsFreeChannel = (bool)OC.IsFree,
+                                    // JoinedDate = (DateTime)PC.JoinedDate
+
+                                    FirstName = U.FirstName,
+                                    LastName = U.LastName,
+                                    ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
+                                    LoadSpaceTitle = LS.LoadSpaceTitle
+                                }).OrderByDescending(x => x.CategoryId);
+
+
 
             return categoryList;
         }
