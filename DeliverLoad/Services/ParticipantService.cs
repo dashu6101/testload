@@ -373,7 +373,8 @@ namespace DeliverLoad.Services
                                     PickupDate = (DateTime)C.PickupDate,
                                     DropOffLocation = C.DropOffLocation,
                                     DropOffDate = (DateTime)C.DropOffDate,
-                                       LoadSpaceTitle = LS.LoadSpaceTitle
+                                       LoadSpaceTitle = LS.LoadSpaceTitle,
+                                       RegistrationDate = U.RegistrationDate
                                    }).FirstOrDefault();
 
 
