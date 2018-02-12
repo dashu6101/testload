@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DeliverLoad.Models
 {
-    public class OrderSummury
+    public class OrderSummuryModel
     {
         public int CategoryId { get; set; }
         public string LoadName { get; set; }

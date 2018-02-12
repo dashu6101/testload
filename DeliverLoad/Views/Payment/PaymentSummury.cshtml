@@ -1,0 +1,167 @@
+﻿@using DeliverLoad;
+@model DeliverLoad.Models.PaymentMonitoryModel
+@{
+    ViewBag.Title = "Payment Summury";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Payment Summury</h3>
+    </div>
+    <br />
+</div>
+<br />
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-8">
+            @if (Model.TotalBalance != null && Model.TotalBalance > 0)
+            {
+                <h3>Avilable Balance :- $@Model.TotalBalance</h3>
+                <br />
+            }
+            <div id="exTab2">
+                <ul class="nav nav-tabs">
+                    @if (Model.UserId > 0)
+                    {
+                        <li class="active">
+                            <a href="#CreditOrDebitCardDetails" data-toggle="tab">Credit/Debit Card</a>
+                        </li>
+                        <li>
+                            <a href="#Netbanking" data-toggle="tab">Netbanking</a>
+                        </li>
+                        <li>
+                            <a href="#Paypal" data-toggle="tab">PayPal</a>
+                        </li>
+                    }
+                </ul>
+                <div class="tab-content ">
+                    <div class="tab-pane active" id="CreditOrDebitCardDetails">
+                        <br />
+                        <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label for="cardNumber">CARD NUMBER</label>
+                                                <div class="input-group">
+                                                    <input type="tel"
+                                                           class="form-control"
+                                                           name="cardNumber"
+                                                           placeholder="Valid Card Number"
+                                                           autocomplete="cc-number"
+                                                           required autofocus />
+                                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-7 col-md-7">
+                                            <div class="form-group">
+                                                <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                                <input type="tel"
+                                                       class="form-control"
+                                                       name="cardExpiry"
+                                                       placeholder="MM / YY"
+                                                       autocomplete="cc-exp"
+                                                       required />
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-5 col-md-5 pull-right">
+                                            <div class="form-group">
+                                                <label for="cardCVC">CV CODE</label>
+                                                <input type="tel"
+                                                       class="form-control"
+                                                       name="cardCVC"
+                                                       placeholder="CVC"
+                                                       autocomplete="cc-csc"
+                                                       required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label for="couponCode">COUPON CODE</label>
+                                                <input type="text" class="form-control" name="couponCode" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button class="subscribe btn btn-success btn-lg btn-block" type="button">Place Your Order</button>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="display:none;">
+                                        <div class="col-xs-12">
+                                            <p class="payment-errors"></p>
+                                        </div>
+                                    </div>
+                                </form> 
+                    </div>
+                    <div class="tab-pane" id="Netbanking">
+                       <br />
+                        
+                    </div>
+                    <div class="tab-pane" id="Paypal">
+                        <br />
+                        <h3 style="text-align:center;">PayPal</h3>
+                        <br />
+                        <p style="text-align:center">Already Have A PayPal Account?</p>
+                        <br />
+                        <p style="text-align:center">Login</p>
+                        <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="UserName">UserName / Email</label>
+                                        <div class="input-group">
+                                            <input type="tel"
+                                                   class="form-control"
+                                                   name="UserName"
+                                                   placeholder="Enter UserName or Email"
+                                                   required autofocus />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label for="Password">Password</label>
+                                        <div class="input-group">
+                                            <input type="tel"
+                                                   class="form-control"
+                                                   name="Password"
+                                                   placeholder="Enter UserName or Email"
+                                                   required autofocus />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <input type="checkbox" />Remember me..?
+                                </div>
+                                <div class="col-xs-4">
+                                    <button class="subscribe btn btn-success btn-lg btn-block" type="button">Place Your Order</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+     <div class="col-sm-8">
+         <!-- CREDIT CARD FORM STARTS HERE -->
+         
+         <!-- CREDIT CARD FORM ENDS HERE -->
+     </div>
+</div>
+
+
+
+

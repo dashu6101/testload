@@ -18,7 +18,7 @@ namespace DeliverLoad.Controllers
 
         public ActionResult OrderSummury(string CategoryId)
         {
-            OrderSummury objOrderSummury = new OrderSummury();
+            OrderSummuryModel objOrderSummury = new OrderSummuryModel();
             try
             {
                 if (CategoryId != null && Convert.ToInt32(CategoryId) > 0)

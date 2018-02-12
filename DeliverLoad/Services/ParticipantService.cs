@@ -508,15 +508,17 @@ namespace DeliverLoad.Services
 
             return categoryList;
         }
-        public OrderSummury getOrderSummuryByCategoryId(int CategoryId)
+
+        #region OrderSummury
+        public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId)
         {
-            OrderSummury objOrderSummury = new OrderSummury();
+            OrderSummuryModel objOrderSummury = new OrderSummuryModel();
             objOrderSummury = (from OC in dbContext.OverloadCategories
                                 join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
                                 join U in dbContext.Users on LOC.UserId equals U.UserId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 where OC.CategoryId == CategoryId
-                                select new OrderSummury
+                                select new OrderSummuryModel
                                 {
                                     CategoryId = OC.CategoryId,
                                     
@@ -562,7 +564,7 @@ namespace DeliverLoad.Services
                                            join U in dbContext.Users on VOC.UserId equals U.UserId
                                            join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                            where OC.CategoryId == CategoryId
-                                           select new OrderSummury
+                                           select new OrderSummuryModel
                                            {
                                                VehicleOwnerCategoryId = VOC.Id,
                                                VehicleOwnerId = VOC.UserId,
@@ -602,5 +604,31 @@ namespace DeliverLoad.Services
             }
             return objOrderSummury;
         }
+        #endregion
+
+        #region PaymentSummury
+        public PaymentMonitoryModel getPaymentMonitoryByUserId(int UserId)
+        {
+            PaymentMonitoryModel objPaymentMonitory = new PaymentMonitoryModel();
+            objPaymentMonitory = (from pm in dbContext.PaymentMonitories
+                                  where pm.UserId == UserId
+                                  select new PaymentMonitoryModel
+                                  {
+                                      Id = pm.Id,
+                                      UserId = pm.UserId,
+                                      TotalBalance = pm.TotalBalance,
+                                      CreateDate = pm.CreateDate,
+                                      ModifiedDate = pm.ModifiedDate,
+                                      isActive = pm.isActive,
+                                      isCouponCodeApplied = pm.isCouponCodeApplied,
+                                      CouponCode = pm.CouponCode
+                                  }).ToList().FirstOrDefault();
+
+            if (objPaymentMonitory == null) {
+                objPaymentMonitory = new PaymentMonitoryModel();
+            }
+            return objPaymentMonitory;
+        }
+        #endregion
     }
 }

@@ -247,7 +247,11 @@
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FileStatus.cs" />
-    <Compile Include="Models\OrderSummury.cs" />
+    <Compile Include="Models\OrderSummuryModel.cs" />
+    <Compile Include="Models\PaymentMonitory.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaymentMonitoryModel.cs" />
     <Compile Include="Models\ViewModels\FindSpaceViewModel.cs" />
     <Compile Include="Models\LoadownerCategory.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
@@ -679,6 +683,8 @@
     <Content Include="Views\Vehicleowner\ViewCategory.cshtml" />
     <Content Include="Views\Vehicleowner\AddNewVehicles.cshtml" />
     <Content Include="Views\OrderSummury\OrderSummury.cshtml" />
+    <Content Include="Views\Payment\PaymentSummury.cshtml" />
+    <Content Include="Views\Payment\_OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

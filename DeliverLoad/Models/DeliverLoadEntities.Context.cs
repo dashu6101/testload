@@ -46,6 +46,7 @@ namespace DeliverLoad.Models
         public DbSet<LoadownerCategory> LoadownerCategories { get; set; }
         public DbSet<LoadSpace> LoadSpaces { get; set; }
         public DbSet<VehicleownerCategory> VehicleownerCategories { get; set; }
+        public DbSet<PaymentMonitory> PaymentMonitories { get; set; }
     
         public virtual ObjectResult<string> ELMAH_GetErrorsXml(string application, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

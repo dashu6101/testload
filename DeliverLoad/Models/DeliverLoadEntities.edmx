@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -155,6 +155,19 @@
           <Property Name="Is_Success" Type="bit" />
           <Property Name="reason_fault" Type="varchar" MaxLength="250" />
           <Property Name="UserID" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMonitory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TotalBalance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="isCouponCodeApplied" Type="bit" />
+          <Property Name="CouponCode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PresenterCategory">
           <Key>
@@ -534,6 +547,7 @@
           <EntitySet Name="OverloadCategory" EntityType="Self.OverloadCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParticipantCategory" EntityType="Self.ParticipantCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMonitory" EntityType="Self.PaymentMonitory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -1120,6 +1134,7 @@
             <End Role="OverloadCategory" EntitySet="OverloadCategories" />
             <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
           </AssociationSet>
+          <EntitySet Name="PaymentMonitories" EntityType="DeliverLoadModel.PaymentMonitory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1266,6 +1281,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PaymentMonitory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TotalBalance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="isCouponCodeApplied" Type="Boolean" />
+          <Property Name="CouponCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1591,6 +1619,20 @@
               <MappingFragment StoreEntitySet="VehicleownerCategory">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMonitories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentMonitory">
+              <MappingFragment StoreEntitySet="PaymentMonitory">
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+                <ScalarProperty Name="isCouponCodeApplied" ColumnName="isCouponCodeApplied" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

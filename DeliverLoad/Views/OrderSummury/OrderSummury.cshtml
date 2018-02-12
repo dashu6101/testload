@@ -1,5 +1,5 @@
 ﻿@using DeliverLoad;
-@model DeliverLoad.Models.OrderSummury
+@model DeliverLoad.Models.OrderSummuryModel
 @{
     ViewBag.Title = "Order Summury";
     Layout = "~/Views/Shared/_Layout2.cshtml";
@@ -375,7 +375,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align:center;vertical-align:top;">
-                                <button class="btn btn-theme">
+                                <button class="btn btn-theme" onclick="goTo('@Url.Action("PaymentSummury", "Payment", new { CategoryId = Model.CategoryId })')">
                                     Proceed to Payment
                                 </button>
 
