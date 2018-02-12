@@ -1,6 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "MyWatchList";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
+
 
 @using DeliverLoad;
 @model IEnumerable<DeliverLoad.Models.CategoryModel>
@@ -16,30 +18,10 @@
     table, tr, td {
         border: 1px solid #e2db06 !important;
     }
-    #tblList button {
-        border-radius: 20px;
-        padding: 8px;
-        border: none;
-        cursor: pointer;
-        vertical-align: top;
-        margin: 10px 5px;
-        font-weight: bold;
-        font-size: 14px;
-        color: #fff;
-        background: #B8452E;
-        min-width: 80px;
-        color: #000;
-    }
-
-    #tblList button {
-        background-color: #e2db06 !important;
-        color: #000;
-        outline: none !important;
-    }
 </style>
-<div style="text-align:center"><h2>My Vehicle Watch List</h2></div>
+<div style="text-align:center"><h2>My Watch List</h2></div>
 <div class="table-responsive">
-    <table class="table table-bordered table-condensed table-striped table-hover sortable" id="tblList">
+    <table class="table table-bordered table-condensed table-striped table-hover sortable">
         @if (Model.Count() == 0)
         {
             <tr>
@@ -62,14 +44,12 @@
                     <th>Vehicle Image</th>
                     <th>Rating</th>
                     <th>Price Offered</th>
-                    <th>Action</th>
+                    
                 </tr>
             </thead>
             foreach (var item in Model)
             {
-                if (obj.UserId == item.UserId && item.HasJoinedCategory == true) { }
-                else
-                {
+               
                     <tr>
                         <td class="clsGoto" data-categoryid="@item.CategoryId"><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
                         <td class="clsGoto" data-categoryid="@item.CategoryId">@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
@@ -79,7 +59,7 @@
                             {
                                 var GetDateTime = item.PickupDate.ToString();
                                 var GetDate = GetDateTime.Split(' ')[0];
-                            @GetDate;
+                                @GetDate;
                             }
 
                         </td>
@@ -89,7 +69,7 @@
                             {
                                 var GetDateTime1 = item.DropOffDate.ToString();
                                 var GetDate1 = GetDateTime1.Split(' ')[0];
-                            @GetDate1;
+                                @GetDate1;
                             }
                         </td>
                         <td class="clsGoto" data-categoryid="@item.CategoryId">@item.DropOffLocation</td>
@@ -99,54 +79,18 @@
                         <td class="clsGoto" data-categoryid="@item.CategoryId">
                             @if (item.IsFreeChannel)
                             {
-                            <p>Free Channel</p>
+                                <p>Free Channel</p>
 
                             }
 
 
                         </td>
                         <td class="clsGoto" data-categoryid="@item.CategoryId">$@item.Price</td>
-                        <td><button type="submit" class="pull-right" id="btnSave" onclick="InterestedClick('@item.CategoryId','@item.Price');">Interested</button></td>
+                        
 
                     </tr>
-                }
+                
             }
         }
     </table>
 </div>
-<script type="text/javascript">
-    function InterestedClick(CategoryId, Price) {
-
-
-
-        $.ajax({
-            url: '/Loadowner/JoinCategory',
-            type: 'POST',
-            dataType: 'JSON',
-            data: { CategoryId: CategoryId, Price: Price },
-            success: function (data) {
-
-                if (data == "1") {
-                    location.reload();
-                }
-
-                else {
-                    DisplayNotification('You can not join this channel,please recharge your balance', 'error');
-                }
-
-            },
-            error: function (data) {
-                DisplayNotification('There is some problem, Please try again', 'error');
-            }
-        });
-        return false;
-    }
-    $(".clsGoto").click(function () {
-
-        var CategoryId = $(this).attr("data-categoryid");
-
-        window.location.href = "/Vehicleowner/ViewCategory?id=" + CategoryId + "&Type=Vehicle";
-
-
-    })
-</script>
