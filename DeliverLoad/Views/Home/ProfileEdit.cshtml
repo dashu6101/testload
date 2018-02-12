@@ -269,12 +269,13 @@
                     dataType: "Json",
                     success: function (data) {
                         if (data == "A") {
-                           ////// $('.loading').hide();
-                            window.location.href = "@Url.Action("Index", "Presenter")";
+                            ////// $('.loading').hide();
+                            @*window.location.href = "@Url.Action("Index", "Presenter")";*@
+                            window.location.href = "@Url.Action("Index", "Vehicleowner")";
                         }
                         else {
-                           ////// $('.loading').hide();
-                            window.location.href = "@Url.Action("Index", "Participant")";
+                            ////// $('.loading').hide();
+                            window.location.href = "@Url.Action("Index", "Loadowner")";
                         }
 
                     }

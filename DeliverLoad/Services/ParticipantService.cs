@@ -290,13 +290,18 @@ namespace DeliverLoad.Services
             return categoryDetails;
         }
 
-        public IEnumerable<CategoryModel> getAllLoadownerCategoryList()
+        public IEnumerable<CategoryModel> getAllLoadownerCategoryList(int UserId)
         {
             var categoryList = (from U in dbContext.Users
                                 join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                where U.UserType == "A"
+                                //join LC in dbContext.LoadownerCategories on U.UserId equals LC.UserId into ucuc
+                                //from y in ucuc.DefaultIfEmpty()
+                                //join UU in dbContext.Users on PC.UserId equals UU.UserId into ucuc1
+                                //from x in ucuc1.DefaultIfEmpty()
+                                where U.UserType == "A" 
+                                //&& y.UserId == UserId
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -317,7 +322,9 @@ namespace DeliverLoad.Services
                                     LastName = U.LastName,
                                     ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
                                     IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
-                                    LoadSpaceTitle = LS.LoadSpaceTitle
+                                    LoadSpaceTitle = LS.LoadSpaceTitle,
+                                    //HasJoinedCategory = y.HasJoinedCategory == null ? false : (bool)y.HasJoinedCategory,
+                                    //UserId = ucuc1.UserId
                                 }).OrderByDescending(x => x.CategoryId);
 
 
@@ -516,7 +523,7 @@ namespace DeliverLoad.Services
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 where U.UserType == "A" && U.UserId == UserId
-                                
+
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -543,6 +550,57 @@ namespace DeliverLoad.Services
 
 
             return categoryList;
+        }
+
+        public string JoinOverLoadCategory(int CategoryId, int UserId, Decimal Price)
+        {
+            try
+            {
+
+                var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
+
+                //check balance
+                var userdetails = GetUserDetailsByUserId(UserId);
+                Decimal Balance = userdetails.Balance;
+
+                if (Balance >= Price)
+                {
+                    //deduct balance
+                    DeductBalance(UserId, Price);
+
+                    if (Loadownerdetails != null)
+                    {
+                        Loadownerdetails.HasJoinedCategory = true;
+
+                        dbContext.SaveChanges();
+
+                        return "1";
+                    }
+
+                    LoadownerCategory objUC = new LoadownerCategory();
+
+                    objUC.CategoryId = CategoryId;
+                    objUC.UserId = UserId;
+                    objUC.HasJoinedCategory = true;
+                    objUC.JoinedDate = DateTime.Now;
+                    dbContext.LoadownerCategories.Add(objUC);
+                    dbContext.SaveChanges();
+
+
+                }
+                else
+                {
+                    return "-1";
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return "1";
         }
     }
 }
