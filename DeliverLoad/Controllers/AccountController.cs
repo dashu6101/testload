@@ -15,6 +15,7 @@ using System.Net.Mail;
 using System.Configuration;
 using DeliverLoad.Utils;
 
+
 namespace DeliverLoad.Controllers
 {
     [InitializeSimpleMembership]
@@ -271,14 +272,10 @@ namespace DeliverLoad.Controllers
         {
             if (ModelState.IsValid && model.FirstName != null && model.LastName != null && model.UserName != null && model.Password != null)
             {
-                // if (ModelState.IsValid)
-                //  {
-                // Attempt to register the user
                 try
                 {
                     var UserInfo = new
                     {
-
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Password = model.Password,
@@ -290,7 +287,6 @@ namespace DeliverLoad.Controllers
                         MeetingAvailability = true,
                         ChannelNo = service.GetMaxChannelNo(),
                         EmailID = model.UserName
-
                     };
 
                     var confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, UserInfo, true);
@@ -307,7 +303,7 @@ namespace DeliverLoad.Controllers
                         Message = "RegisterSuccess"
                     };
 
-                   // SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
+                   //SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
 
                     return View("Login", md);
                 }
