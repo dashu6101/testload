@@ -190,7 +190,7 @@ namespace DeliverLoad.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return RedirectToAction("Index");
+            return View();// RedirectToAction("Index");
         }
 
         //
@@ -238,6 +238,8 @@ namespace DeliverLoad.Controllers
                     {
                         Message = "RegisterSuccess"
                     };
+
+                   // SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
 
                     return View("Login", md);
                 }
@@ -414,6 +416,8 @@ namespace DeliverLoad.Controllers
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
+
+
         #endregion
     }
 }
