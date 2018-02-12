@@ -491,6 +491,25 @@ namespace DeliverLoad.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult MyVehicles()
+        {
+            //var model = service.getJoinedOverLoadCategoryList(sUser.UserId);
+
+            ////display selected channel list.
+            //if (model.Any())
+            //{
+            //    ViewBag.IsChannelSelected = "1";
+            //    return View(model);
+
+            //}
+
+            //display all channels if no channel selected.
+            var allcategoryList = service.getMyVehicleCategoryList(sUser.UserId);
+            ViewBag.IsChannelSelected = "0";
+            return View(allcategoryList);
+
+        }
+
         #region
 
         // Upload file to the server

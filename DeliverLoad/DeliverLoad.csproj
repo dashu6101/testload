@@ -676,6 +676,7 @@
     <Content Include="Views\Shared\_LoginPopup.cshtml" />
     <Content Include="Views\Vehicleowner\ViewCategory.cshtml" />
     <Content Include="Views\Vehicleowner\AddNewVehicles.cshtml" />
+    <Content Include="Views\Vehicleowner\MyVehicles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
