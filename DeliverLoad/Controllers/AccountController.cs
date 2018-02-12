@@ -15,6 +15,7 @@ using System.Net.Mail;
 using System.Configuration;
 using DeliverLoad.Utils;
 
+
 namespace DeliverLoad.Controllers
 {
     [InitializeSimpleMembership]
@@ -32,6 +33,8 @@ namespace DeliverLoad.Controllers
         }
 
         private DeliverLoadService service = new DeliverLoadService();
+        private AjaxResponse ajaxResponse = new AjaxResponse();
+
 
         [AllowAnonymous]
         public ActionResult Index(string returnUrl)
@@ -99,11 +102,11 @@ namespace DeliverLoad.Controllers
             return View("Index", model);
         }
 
+        #region Ajax Actions
         // Ajax Login
         [HttpPost]
         public JsonResult AjaxLogin(LoginModel model, string returnUrl)
         {
-            AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
             if (ModelState.IsValid && model.LoginUserName != null && model.LoginPassword != null)
             {
@@ -145,6 +148,72 @@ namespace DeliverLoad.Controllers
             }
             return this.Json(ajaxResponse);
         }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public JsonResult AjaxRegister(LoginModel model)
+        {
+            ajaxResponse.Success = false;
+            if (ModelState.IsValid && model.FirstName != null && model.LastName != null && model.UserName != null && model.Password != null)
+            {
+                // if (ModelState.IsValid)
+                //  {
+                // Attempt to register the user
+                try
+                {
+                    var UserInfo = new
+                    {
+
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Password = model.Password,
+                        UserType = "M",
+                        Balance = 2,
+                        RegistrationDate = DateTime.Now,
+                        ScreenName = model.FirstName,
+                        LastModified = DateTime.Now,
+                        MeetingAvailability = true,
+                        ChannelNo = service.GetMaxChannelNo(),
+                        EmailID = model.UserName
+
+                    };
+
+                    var confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, UserInfo, true);
+
+                    var mail = UserMailer.ConfirmAccount(model.FirstName, confirmationToken);
+                    mail.Subject = "DeliverLoad account confirmation";
+                    mail.To.Add(new MailAddress(model.UserName));
+
+                    var client = new SmtpClientWrapper();
+                    mail.SendAsync("async send", client);
+
+                    var md = new LoginModel
+                    {
+                        Message = "RegisterSuccess"
+                    };
+
+                    // SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
+                    sUser = DeliverLoad.Utils.Utils.GetDeliverLoadUser(model.UserName);
+                    ajaxResponse.Success = true;
+                    ajaxResponse.Message = "Successfully Registered";
+                    ajaxResponse.Data = md; 
+                }
+                catch (MembershipCreateUserException e)
+                {
+                    ajaxResponse.Message = "A user account with the same email id already exists.You need to enter a different email id";
+                }
+            }
+            else
+            {
+                ajaxResponse.Message = "All fields are required.";
+            }
+            return this.Json(ajaxResponse);
+        }
+
+        #endregion
 
         [HttpPost]
         [AllowAnonymous]
@@ -190,7 +259,7 @@ namespace DeliverLoad.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return RedirectToAction("Index");
+            return View();// RedirectToAction("Index");
         }
 
         //
@@ -203,14 +272,10 @@ namespace DeliverLoad.Controllers
         {
             if (ModelState.IsValid && model.FirstName != null && model.LastName != null && model.UserName != null && model.Password != null)
             {
-                // if (ModelState.IsValid)
-                //  {
-                // Attempt to register the user
                 try
                 {
                     var UserInfo = new
                     {
-
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Password = model.Password,
@@ -222,7 +287,6 @@ namespace DeliverLoad.Controllers
                         MeetingAvailability = true,
                         ChannelNo = service.GetMaxChannelNo(),
                         EmailID = model.UserName
-
                     };
 
                     var confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, UserInfo, true);
@@ -238,6 +302,8 @@ namespace DeliverLoad.Controllers
                     {
                         Message = "RegisterSuccess"
                     };
+
+                   //SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
 
                     return View("Login", md);
                 }
@@ -414,6 +480,8 @@ namespace DeliverLoad.Controllers
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
+
+
         #endregion
     }
 }

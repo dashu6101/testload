@@ -19,18 +19,18 @@ namespace DeliverLoad.Controllers
 
         public ActionResult Index()
         {
-            var model = service.getJoinedOverLoadCategoryList(sUser.UserId);
+            //var model = service.getJoinedOverLoadCategoryList(sUser.UserId);
 
-            //display selected channel list.
-            if (model.Any())
-            {
-                ViewBag.IsChannelSelected = "1";
-                return View(model);
-               
-            }
+            ////display selected channel list.
+            //if (model.Any())
+            //{
+            //    ViewBag.IsChannelSelected = "1";
+            //    return View(model);
+
+            //}
 
             //display all channels if no channel selected.
-            var allcategoryList = service.getAllLoadownerCategoryList();
+            var allcategoryList = service.getAllLoadownerCategoryList(sUser.UserId);
             ViewBag.IsChannelSelected = "0";
             return View(allcategoryList);
 
@@ -41,7 +41,7 @@ namespace DeliverLoad.Controllers
         {
             try
             {
-                if(sUser.UserType == "A")
+                if (sUser.UserType == "A")
                 {
                     return RedirectToAction("Index", "Vehicleowner", searchVM);
                 }
@@ -83,8 +83,8 @@ namespace DeliverLoad.Controllers
             //model.ParticipantCategories
             //var model = service.getOwnerCategoryDetails(CategoryId, sUser.UserId);
             model.LoadSpaceList = service.getLoadSpaceList();
-           // ViewBag.UserIdAuthenticate = service.UserIsAuthenticated(sUser.UserId);
-           // ViewBag.Title = "Edit Channel";
+            // ViewBag.UserIdAuthenticate = service.UserIsAuthenticated(sUser.UserId);
+            // ViewBag.Title = "Edit Channel";
             return View(model);
             //return PartialView("_CreateOrEditCategory", model);
         }
@@ -97,7 +97,7 @@ namespace DeliverLoad.Controllers
             if (model.CategoryId == 0)
             {
                 //create category
-                string returnvalue = service.CreateOverLoadCategory(model, sUser.UserId, sUser.ChannelNo,"Load");
+                string returnvalue = service.CreateOverLoadCategory(model, sUser.UserId, sUser.ChannelNo, "Load");
 
             }
             //else
@@ -111,6 +111,38 @@ namespace DeliverLoad.Controllers
 
 
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public ActionResult JoinCategory(int CategoryId, decimal Price)
+        {
+            string ReturnValue = "";
+
+            try
+            {
+                ReturnValue = service.JoinOverLoadCategory(CategoryId, sUser.UserId, Price);
+                return Json(ReturnValue, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult MyWatchList()
+        {
+            var model = service.getJoinedOverLoadCategoryList(sUser.UserId);
+
+            //display selected channel list.
+
+            ViewBag.IsChannelSelected = "1";
+            return View(model);
+
+
+
+
+
         }
     }
 }

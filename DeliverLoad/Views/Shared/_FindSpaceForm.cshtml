@@ -1,35 +1,54 @@
 ﻿@model DeliverLoad.Models.FindSpaceViewModel
 
+<style>
+    .input-group {
+        float: none !important;
+    }
+    .ui-datepicker-div{
+        z-index:222222 !important;
+    }
+</style>
 <div class="findspace">
     @using (Html.BeginForm("Index", "Loadowner", FormMethod.Post, new { @id = "findspace", @class = "form-inline" }))
     {
-        <div class="form-group col-sm-3">
+        <div class="input-group col-sm-3 col-md-3 date" >
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </span>
             @Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })
         </div>
-        <div class="form-group col-sm-3">
+        <div class="input-group col-sm-3 col-md-3 date">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </span>
             @Html.TextBoxFor(model => model.to, new { @id = "to", @class = "form-control", @placeholder = "To", @onfocus = "geolocate()" })
         </div>
-        <div class="form-group col-sm-3">
-            @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date" })
+        <div class="input-group col-sm-3 col-md-3  date" >
+            <span class=" input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date" ,@style= "z-index:2222" })
         </div>
         @Html.HiddenFor(model => model.isauthenticated, false)
-        <div class="col-sm-3 text-center">
-            <button type="submit" class="btn btn-theme">Offer Ride</button>
+        <div class="input-group col-sm-2 col-md-2 text-center">
+            <button type="submit" class="btn btn-theme">
+                @*<span class="glyphicon glyphicon-plus"></span>*@ 
+            Offer Ride</button>
         </div>
     }
 </div>
 
 <script>
-        $(document).ready(function () {
-            $("#date").datepicker();
-            $('#findspace').on("submit", function (e) {
-                var obj = '@(WebSecurity.CurrentUserName)';
-                var isAuth = $('#isauthenticated').val();
-                if (obj == '' && isAuth != 'true') {
-                    $('#loginerror').html('');
-                    $('#loginModal').modal("show");
-                    e.preventDefault();
-                }
-            });
+    $(document).ready(function () {
+        $("#date").datepicker();
+        $('#findspace').on("submit", function (e) {
+            var obj = '@(WebSecurity.CurrentUserName)';
+            var isAuth = $('#isauthenticated').val();
+            if (obj == '' && isAuth != 'true') {
+                $('#loginerror').html('');
+                $('#loginModal').modal("show");
+                e.preventDefault();
+            }
         });
+    });
 </script>

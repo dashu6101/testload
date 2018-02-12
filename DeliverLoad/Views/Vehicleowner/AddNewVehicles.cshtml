@@ -204,7 +204,10 @@
                                 <div class="col-md-2">
                                     @Html.LabelFor(m => m.PickupDate)
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-7 date" style="position: relative; display: table; border-collapse: separate;">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                     @Html.TextBoxFor(m => m.PickupDate, new { @class = "form-control", placeholder = "Pick Up Date" })
                                 </div>
                                 <div class="col-md-3">
@@ -219,7 +222,10 @@
                                 <div class="col-md-2">
                                     @Html.LabelFor(m => m.PickupLocation)
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-7 date" style="position: relative; display: table; border-collapse: separate;">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-map-marker"></span>
+                                    </span>
                                     @Html.TextBoxFor(m => m.PickupLocation, new { @id = "PickupLocation", @class = "form-control", placeholder = "Pick Up Location", @onfocus = "geolocate()" })
                                 </div>
                                 <div class="col-md-3">
@@ -234,7 +240,10 @@
                                 <div class="col-md-2">
                                     @Html.LabelFor(m => m.DropOffDate)
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-7 date" style="position: relative; display: table; border-collapse: separate;">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                     @Html.TextBoxFor(m => m.DropOffDate, new { @class = "form-control", placeholder = "Drop Off Date" })
                                 </div>
                                 <div class="col-md-3">
@@ -249,7 +258,10 @@
                                 <div class="col-md-2">
                                     @Html.LabelFor(m => m.DropOffLocation)
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-7 date" style="position: relative; display: table; border-collapse: separate;">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-map-marker"></span>
+                                    </span>
                                     @Html.TextBoxFor(m => m.DropOffLocation, new { @id = "DropOffLocation", @class = "form-control", placeholder = "Drop Off Location", @onfocus = "geolocate()" })
                                 </div>
                                 <div class="col-md-3">
@@ -299,7 +311,7 @@
 
                                     </div>
                                     <div class="col-md-10">
-                                        <button type="submit" class="pull-right" id="btnSave">Save</button>
+                                        <button type="submit" class="pull-right" id="btnSave"><span class="glyphicon glyphicon-plus"></span> Save</button>
 
                                         @*<input type="submit" class="pull-right" id="btnSave" value="Save">*@
                                         @*<button type="submit" class="pull-right" id="btnSave">Save</button>*@

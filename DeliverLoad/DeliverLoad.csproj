@@ -306,6 +306,7 @@
     <Compile Include="Services\PresenterService.cs" />
     <Compile Include="Services\TreeViewService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utils\SMSHelper.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +683,8 @@
     <Content Include="Views\Shared\_LoginPopup.cshtml" />
     <Content Include="Views\Vehicleowner\ViewCategory.cshtml" />
     <Content Include="Views\Vehicleowner\AddNewVehicles.cshtml" />
+    <Content Include="Views\Shared\_RegisterPopup.cshtml" />
+    <Content Include="Views\Vehicleowner\MyVehicles.cshtml" />
     <Content Include="Views\OrderSummury\OrderSummury.cshtml" />
     <Content Include="Views\Payment\PaymentSummury.cshtml" />
     <Content Include="Views\Payment\_OrderDetails.cshtml" />
