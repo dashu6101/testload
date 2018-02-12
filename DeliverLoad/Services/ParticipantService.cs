@@ -318,7 +318,7 @@ namespace DeliverLoad.Services
                                     ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
                                     IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
                                     LoadSpaceTitle = LS.LoadSpaceTitle
-                                }).OrderByDescending(x => x.Name);
+                                }).OrderByDescending(x => x.CategoryId);
 
 
 
@@ -516,6 +516,7 @@ namespace DeliverLoad.Services
                                 join OC in dbContext.OverloadCategories on PC.CategoryId equals OC.CategoryId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 where U.UserType == "A" && U.UserId == UserId
+                                
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -537,7 +538,7 @@ namespace DeliverLoad.Services
                                     ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
                                     IsChannelAvailable = OC.IsAvailable == null ? false : (bool)OC.IsAvailable,
                                     LoadSpaceTitle = LS.LoadSpaceTitle
-                                }).OrderByDescending(x => x.Name);
+                                }).OrderByDescending(x => x.CategoryId);
 
 
 

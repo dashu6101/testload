@@ -499,6 +499,7 @@ namespace DeliverLoad.Services
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 //where U.UserId == UserId 
                                 where U.UserType == "M"
+                               
                                 select new CategoryModel
                                 {
                                     CategoryId = OC.CategoryId,
@@ -524,7 +525,7 @@ namespace DeliverLoad.Services
 
                                     LoadSpaceTitle = LS.LoadSpaceTitle
 
-                                }).OrderByDescending(x => x.CreatedDate).ToList();
+                                }).OrderByDescending(x => x.CategoryId).ToList();
 
             if (searchVM.from != null)
             {
