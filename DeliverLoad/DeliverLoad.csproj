@@ -559,9 +559,6 @@
     <Content Include="Scripts\themes\default\style.css" />
     <Content Include="Scripts\themes\default\style.min.css" />
     <Content Include="Scripts\themes\default\throbber.gif" />
-    <Content Include="Views\Loadowner\Index.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -658,6 +655,7 @@
     <Content Include="Views\UserMailer\AzureVideoUploadNotifiction.cshtml" />
     <Content Include="Views\UserMailer\UploadVideoNotification.cshtml" />
     <Content Include="Views\Account\Index - Copy.cshtml" />
+    <Content Include="Views\Loadowner\Index.cshtml" />
     <Content Include="Views\Loadowner\_ViewStart.cshtml" />
     <Content Include="Views\Vehicleowner\CategoryDetails.cshtml" />
     <Content Include="Views\Vehicleowner\CategoryList.cshtml" />
@@ -679,8 +677,7 @@
     <Content Include="Views\Shared\_LoginPopup.cshtml" />
     <Content Include="Views\Vehicleowner\ViewCategory.cshtml" />
     <Content Include="Views\Vehicleowner\AddNewVehicles.cshtml" />
-    <Content Include="Views\Vehicleowner\MyVehicles.cshtml" />
-    <Content Include="Views\Loadowner\MyWatchList.cshtml" />
+    <Content Include="Views\Shared\_RegisterPopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
