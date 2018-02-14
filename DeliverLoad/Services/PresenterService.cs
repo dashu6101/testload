@@ -561,7 +561,7 @@ namespace DeliverLoad.Services
                 objCategory.LoadSpaceId = model.LoadSpaceId;
                 objCategory.IsAvailable = false;
 
-                var channelNo = GetMaxChannelNo(UserId, ChannelNo);
+                var channelNo = GetMaxChannelNoVehicleOwner(UserId, ChannelNo);
 
                 objCategory.ChannelNo = channelNo;
 
