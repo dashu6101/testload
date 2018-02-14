@@ -27,7 +27,7 @@
             <span class=" input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
-            @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date" ,@style= "z-index:2222" })
+            @Html.TextBoxFor(model => model.date, new { @id = "date", @class = "form-control", @placeholder = "Date", @autocomplete = "off" })
         </div>
         @Html.HiddenFor(model => model.isauthenticated, false)
         <div class="input-group col-sm-2 col-md-2 text-center">

@@ -300,7 +300,7 @@ namespace DeliverLoad.Services
                                 //from y in ucuc.DefaultIfEmpty()
                                 //join UU in dbContext.Users on PC.UserId equals UU.UserId into ucuc1
                                 //from x in ucuc1.DefaultIfEmpty()
-                                where U.UserType == "A" 
+                                where U.UserType == "A"
                                 //&& y.UserId == UserId
                                 select new CategoryModel
                                 {
@@ -458,6 +458,7 @@ namespace DeliverLoad.Services
                                        ChannelNo = "Channel no:" + C.ChannelNo,
                                        IsAuthenticated = U.IsAuthenticated == null ? false : (bool)U.IsAuthenticated,
                                        PickupLocation = C.PickupLocation,
+
                                        PickupDate = (DateTime)C.PickupDate,
                                        DropOffLocation = C.DropOffLocation,
                                        DropOffDate = (DateTime)C.DropOffDate,
@@ -468,7 +469,8 @@ namespace DeliverLoad.Services
 
             }
 
-
+            categoryDetails.from = categoryDetails.PickupLocation;
+            categoryDetails.to = categoryDetails.DropOffLocation;
             return categoryDetails;
         }
 
