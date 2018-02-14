@@ -13,8 +13,8 @@
 
         <div class="modal-body registration">
 
-
-            @using (Ajax.BeginForm("AjaxRegister", "Account", new AjaxOptions { HttpMethod = "POST", OnComplete = "RegisterComplete" }, new { id = "registrationform" }))
+            @*new AjaxOptions { HttpMethod = "POST", OnComplete = "RegisterComplete" }*@
+            @using (Html.BeginForm("Register", "Account", new { id = "registrationform" }))
     {
         @Html.AntiForgeryToken()
 
@@ -59,13 +59,13 @@
 
 <script>
     function RegisterComplete(e) {
-        debugger;
         var response = JSON.parse(e.responseText);
         if (!response.Success) {
             $('#registererror').html(response.Message);
         }
         else {
             $('#registerModal').modal("hide");
+            window.location.href = '@Url.Action("PhoneVerification", "Account")';
             window.location.href = '@Url.Action("Index", "Loadowner")';
         }
     }

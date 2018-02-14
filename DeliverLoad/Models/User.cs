@@ -19,11 +19,12 @@ namespace DeliverLoad.Models
             this.CategoryContentComments = new HashSet<CategoryContentComment>();
             this.ChannelRequestMasters = new HashSet<ChannelRequestMaster>();
             this.ContentVisitors = new HashSet<ContentVisitor>();
-            this.ParticipantCategories = new HashSet<ParticipantCategory>();
-            this.PresenterCategories = new HashSet<PresenterCategory>();
-            this.webpages_Roles = new HashSet<webpages_Roles>();
             this.LoadownerCategories = new HashSet<LoadownerCategory>();
+            this.ParticipantCategories = new HashSet<ParticipantCategory>();
+            this.PhoneVerificationAttempts = new HashSet<PhoneVerificationAttempt>();
+            this.PresenterCategories = new HashSet<PresenterCategory>();
             this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
+            this.webpages_Roles = new HashSet<webpages_Roles>();
         }
     
         public int UserId { get; set; }
@@ -74,14 +75,16 @@ namespace DeliverLoad.Models
         public string ChannelNo { get; set; }
         public Nullable<bool> IsAuthenticated { get; set; }
         public Nullable<System.DateTime> LastOnline { get; set; }
+        public Nullable<bool> IsPhoneVerified { get; set; }
     
         public virtual ICollection<CategoryContentComment> CategoryContentComments { get; set; }
         public virtual ICollection<ChannelRequestMaster> ChannelRequestMasters { get; set; }
         public virtual ICollection<ContentVisitor> ContentVisitors { get; set; }
-        public virtual ICollection<ParticipantCategory> ParticipantCategories { get; set; }
-        public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
-        public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
         public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
+        public virtual ICollection<ParticipantCategory> ParticipantCategories { get; set; }
+        public virtual ICollection<PhoneVerificationAttempt> PhoneVerificationAttempts { get; set; }
+        public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
         public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
+        public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
     }
 }

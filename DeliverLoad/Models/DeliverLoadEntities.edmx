@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -169,6 +169,17 @@
           <Property Name="isCouponCodeApplied" Type="bit" />
           <Property Name="CouponCode" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PhoneVerificationAttempts">
+          <Key>
+            <PropertyRef Name="PVA_Id" />
+          </Key>
+          <Property Name="PVA_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Otp" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AttemptedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="PresenterCategory">
           <Key>
             <PropertyRef Name="Id" />
@@ -236,6 +247,7 @@
           <Property Name="ChannelNo" Type="nvarchar" MaxLength="50" />
           <Property Name="IsAuthenticated" Type="bit" />
           <Property Name="LastOnline" Type="datetime" />
+          <Property Name="IsPhoneVerified" Type="bit" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -431,6 +443,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PhoneVerificationAttempts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PhoneVerificationAttempts" Type="Self.PhoneVerificationAttempts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PhoneVerificationAttempts">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PresenterCategory_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -548,6 +572,7 @@
           <EntitySet Name="ParticipantCategory" EntityType="Self.ParticipantCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentHistory" EntityType="Self.PaymentHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMonitory" EntityType="Self.PaymentMonitory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -600,6 +625,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="ParticipantCategory" EntitySet="ParticipantCategory" />
           </AssociationSet>
+          <AssociationSet Name="FK_PhoneVerificationAttempts_Users" Association="Self.FK_PhoneVerificationAttempts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneVerificationAttempts" EntitySet="PhoneVerificationAttempts" />
+          </AssociationSet>
           <AssociationSet Name="FK_PresenterCategory_Category" Association="Self.FK_PresenterCategory_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="PresenterCategory" EntitySet="PresenterCategory" />
@@ -625,7 +654,8 @@
             <End Role="VehicleownerCategory" EntitySet="VehicleownerCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeliverLoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -647,7 +677,6 @@
           <NavigationProperty Name="ChannelRequestMasters" Relationship="Self.FK_ChannelRequestMaster_Category" FromRole="Category" ToRole="ChannelRequestMaster" />
           <NavigationProperty Name="ParticipantCategories" Relationship="Self.FK_ParticipantCategory_Category" FromRole="Category" ToRole="ParticipantCategory" />
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Category" FromRole="Category" ToRole="PresenterCategory" />
-          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category" FromRole="Category" ToRole="VehicleownerCategory" />
         </EntityType>
         <EntityType Name="CategoryContent">
           <Key>
@@ -723,6 +752,48 @@
           <Property Name="Sequence" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AllXml" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <EntityType Name="LoadownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="HasJoinedCategory" Type="Boolean" />
+          <Property Name="JoinedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsBlocked" Type="Boolean" />
+          <NavigationProperty Name="OverloadCategory" Relationship="Self.FK_LoadownerCategory_Category" FromRole="LoadownerCategory" ToRole="OverloadCategory" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LoadownerCategory_Users" FromRole="LoadownerCategory" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="LoadSpace">
+          <Key>
+            <PropertyRef Name="LoadSpaceId" />
+          </Key>
+          <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OverloadCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsFree" Type="Boolean" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="IsPresenterAvailability" Type="Boolean" />
+          <Property Name="PickupLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PickupDate" Type="DateTime" Precision="3" />
+          <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="DropOffDate" Type="DateTime" Precision="3" />
+          <Property Name="LoadSpaceId" Type="Int32" />
+          <NavigationProperty Name="LoadownerCategories" Relationship="Self.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
+          <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Category" FromRole="OverloadCategory" ToRole="VehicleownerCategory" />
+        </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
             <PropertyRef Name="Id" />
@@ -757,6 +828,31 @@
           <Property Name="Is_Success" Type="Boolean" />
           <Property Name="reason_fault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMonitory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TotalBalance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="isCouponCodeApplied" Type="Boolean" />
+          <Property Name="CouponCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PhoneVerificationAttempt">
+          <Key>
+            <PropertyRef Name="PVA_Id" />
+          </Key>
+          <Property Name="PVA_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Otp" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AttemptedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PhoneVerificationAttempts_Users" FromRole="PhoneVerificationAttempts" ToRole="Users" />
         </EntityType>
         <EntityType Name="PresenterCategory">
           <Key>
@@ -826,15 +922,27 @@
           <Property Name="ContinentID" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsAuthenticated" Type="Boolean" />
+          <Property Name="LastOnline" Type="DateTime" Precision="3" />
+          <Property Name="IsPhoneVerified" Type="Boolean" />
           <NavigationProperty Name="CategoryContentComments" Relationship="Self.FK_CategoryContentComment_Users" FromRole="Users" ToRole="CategoryContentComment" />
           <NavigationProperty Name="ChannelRequestMasters" Relationship="Self.FK_ChannelRequestMaster_ChannelRequestMaster" FromRole="Users" ToRole="ChannelRequestMaster" />
           <NavigationProperty Name="ContentVisitors" Relationship="Self.FK_ContentVisitors_Users" FromRole="Users" ToRole="ContentVisitors" />
+          <NavigationProperty Name="LoadownerCategories" Relationship="Self.FK_LoadownerCategory_Users" FromRole="Users" ToRole="LoadownerCategory" />
           <NavigationProperty Name="ParticipantCategories" Relationship="Self.FK_ParticipantCategory_Users" FromRole="Users" ToRole="ParticipantCategory" />
+          <NavigationProperty Name="PhoneVerificationAttempts" Relationship="Self.FK_PhoneVerificationAttempts_Users" FromRole="Users" ToRole="PhoneVerificationAttempts" />
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Users" FromRole="Users" ToRole="PresenterCategory" />
+          <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Users" FromRole="Users" ToRole="VehicleownerCategory" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
-          <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="User" ToRole="LoadownerCategory" />
-          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Users" FromRole="User" ToRole="VehicleownerCategory" />
-          <Property Name="LastOnline" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="VehicleownerCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="OverloadCategory" Relationship="Self.FK_VehicleownerCategory_Category" FromRole="VehicleownerCategory" ToRole="OverloadCategory" />
+          <NavigationProperty Name="User" Relationship="Self.FK_VehicleownerCategory_Users" FromRole="VehicleownerCategory" ToRole="Users" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -987,6 +1095,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LoadownerCategory_Category">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoadownerCategory" Type="Self.LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoadownerCategory_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LoadownerCategory" Type="Self.LoadownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="LoadownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VehicleownerCategory_Category">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="0..1" />
+          <End Role="VehicleownerCategory" Type="Self.VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ParticipantCategory_Users">
           <End Role="Users" Type="Self.User" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -997,6 +1145,18 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="ParticipantCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhoneVerificationAttempts_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PhoneVerificationAttempts" Type="Self.PhoneVerificationAttempt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PhoneVerificationAttempts">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1015,6 +1175,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_VehicleownerCategory_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="VehicleownerCategory" Type="Self.VehicleownerCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="VehicleownerCategory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="webpages_UsersInRoles">
           <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="*" />
           <End Role="Users" Type="Self.User" Multiplicity="*" />
@@ -1026,11 +1198,17 @@
           <EntitySet Name="ChannelRequestMasters" EntityType="Self.ChannelRequestMaster" />
           <EntitySet Name="ContentVisitors" EntityType="Self.ContentVisitor" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" />
+          <EntitySet Name="LoadownerCategories" EntityType="Self.LoadownerCategory" />
+          <EntitySet Name="LoadSpaces" EntityType="Self.LoadSpace" />
+          <EntitySet Name="OverloadCategories" EntityType="Self.OverloadCategory" />
           <EntitySet Name="ParticipantCategories" EntityType="Self.ParticipantCategory" />
           <EntitySet Name="PaymentHistories" EntityType="Self.PaymentHistory" />
+          <EntitySet Name="PaymentMonitories" EntityType="Self.PaymentMonitory" />
+          <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempt" />
           <EntitySet Name="PresenterCategories" EntityType="Self.PresenterCategory" />
           <EntitySet Name="Subscriptions" EntityType="Self.Subscription" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="VehicleownerCategories" EntityType="Self.VehicleownerCategory" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
@@ -1070,13 +1248,33 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="ContentVisitors" EntitySet="ContentVisitors" />
           </AssociationSet>
+          <AssociationSet Name="FK_LoadownerCategory_Category" Association="Self.FK_LoadownerCategory_Category">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoadownerCategory_Users" Association="Self.FK_LoadownerCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Category" Association="Self.FK_VehicleownerCategory_Category">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
+          </AssociationSet>
           <AssociationSet Name="FK_ParticipantCategory_Users" Association="Self.FK_ParticipantCategory_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ParticipantCategory" EntitySet="ParticipantCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_PhoneVerificationAttempts_Users" Association="Self.FK_PhoneVerificationAttempts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PhoneVerificationAttempts" EntitySet="PhoneVerificationAttempts" />
+          </AssociationSet>
           <AssociationSet Name="FK_PresenterCategory_Users" Association="Self.FK_PresenterCategory_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="PresenterCategory" EntitySet="PresenterCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VehicleownerCategory_Users" Association="Self.FK_VehicleownerCategory_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
           </AssociationSet>
           <AssociationSet Name="webpages_UsersInRoles" Association="Self.webpages_UsersInRoles">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
@@ -1105,36 +1303,11 @@
             <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_CHANNEL_LIST_Result)">
-          <Parameter Name="UserD" Mode="In" Type="Int32" />
+            <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
-          <Parameter Name="UserD" Mode="In" Type="Int32" />
+            <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="OverloadCategories" EntityType="DeliverLoadModel.OverloadCategory" />
-          <EntitySet Name="LoadownerCategories" EntityType="DeliverLoadModel.LoadownerCategory" />
-          <EntitySet Name="LoadSpaces" EntityType="DeliverLoadModel.LoadSpace" />
-          <EntitySet Name="VehicleownerCategories" EntityType="DeliverLoadModel.VehicleownerCategory" />
-          <AssociationSet Name="FK_LoadownerCategory_Category" Association="DeliverLoadModel.FK_LoadownerCategory_Category">
-            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
-            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LoadownerCategory_Users" Association="DeliverLoadModel.FK_LoadownerCategory_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="LoadownerCategory" EntitySet="LoadownerCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VehicleownerCategory_Category" Association="DeliverLoadModel.FK_VehicleownerCategory_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VehicleownerCategory_Users" Association="DeliverLoadModel.FK_VehicleownerCategory_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_VehicleownerCategory_Category1" Association="DeliverLoadModel.FK_VehicleownerCategory_Category1">
-            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
-            <End Role="VehicleownerCategory" EntitySet="VehicleownerCategories" />
-          </AssociationSet>
-          <EntitySet Name="PaymentMonitories" EntityType="DeliverLoadModel.PaymentMonitory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1164,136 +1337,6 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
-        <EntityType Name="OverloadCategory">
-          <Key>
-            <PropertyRef Name="CategoryId" />
-          </Key>
-          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ChannelNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsFree" Type="Boolean" />
-          <Property Name="IsAvailable" Type="Boolean" />
-          <Property Name="IsPresenterAvailability" Type="Boolean" />
-          <Property Name="PickupLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="PickupDate" Type="DateTime" Precision="3" />
-          <Property Name="DropOffLocation" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DropOffDate" Type="DateTime" Precision="3" />
-          <Property Name="LoadSpaceId" Type="Int32" />
-          <NavigationProperty Name="LoadownerCategories" Relationship="DeliverLoadModel.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
-          <NavigationProperty Name="VehicleownerCategories" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category1" FromRole="OverloadCategory" ToRole="VehicleownerCategory" />
-        </EntityType>
-        <EntityType Name="LoadownerCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="HasJoinedCategory" Type="Boolean" />
-          <Property Name="JoinedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsBlocked" Type="Boolean" />
-          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_LoadownerCategory_Category" FromRole="LoadownerCategory" ToRole="OverloadCategory" />
-          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_LoadownerCategory_Users" FromRole="LoadownerCategory" ToRole="User" />
-        </EntityType>
-        <EntityType Name="LoadSpace">
-          <Key>
-            <PropertyRef Name="LoadSpaceId" />
-          </Key>
-          <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="VehicleownerCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <NavigationProperty Name="Category" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category" FromRole="VehicleownerCategory" ToRole="Category" />
-          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Users" FromRole="VehicleownerCategory" ToRole="User" />
-          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_VehicleownerCategory_Category1" FromRole="VehicleownerCategory" ToRole="OverloadCategory" />
-        </EntityType>
-        <Association Name="FK_LoadownerCategory_Category">
-          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DeliverLoadModel.LoadownerCategory" Role="LoadownerCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OverloadCategory">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="LoadownerCategory">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LoadownerCategory_Users">
-          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="DeliverLoadModel.LoadownerCategory" Role="LoadownerCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="LoadownerCategory">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VehicleownerCategory_Category">
-          <End Type="DeliverLoadModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="VehicleownerCategory">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VehicleownerCategory_Users">
-          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="VehicleownerCategory">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VehicleownerCategory_Category1">
-          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="0..1" />
-          <End Type="DeliverLoadModel.VehicleownerCategory" Role="VehicleownerCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OverloadCategory">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="VehicleownerCategory">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="PaymentMonitory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="TotalBalance" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
-          <Property Name="isActive" Type="Boolean" />
-          <Property Name="isCouponCodeApplied" Type="Boolean" />
-          <Property Name="CouponCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1386,6 +1429,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LoadownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadownerCategory">
+              <MappingFragment StoreEntitySet="LoadownerCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
+                <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoadSpaces">
+            <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
+              <MappingFragment StoreEntitySet="LoadSpace">
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
+                <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OverloadCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
+              <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
+                <ScalarProperty Name="IsFree" ColumnName="IsFree" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="IsPresenterAvailability" ColumnName="IsPresenterAvailability" />
+                <ScalarProperty Name="PickupLocation" ColumnName="PickupLocation" />
+                <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
+                <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
+                <ScalarProperty Name="DropOffDate" ColumnName="DropOffDate" />
+                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ParticipantCategories">
             <EntityTypeMapping TypeName="DeliverLoadModel.ParticipantCategory">
               <MappingFragment StoreEntitySet="ParticipantCategory">
@@ -1421,6 +1505,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMonitories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentMonitory">
+              <MappingFragment StoreEntitySet="PaymentMonitory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="isCouponCodeApplied" ColumnName="isCouponCodeApplied" />
+                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneVerificationAttempts">
+            <EntityTypeMapping TypeName="DeliverLoadModel.PhoneVerificationAttempt">
+              <MappingFragment StoreEntitySet="PhoneVerificationAttempts">
+                <ScalarProperty Name="PVA_Id" ColumnName="PVA_Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Otp" ColumnName="Otp" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AttemptedOn" ColumnName="AttemptedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PresenterCategories">
             <EntityTypeMapping TypeName="DeliverLoadModel.PresenterCategory">
               <MappingFragment StoreEntitySet="PresenterCategory">
@@ -1441,7 +1551,6 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DeliverLoadModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="LastOnline" ColumnName="LastOnline" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1489,6 +1598,17 @@
                 <ScalarProperty Name="ContinentID" ColumnName="ContinentID" />
                 <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
                 <ScalarProperty Name="IsAuthenticated" ColumnName="IsAuthenticated" />
+                <ScalarProperty Name="LastOnline" ColumnName="LastOnline" />
+                <ScalarProperty Name="IsPhoneVerified" ColumnName="IsPhoneVerified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VehicleownerCategories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.VehicleownerCategory">
+              <MappingFragment StoreEntitySet="VehicleownerCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1573,70 +1693,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="OverloadCategories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
-              <MappingFragment StoreEntitySet="OverloadCategory">
-                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
-                <ScalarProperty Name="DropOffDate" ColumnName="DropOffDate" />
-                <ScalarProperty Name="DropOffLocation" ColumnName="DropOffLocation" />
-                <ScalarProperty Name="PickupDate" ColumnName="PickupDate" />
-                <ScalarProperty Name="PickupLocation" ColumnName="PickupLocation" />
-                <ScalarProperty Name="IsPresenterAvailability" ColumnName="IsPresenterAvailability" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="IsFree" ColumnName="IsFree" />
-                <ScalarProperty Name="ChannelNo" ColumnName="ChannelNo" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LoadownerCategories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.LoadownerCategory">
-              <MappingFragment StoreEntitySet="LoadownerCategory">
-                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
-                <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
-                <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LoadSpaces">
-            <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
-              <MappingFragment StoreEntitySet="LoadSpace">
-                <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
-                <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VehicleownerCategories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.VehicleownerCategory">
-              <MappingFragment StoreEntitySet="VehicleownerCategory">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentMonitories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentMonitory">
-              <MappingFragment StoreEntitySet="PaymentMonitory">
-                <ScalarProperty Name="CouponCode" ColumnName="CouponCode" />
-                <ScalarProperty Name="isCouponCodeApplied" ColumnName="isCouponCodeApplied" />
-                <ScalarProperty Name="isActive" ColumnName="isActive" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="TotalBalance" ColumnName="TotalBalance" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -142,5 +142,7 @@ namespace DeliverLoad.Models
     {
         public int user_id { get; set; }
         public string phone { get; set; }
+        public string otp { get; set; }
+        public bool isconfirmed { get; set; }
     }
 }

@@ -1,0 +1,57 @@
+﻿@model DeliverLoad.Models.PhoneVerificationViewModel
+@using System.Configuration;
+@{
+    ViewBag.Title = "PhoneVerification";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+<div class="findspace">
+    @using (Html.BeginForm(new { @id = "phoneverForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        <div class="input-group col-sm-3 col-md-3 date">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </span>
+            @Html.EditorFor(m => m.phone, new { @class = "form-control" })
+        </div>
+        if (Model.isconfirmed)
+        {
+            <div class="input-group col-sm-3 col-md-3 date">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                </span>
+                @Html.EditorFor(m => m.otp, new { @class = "form-control" })
+            </div>
+        }
+        <div class="input-group col-sm-2 col-md-2 text-center">
+            <button type="submit" class="btn btn-theme">
+                @*<span class="glyphicon glyphicon-plus"></span>*@
+                @Html.Raw((Model.isconfirmed) ? "Confirm" : "Verify")
+            </button>
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#phoneverForm").on("submit", function (event) {
+            debugger;
+            var $this = $(this);
+            var frmValues = $this.serialize();
+            var method = $('#otp').val() != null ? 'phoneverificationotp' : 'verifyphone';
+            $.ajax({
+                type: 'POST',
+                url: '@ConfigurationManager.AppSettings["API_URL"]' + method,
+                data: frmValues
+                })
+                .done(function () {
+                    @Model.isconfirmed = true;
+                })
+                .fail(function () {
+                    $("#verificationerror").text("An error occured");
+                });
+            event.preventDefault();
+        });
+    });
+</script>

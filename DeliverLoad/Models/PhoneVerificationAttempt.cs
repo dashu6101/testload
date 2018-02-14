@@ -12,13 +12,15 @@ namespace DeliverLoad.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class VehicleownerCategory
+    public partial class PhoneVerificationAttempt
     {
-        public int Id { get; set; }
-        public Nullable<int> CategoryId { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public int PVA_Id { get; set; }
+        public int UserId { get; set; }
+        public string Phone { get; set; }
+        public int Otp { get; set; }
+        public string Status { get; set; }
+        public Nullable<System.DateTime> AttemptedOn { get; set; }
     
-        public virtual OverloadCategory OverloadCategory { get; set; }
         public virtual User User { get; set; }
     }
 }

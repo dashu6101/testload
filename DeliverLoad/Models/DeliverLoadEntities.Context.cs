@@ -34,19 +34,20 @@ namespace DeliverLoad.Models
         public DbSet<ChannelRequestMaster> ChannelRequestMasters { get; set; }
         public DbSet<ContentVisitor> ContentVisitors { get; set; }
         public DbSet<ELMAH_Error> ELMAH_Error { get; set; }
+        public DbSet<LoadownerCategory> LoadownerCategories { get; set; }
+        public DbSet<LoadSpace> LoadSpaces { get; set; }
+        public DbSet<OverloadCategory> OverloadCategories { get; set; }
         public DbSet<ParticipantCategory> ParticipantCategories { get; set; }
         public DbSet<PaymentHistory> PaymentHistories { get; set; }
+        public DbSet<PaymentMonitory> PaymentMonitories { get; set; }
+        public DbSet<PhoneVerificationAttempt> PhoneVerificationAttempts { get; set; }
         public DbSet<PresenterCategory> PresenterCategories { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<VehicleownerCategory> VehicleownerCategories { get; set; }
         public DbSet<webpages_Membership> webpages_Membership { get; set; }
         public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
-        public DbSet<OverloadCategory> OverloadCategories { get; set; }
-        public DbSet<LoadownerCategory> LoadownerCategories { get; set; }
-        public DbSet<LoadSpace> LoadSpaces { get; set; }
-        public DbSet<VehicleownerCategory> VehicleownerCategories { get; set; }
-        public DbSet<PaymentMonitory> PaymentMonitories { get; set; }
     
         public virtual ObjectResult<string> ELMAH_GetErrorsXml(string application, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

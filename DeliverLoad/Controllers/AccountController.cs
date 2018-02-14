@@ -196,14 +196,13 @@ namespace DeliverLoad.Controllers
                         Message = "RegisterSuccess"
                     };
 
-                    sUser = DeliverLoad.Utils.Utils.GetDeliverLoadUser(model.UserName);
-
+                    UserModel objUser = service.GetUserDetails(model.UserName);
                     var httpClient = new HttpClient();
                     httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["API_URL"]);
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //HttpResponseMessage Res = await client.GetAsync("api/Employee/GetAllEmployees");
-                    httpClient.PostAsJsonAsync("account/phoneverificationotp", new PhoneVerificationViewModel { user_id = sUser.UserId , phone = model.Phone });
+                    httpClient.PostAsJsonAsync("account/phoneverificationotp", new PhoneVerificationViewModel { user_id = objUser.UserId, phone = model.Phone });
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Successfully Registered";
                     ajaxResponse.Data = md; 
@@ -275,9 +274,9 @@ namespace DeliverLoad.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(LoginModel model)
+        public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid && model.FirstName != null && model.LastName != null && model.UserName != null && model.Password != null)
+            if (ModelState.IsValid && model.FirstName != null && model.LastName != null && model.UserName != null && model.Password != null && model.Phone != null)
             {
                 try
                 {
@@ -293,32 +292,36 @@ namespace DeliverLoad.Controllers
                         LastModified = DateTime.Now,
                         MeetingAvailability = true,
                         ChannelNo = service.GetMaxChannelNo(),
-                        EmailID = model.UserName
+                        EmailID = model.UserName,
+                        Mobile = model.Phone
                     };
 
                     var confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, UserInfo, true);
 
                     var mail = UserMailer.ConfirmAccount(model.FirstName, confirmationToken);
-                    mail.Subject = "ChitChatChannel account confirmation";
+                    mail.Subject = "Deliverload account confirmation";
                     mail.To.Add(new MailAddress(model.UserName));
 
                     var client = new SmtpClientWrapper();
-                    mail.SendAsync("async send", client);
+                    //mail.SendAsync("async send", client);
 
                     var md = new LoginModel
                     {
                         Message = "RegisterSuccess"
                     };
 
-                   //SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
-
-                    return View("Login", md);
+                    //SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
+                    UserModel userModel = service.GetUserDetails(UserInfo.EmailID);
+                    PhoneVerificationViewModel pvModel = new PhoneVerificationViewModel();
+                    pvModel.phone = model.Phone;
+                    pvModel.user_id = userModel.UserId;
+                    pvModel.isconfirmed = false;
+                    return View("PhoneVerification", pvModel);
                 }
                 catch (MembershipCreateUserException e)
                 {
                     ModelState.AddModelError("", "A user account with the same email id already exists.You need to enter a different email id");
                     //ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-
                 }
                 // }
             }
@@ -349,6 +352,13 @@ namespace DeliverLoad.Controllers
             }
 
         }
+
+        [AllowAnonymous]
+        public ActionResult PhoneVerification()
+        {
+            return View();
+        }
+        
 
         //
         // GET: /Account/ExternalLoginFailure     
