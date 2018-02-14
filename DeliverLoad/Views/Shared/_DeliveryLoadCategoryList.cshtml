@@ -80,7 +80,7 @@
                         <tr class="yellowColor">
                             <th>Pic Profile</th>
                             <th>Name</th>
-                            <th>Load#</th>
+                            @*<th>Load#</th>*@
                             <th>Pickup Date</th>
                             <th>Pickup Location</th>
 
@@ -97,7 +97,7 @@
                         <tr onclick="goTo('@Url.Action("ViewCategory","Vehicleowner",new { id = item.CategoryId,Type="Load" })')">
                             <td><img src="@item.ProfileImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
                             <td>@Html.Raw(item.FirstName)  @Html.Raw(item.LastName)</td>
-                            <td>@item.ChannelNo</td>
+                            @*<td>@item.ChannelNo</td>*@
                             <td>
                                 @if (item.PickupDate != null)
                                 {

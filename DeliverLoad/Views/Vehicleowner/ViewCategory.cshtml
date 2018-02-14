@@ -27,10 +27,12 @@
                     <tr>
                         <td>Departure Point</td>
                         <td>@Html.Raw(Model.PickupLocation)</td>
+                        @*@Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })*@
                     </tr>
                     <tr>
                         <td>Drop-Off Point</td>
                         <td>@Model.DropOffLocation</td>
+                        @*@Html.TextBoxFor(model => model.to, new { @id = "to", @class = "form-control", @placeholder = "To", @onfocus = "geolocate()" })*@
                     </tr>
                     <tr>
                         <td>Departure Time</td>
@@ -135,3 +137,13 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    
+    //$(document).ready(function () {
+    //    debugger
+    //    AutocompleteDirectionsHandler($("map"));
+    //    geolocate();
+    //})
+    
+</script>

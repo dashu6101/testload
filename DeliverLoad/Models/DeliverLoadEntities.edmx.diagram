@@ -40,6 +40,7 @@
         <AssociationConnector Association="DeliverLoadModel.FK_VehicleownerCategory_Category" />
         <AssociationConnector Association="DeliverLoadModel.FK_VehicleownerCategory_Users" />
         <AssociationConnector Association="DeliverLoadModel.FK_VehicleownerCategory_Category1" />
+        <EntityTypeShape EntityType="DeliverLoadModel.PaymentMonitory" Width="1.5" PointX="7.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

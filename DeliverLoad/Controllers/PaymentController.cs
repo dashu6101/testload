@@ -717,6 +717,35 @@ namespace DeliverLoad.Controllers
             return View(model);
         }
 
+        public ActionResult PaymentSummury(string CategoryId)
+        {
+            PaymentMonitoryModel objPaymentMonitoryModel = new PaymentMonitoryModel();
+            try
+            {
+                if (CategoryId != null && Convert.ToInt32(CategoryId) > 0)
+                {
+                    OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(Convert.ToInt32(CategoryId));
 
+                    if (objOrderSummury != null)
+                    {
+                        ViewBag.OrderSummury = objOrderSummury;
+                        objPaymentMonitoryModel = service.getPaymentMonitoryByUserId(sUser.UserId);
+                    }
+                    else
+                    {
+                        ViewBag.OrderSummury = null;
+                        objPaymentMonitoryModel = new PaymentMonitoryModel();
+                    }
+                }
+                else
+                {
+                    ViewBag.OrderSummury = null;
+                }
+                return View("PaymentSummury", objPaymentMonitoryModel);
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

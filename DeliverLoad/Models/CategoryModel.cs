@@ -82,7 +82,9 @@ namespace DeliverLoad.Models
         public string LoadSpaceTitle { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public DateTime? LastOnline { get; set; }
-        
+
+        public string from { get; set; }
+        public string to { get; set; }
 
     }
 }
