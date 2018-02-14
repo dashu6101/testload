@@ -606,7 +606,77 @@ namespace DeliverLoad.Services
             }
 
             return "1";
+            
+        }
 
+
+        public string GetMaxChannelNoVehicleOwner(int UserId, string VehicleOwnerChannelNo)
+        {
+            try
+            {
+                double MaxChannelNo = 0;
+                string ChannelNo = ""; ;
+                ChannelNo = getVehicleOwnerCategoryList(UserId).Select(x => x.ChannelNo).FirstOrDefault();
+
+                if (ChannelNo != null)
+                {
+                    var CNo = ChannelNo.Split('.');
+
+                    double No = Convert.ToDouble(CNo[1]);
+                    if (No >= 9)
+                    {
+                        ChannelNo = CNo[0] + "." + Convert.ToString(No + 1);
+                    }
+                    else
+                    {
+                        MaxChannelNo = Convert.ToDouble(ChannelNo);
+                        ChannelNo = Convert.ToString(MaxChannelNo + 0.1);
+                    }
+
+
+                }
+                else
+                {
+                    ChannelNo = VehicleOwnerChannelNo.ToString() + ".1";
+
+                }
+
+                return ChannelNo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public IEnumerable<CategoryModel> getVehicleOwnerCategoryList(int UserId)
+        {
+
+            var categoryList = (from U in dbContext.Users
+                                join PC in dbContext.VehicleownerCategories on U.UserId equals PC.UserId
+                                join C in dbContext.OverloadCategories on PC.CategoryId equals C.CategoryId
+                                where U.UserId == UserId && U.UserType == "A"
+                                select new CategoryModel
+                                {
+                                    CategoryId = C.CategoryId,
+                                    Name = C.Name,
+                                    Image = C.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + C.Image,
+                                    UserId = U.UserId,
+                                    CreatedDate = (DateTime)C.CreatedDate,
+                                    ChannelNo = C.ChannelNo,
+                                    Price = (decimal)C.Price,
+                                    IsFreeChannel = (bool)C.IsFree,
+                                    FirstName = U.FirstName,
+                                    LastName = U.LastName,
+                                    ProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    IsChannelAvailable = C.IsAvailable == null ? true : (bool)C.IsAvailable,
+
+                                }).OrderByDescending(x => x.CreatedDate);
+
+        
+
+            return categoryList;
         }
     }
 }
