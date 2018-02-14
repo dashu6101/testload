@@ -97,6 +97,9 @@ namespace DeliverLoad.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Display(Name = "Phone")]
+        public string Phone { get; set; }
+
         [Display(Name = "Email")]
         public string SubscriptionMailId { get; set; }
 
@@ -109,6 +112,10 @@ namespace DeliverLoad.Models
         [Required(ErrorMessage = "The Email field is required.")]
         [Display(Name = "User name")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "The Phone field is required.")]
+        [Display(Name = "Phone")]
+        public string Phone { get; set; }
 
         [Required(ErrorMessage = "The FirstName field is required.")]
         [Display(Name = "FirstName")]
@@ -130,5 +137,10 @@ namespace DeliverLoad.Models
         public string Provider { get; set; }
         public string ProviderDisplayName { get; set; }
         public string ProviderUserId { get; set; }
+    }
+    public class PhoneVerificationViewModel
+    {
+        public int user_id { get; set; }
+        public string phone { get; set; }
     }
 }
