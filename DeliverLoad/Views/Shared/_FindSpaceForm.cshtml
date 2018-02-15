@@ -4,7 +4,7 @@
     .input-group {
         float: none !important;
     }
-    .ui-datepicker-div{
+    #ui-datepicker-div{
         z-index:222222 !important;
     }
 </style>
@@ -14,7 +14,7 @@
         <div class="input-group col-sm-3 col-md-3 date" >
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-map-marker"></span>
-            </span>
+            </span> 
             @Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })
         </div>
         <div class="input-group col-sm-3 col-md-3 date">
