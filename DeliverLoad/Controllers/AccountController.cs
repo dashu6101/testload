@@ -14,7 +14,8 @@ using DeliverLoad.Mvc.Mailers;
 using System.Net.Mail;
 using System.Configuration;
 using DeliverLoad.Utils;
-
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace DeliverLoad.Controllers
 {
@@ -195,8 +196,14 @@ namespace DeliverLoad.Controllers
                         Message = "RegisterSuccess"
                     };
 
-                    // SMSHelper.SendSMS("918460311248","please enter otp 123456 to verify your phonenumber");
                     sUser = DeliverLoad.Utils.Utils.GetDeliverLoadUser(model.UserName);
+
+                    var httpClient = new HttpClient();
+                    httpClient.BaseAddress = new Uri(ConfigurationManager.AppSettings["API_URL"]);
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //HttpResponseMessage Res = await client.GetAsync("api/Employee/GetAllEmployees");
+                    httpClient.PostAsJsonAsync("account/phoneverificationotp", new PhoneVerificationViewModel { user_id = sUser.UserId , phone = model.Phone });
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Successfully Registered";
                     ajaxResponse.Data = md; 

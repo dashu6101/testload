@@ -14,31 +14,33 @@
         <div class="modal-body registration">
 
 
-            @using (Ajax.BeginForm("AjaxRegister", "Account", new AjaxOptions { HttpMethod = "POST" , OnComplete = "RegisterComplete" }, new { id = "registrationform" }))
-            {
-                @Html.AntiForgeryToken()
+            @using (Ajax.BeginForm("AjaxRegister", "Account", new AjaxOptions { HttpMethod = "POST", OnComplete = "RegisterComplete" }, new { id = "registrationform" }))
+    {
+        @Html.AntiForgeryToken()
 
-                <div class="logo text-center w-100">
-                    <img src="~/Content/images/logo.png" style="height:50px;margin-top:5px" />
-                </div>
-                @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.FirstName)
+        <div class="logo text-center w-100">
+            <img src="~/Content/images/logo.png" style="height:50px;margin-top:5px" />
+        </div>
+        @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.FirstName)
 
-                @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LastName)
 
-                @Html.TextBoxFor(m => m.UserName, new { placeholder = "Email", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { placeholder = "Email", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.UserName)
 
+        @Html.TextBoxFor(m => m.Phone, new { placeholder = "Phone Number", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Phone)
 
-                @Html.TextBoxFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Password)
-                <div class="text-center">
-                    <input type="submit" name="submit" value="Register" id="get" class="btn btn-theme mt-15" />
-                </div>
+        @Html.TextBoxFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
+        <div class="text-center">
+            <input type="submit" name="submit" value="Register" id="get" class="btn btn-theme mt-15" />
+        </div>
 
-                <div class="text-danger" id="registererror"></div>
-            }
+        <div class="text-danger" id="registererror"></div>
+}
         </div>
     </div>
 </div>

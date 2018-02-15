@@ -604,5 +604,127 @@ namespace DeliverLoad.Services
 
             return "1";
         }
+
+        #region OrderSummury
+        public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId)
+        {
+            OrderSummuryModel objOrderSummury = new OrderSummuryModel();
+            objOrderSummury = (from OC in dbContext.OverloadCategories
+                                join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
+                                join U in dbContext.Users on LOC.UserId equals U.UserId
+                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                where OC.CategoryId == CategoryId
+                                select new OrderSummuryModel
+                                {
+                                    CategoryId = OC.CategoryId,
+                                    
+                                    LoadName = OC.Name,
+                                    LoadDesc = OC.Description,
+                                    LoadCreatedDate = OC.CreatedDate, 
+                                    LoadImage = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                    LoadPrice = OC.Price,
+                                    LoadPickupDate = OC.PickupDate,
+                                    LoadDropOffDate = OC.DropOffDate,
+                                    LoadPickupLocation = OC.PickupLocation,
+                                    LoadDropOffLocation = OC.DropOffLocation,
+                                    LoadSpaceId = OC.LoadSpaceId,
+                                    LoadIsFree = OC.IsFree == null ? false : OC.IsFree,
+                                    LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
+                                    LoadChannelNo = OC.ChannelNo,
+                                    LoadSpaceTitle = LS.LoadSpaceTitle,
+
+                                    LoadownerCategoryId = LOC.Id,
+                                    LoadOwnerId = LOC.UserId,
+                                    LoadOwnerHasJoinedCategory = LOC.HasJoinedCategory == null ? false : LOC.HasJoinedCategory,
+                                    LoadOwnerIsBlocked = LOC.IsBlocked == null ? false : LOC.IsBlocked,
+                                    LoadOwnerJoinedDate = LOC.JoinedDate,
+                                    LoadOwnerFirstName = U.FirstName,
+                                    LoadOwnerMiddleName = U.MiddleName,
+                                    LoadOwnerLastName = U.LastName,
+                                    LoadOwnerEmail = U.EmailID,
+                                    LoadOwnerAge = U.Age,
+                                    LoadOwnerGender = U.Gender,
+                                    LoadOwnerCityId = U.CityID,
+                                    LoadOwnerStateId = U.StateID,
+                                    LoadOwnerCountryId = U.CountryID,
+                                    LoadOwnerAddress = U.Address,
+                                    LoadOwnerDOB = U.DOB,
+                                    LoadOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                    LoadOwnerLastOnlineDate = U.LastOnline
+                                }).ToList().FirstOrDefault();
+
+            if (objOrderSummury != null)
+            {
+                var VehicalOwnerSummury = (from OC in dbContext.OverloadCategories
+                                           join VOC in dbContext.VehicleownerCategories on OC.CategoryId equals VOC.CategoryId
+                                           join U in dbContext.Users on VOC.UserId equals U.UserId
+                                           join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                           where OC.CategoryId == CategoryId
+                                           select new OrderSummuryModel
+                                           {
+                                               VehicleOwnerCategoryId = VOC.Id,
+                                               VehicleOwnerId = VOC.UserId,
+                                               VehicleOwnerFirstName = U.FirstName,
+                                               VehicleOwnerMiddleName = U.MiddleName,
+                                               VehicleOwnerLastName = U.LastName,
+                                               VehicleOwnerEmail = U.EmailID,
+                                               VehicleOwnerAge = U.Age,
+                                               VehicleOwnerGender = U.Gender,
+                                               VehicleOwnerCityId = U.CityID,
+                                               VehicleOwnerStateId = U.StateID,
+                                               VehicleOwnerCountryId = U.CountryID,
+                                               VehicleOwnerAddress = U.Address,
+                                               VehicleOwnerDOB = U.DOB,
+                                               VehicleOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                               VehicleOwnerLastOnlineDate = U.LastOnline
+                                           }).ToList().FirstOrDefault();
+
+                if (VehicalOwnerSummury != null)
+                {
+                    objOrderSummury.VehicleOwnerCategoryId = VehicalOwnerSummury.VehicleOwnerCategoryId;
+                    objOrderSummury.VehicleOwnerId = VehicalOwnerSummury.VehicleOwnerId;
+                    objOrderSummury.VehicleOwnerFirstName = VehicalOwnerSummury.VehicleOwnerFirstName;
+                    objOrderSummury.VehicleOwnerMiddleName = VehicalOwnerSummury.VehicleOwnerMiddleName;
+                    objOrderSummury.VehicleOwnerLastName = VehicalOwnerSummury.VehicleOwnerLastName;
+                    objOrderSummury.VehicleOwnerEmail = VehicalOwnerSummury.VehicleOwnerEmail;
+                    objOrderSummury.VehicleOwnerAge = VehicalOwnerSummury.VehicleOwnerAge;
+                    objOrderSummury.VehicleOwnerGender = VehicalOwnerSummury.VehicleOwnerGender;
+                    objOrderSummury.VehicleOwnerCityId = VehicalOwnerSummury.VehicleOwnerCityId;
+                    objOrderSummury.VehicleOwnerStateId = VehicalOwnerSummury.VehicleOwnerStateId;
+                    objOrderSummury.VehicleOwnerCountryId = VehicalOwnerSummury.VehicleOwnerCountryId;
+                    objOrderSummury.VehicleOwnerAddress = VehicalOwnerSummury.VehicleOwnerAddress;
+                    objOrderSummury.VehicleOwnerDOB = VehicalOwnerSummury.VehicleOwnerDOB;
+                    objOrderSummury.VehicleOwnerProfileImage = VehicalOwnerSummury.VehicleOwnerProfileImage;
+                    objOrderSummury.VehicleOwnerLastOnlineDate = VehicalOwnerSummury.VehicleOwnerLastOnlineDate;
+                }
+            }
+            return objOrderSummury;
+        }
+        #endregion
+
+        #region PaymentSummury
+        public PaymentMonitoryModel getPaymentMonitoryByUserId(int UserId)
+        {
+            PaymentMonitoryModel objPaymentMonitory = new PaymentMonitoryModel();
+            objPaymentMonitory = (from pm in dbContext.PaymentMonitories
+                                  where pm.UserId == UserId
+                                  select new PaymentMonitoryModel
+                                  {
+                                      Id = pm.Id,
+                                      UserId = pm.UserId,
+                                      TotalBalance = pm.TotalBalance,
+                                      CreateDate = pm.CreateDate,
+                                      ModifiedDate = pm.ModifiedDate,
+                                      isActive = pm.isActive,
+                                      isCouponCodeApplied = pm.isCouponCodeApplied,
+                                      CouponCode = pm.CouponCode
+                                  }).ToList().FirstOrDefault();
+
+            if (objPaymentMonitory == null) {
+                objPaymentMonitory = new PaymentMonitoryModel();
+            }
+            return objPaymentMonitory;
+        }
+        #endregion
     }
 }

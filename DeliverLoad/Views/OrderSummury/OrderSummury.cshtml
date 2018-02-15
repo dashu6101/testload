@@ -1,0 +1,402 @@
+﻿@using DeliverLoad;
+@model DeliverLoad.Models.OrderSummuryModel
+@{
+    ViewBag.Title = "Order Summury";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Order Summury</h3>
+    </div>
+    <br />
+</div>
+<br /><br />
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-8">
+                <div id="exTab2">
+                    <ul class="nav nav-tabs">
+                                @if (Model.CategoryId > 0)
+                                {
+                                    <li class="active">
+                                        <a href="#LoadDetails" data-toggle="tab">Load details</a>
+                                    </li>
+                                }
+                                @if (Model.LoadOwnerId > 0)
+                                {
+                                    <li>
+                                        <a href="#LoadOwnerDetails" data-toggle="tab">Load-owner details</a>
+                                    </li>
+                                }
+                                @if (Model.VehicleOwnerId > 0)
+                                {
+                                    <li>
+                                        <a href="#VehicleOwnerDetails" data-toggle="tab">Vehicle-owner details</a>
+                                    </li>
+                                }
+                            </ul>
+                    <div class="tab-content ">
+                            <div class="tab-pane active" id="LoadDetails">
+                                @Html.HiddenFor(m => m.CategoryId, new { @id = "hdnCategoryId", @name = "CategoryId" })
+                                @Html.HiddenFor(m => m.LoadSpaceId, new { @id = "hdnLoadSpaceId", @name = "LoadSpaceId" })
+                                @Html.HiddenFor(m => m.LoadIsFree, new { @id = "hdnLoadIsFree", @name = "LoadIsFree" })
+                                @Html.HiddenFor(m => m.LoadIsAvailable, new { @id = "hdnLoadIsAvailable", @name = "LoadIsAvailable" })
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="col-sm-2">
+                                                <img src="@Model.LoadImage" class="img-responsive" alt="image not found" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadName, Model.LoadName, new { @id = "lblLoadName", @name = "LoadName", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Description</b></td>
+                                        <td>
+                                            @if (Model.LoadDesc != null)
+                                            {
+                                                @Html.Raw(Model.LoadDesc)
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Created Date</b></td>
+                                        <td>
+                                            @{var displayPickup = "";}
+                                            @if (Model.LoadCreatedDate != null)
+                                            {
+                                                var date = Model.LoadCreatedDate.Value.ToString("dd/MM/yyyy");
+                                                var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                                if (date == TodayDate)
+                                                {
+                                                    displayPickup = "Today";
+
+                                                }
+                                                else
+                                                {
+                                                    displayPickup = Model.LoadCreatedDate.Value.ToString("dd MMM yyyy");
+                                                }
+
+                                                @Html.LabelFor(m => m.LoadCreatedDate, displayPickup, new { @id = "lblLoadCreatedDate", @name = "LoadCreatedDate", style = "font-weight:normal;" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Price</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadPrice, Convert.ToString(Model.LoadPrice), new { @id = "lblLoadPrice", @name = "LoadPrice", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Departure Point</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadPickupLocation, Model.LoadPickupLocation, new { @id = "lblLoadPickupLocation", @name = "LoadPickupLocation", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Drop-Off Point</b></td>
+                                        <td>@Html.LabelFor(m => m.LoadDropOffLocation, Model.LoadDropOffLocation, new { @id = "lblLoadDropOffLocation", @name = "LoadDropOffLocation", style = "font-weight:normal;" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Departure Time</b></td>
+                                        <td>
+                                            @{var displayDepartureTime = "";}
+                                            @if (Model.LoadPickupDate != null)
+                                            {
+                                                var date = Model.LoadPickupDate.Value.ToString("dd/MM/yyyy");
+                                                var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                                if (date == TodayDate)
+                                                {
+                                                    displayDepartureTime = "Today";
+
+                                                }
+                                                else
+                                                {
+                                                    displayDepartureTime = Model.LoadPickupDate.Value.ToString("dd MMM yyyy");
+                                                }
+
+                                                @Html.LabelFor(m => m.LoadPickupDate, displayDepartureTime, new { @id = "lblLoadPickupDate", @name = "LoadPickupDate", style = "font-weight:normal;" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Arrival Time</b></td>
+                                        <td>
+                                            @{var displayArrivalTime = "";}
+                                            @if (Model.LoadDropOffDate != null)
+                                            {
+                                                var date = Model.LoadDropOffDate.Value.ToString("dd/MM/yyyy");
+                                                var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                                if (date == TodayDate)
+                                                {
+                                                    displayArrivalTime = "Today";
+
+                                                }
+                                                else
+                                                {
+                                                    displayArrivalTime = Model.LoadDropOffDate.Value.ToString("dd MMM yyyy");
+                                                }
+
+                                                @Html.LabelFor(m => m.LoadDropOffDate, displayArrivalTime, new { @id = "lblLoadDropOffDate", @name = "LoadDropOffDate", style = "font-weight:normal;" })
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Load-Channel No</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadChannelNo, Model.LoadChannelNo, new { @id = "lblLoadChannelNo", @name = "LoadChannelNo", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Load Space</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadSpaceTitle, Model.LoadSpaceTitle, new { @id = "lblLoadSpaceTitle", @name = "LoadSpaceTitle", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="LoadOwnerDetails">
+                                @Html.HiddenFor(m => m.LoadownerCategoryId, new { @id = "hdnLoadownerCategoryId", @name = "LoadownerCategoryId" })
+                                @Html.HiddenFor(m => m.LoadOwnerId, new { @id = "hdnLoadOwnerId", @name = "LoadOwnerId" })
+                                @Html.HiddenFor(m => m.LoadOwnerHasJoinedCategory, new { @id = "hdnLoadOwnerHasJoinedCategory", @name = "LoadOwnerHasJoinedCategory" })
+                                @Html.HiddenFor(m => m.LoadOwnerIsBlocked, new { @id = "hdnLoadOwnerIsBlocked", @name = "LoadOwnerIsBlocked" })
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="col-sm-2">
+                                                <img src="@Model.LoadOwnerProfileImage" class="img-responsive" alt="image not found" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>First Name</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadOwnerFirstName, Model.LoadOwnerFirstName, new { @id = "lblLoadOwnerFirstName", @name = "LoadOwnerFirstName", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    @if (Model.LoadOwnerMiddleName != null)
+                                    {
+                                        <tr>
+                                            <td><b>Middle Name</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.LoadOwnerMiddleName, Model.LoadOwnerMiddleName, new { @id = "lblLoadOwnerMiddleName", @name = "LoadOwnerMiddleName", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td><b>Last Name</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadOwnerLastName, Model.LoadOwnerLastName, new { @id = "lblLoadOwnerLastName", @name = "LoadOwnerLastName", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Email</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.LoadOwnerEmail, Model.LoadOwnerEmail, new { @id = "lblLoadOwnerEmail", @name = "LoadOwnerEmail", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    @if (Model.LoadOwnerAge != null)
+                                    {
+                                        <tr>
+                                            <td><b>Age</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.LoadOwnerAge, Convert.ToString(Model.LoadOwnerAge), new { @id = "lblLoadOwnerAge", @name = "LoadOwnerAge", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.LoadOwnerGender != null)
+                                    {
+                                        <tr>
+                                            <td><b>Gender</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.LoadOwnerGender, Model.LoadOwnerGender, new { @id = "lblLoadOwnerGender", @name = "LoadOwnerGender", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.LoadOwnerAddress != null)
+                                    {
+                                        <tr>
+                                            <td><b>Address</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.LoadOwnerAddress, Model.LoadOwnerAddress, new { @id = "lblLoadOwnerAddress", @name = "LoadOwnerAddress", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.LoadOwnerDOB != null)
+                                    {
+                                        <tr>
+                                            <td><b>Date of birth</b></td>
+                                            <td>
+                                                @{var loadOwnerDOB = "";}
+                                                @if (Model.LoadOwnerDOB != null)
+                                                {
+                                                    var date = Model.LoadOwnerDOB.Value.ToString("dd/MM/yyyy");
+                                                    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                                    if (date == TodayDate)
+                                                    {
+                                                        loadOwnerDOB = "Today";
+
+                                                    }
+                                                    else
+                                                    {
+                                                        loadOwnerDOB = Model.LoadOwnerDOB.Value.ToString("dd MMM yyyy");
+                                                    }
+
+                                                    @Html.LabelFor(m => m.LoadOwnerDOB, loadOwnerDOB, new { @id = "lblLoadOwnerDOB", @name = "LoadOwnerDOB", style = "font-weight:normal;" })
+                                                }
+                                            </td>
+                                        </tr>
+                                                    }
+
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="VehicleOwnerDetails">
+                                @Html.HiddenFor(m => m.VehicleOwnerCategoryId, new { @id = "hdnVehicleOwnerCategoryId", @name = "VehicleOwnerCategoryId" })
+                                @Html.HiddenFor(m => m.VehicleOwnerId, new { @id = "hdnVehicleOwnerId", @name = "VehicleOwnerId" })
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="col-sm-2">
+                                                <img src="@Model.VehicleOwnerProfileImage" class="img-responsive" alt="image not found" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>First Name</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.VehicleOwnerFirstName, Model.VehicleOwnerFirstName, new { @id = "lblVehicleOwnerFirstName", @name = "VehicleOwnerFirstName", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    @if (Model.VehicleOwnerMiddleName != null)
+                                    {
+                                        <tr>
+                                            <td><b>Middle Name</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.VehicleOwnerMiddleName, Model.VehicleOwnerMiddleName, new { @id = "lblVehicleOwnerMiddleName", @name = "VehicleOwnerMiddleName", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td><b>Last Name</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.VehicleOwnerLastName, Model.VehicleOwnerLastName, new { @id = "lblVehicleOwnerLastName", @name = "VehicleOwnerLastName", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Email</b></td>
+                                        <td>
+                                            @Html.LabelFor(m => m.VehicleOwnerEmail, Model.VehicleOwnerEmail, new { @id = "lblVehicleOwnerEmail", @name = "VehicleOwnerEmail", style = "font-weight:normal;" })
+                                        </td>
+                                    </tr>
+                                    @if (Model.VehicleOwnerAge != null)
+                                    {
+                                        <tr>
+                                            <td><b>Age</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.VehicleOwnerAge, Convert.ToString(Model.VehicleOwnerAge), new { @id = "lblVehicleOwnerAge", @name = "VehicleOwnerAge", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.VehicleOwnerGender != null)
+                                    {
+                                        <tr>
+                                            <td><b>Gender</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.VehicleOwnerGender, Model.VehicleOwnerGender, new { @id = "lblVehicleOwnerGender", @name = "VehicleOwnerGender", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.VehicleOwnerAddress != null)
+                                    {
+                                        <tr>
+                                            <td><b>Address</b></td>
+                                            <td>
+                                                @Html.LabelFor(m => m.VehicleOwnerAddress, Model.VehicleOwnerAddress, new { @id = "lblVehicleOwnerAddress", @name = "VehicleOwnerAddress", style = "font-weight:normal;" })
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (Model.VehicleOwnerDOB != null)
+                                    {
+                                        <tr>
+                                            <td><b>Date of birth</b></td>
+                                            <td>
+                                                @{var vehicleOwnerDOB = "";}
+                                                @if (Model.VehicleOwnerDOB != null)
+                                                {
+                                                    var date = Model.VehicleOwnerDOB.Value.ToString("dd/MM/yyyy");
+                                                    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                                    if (date == TodayDate)
+                                                    {
+                                                        vehicleOwnerDOB = "Today";
+
+                                                    }
+                                                    else
+                                                    {
+                                                        vehicleOwnerDOB = Model.VehicleOwnerDOB.Value.ToString("dd MMM yyyy");
+                                                    }
+
+                                                    @Html.LabelFor(m => m.VehicleOwnerDOB, vehicleOwnerDOB, new { @id = "lblVehicleOwnerDOB", @name = "VehicleOwnerDOB", style = "font-weight:normal;" })
+                                                }
+                                            </td>
+                                        </tr>
+                                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                </div>            
+            </div>
+            <div class="col-lg-4">
+                <div class="border-box" style="border:none;">
+                    <table class="table table-responsive">
+                        <tr>
+                            <td colspan="2" style="text-align:center;"><h3>Summury</h3></td>
+                        </tr>
+                        <tr>
+                            <td>Subtotal</td>
+                            <td>$2</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td>$20</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery time</td>
+                            <td>1 Day</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align:center;vertical-align:top;">
+                                <button class="btn btn-theme" onclick="goTo('@Url.Action("PaymentSummury", "Payment", new { CategoryId = Model.CategoryId })')">
+                                    Proceed to Payment
+                                </button>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"> 
+                                <div class="display-td">
+                                    <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+
+<h2>No records found.</h2>
+}
