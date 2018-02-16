@@ -125,7 +125,7 @@ width:100% !important
 /************************ Home Page***********************/
 .home-banner {
     background: url('./images/slider-back.jpg');
-    min-height: 500px;
+    min-height: 800px;
     padding: 40px 15px;
     background-size: cover;
     background-position:10%;
@@ -133,7 +133,7 @@ width:100% !important
 .home-banner .banner-box{
     max-width:300px;
     text-align:center;
-    margin-left:10%
+    margin-left:16%
 }
 .home-banner .btn{
     /*border-color:#fff;*/
@@ -143,6 +143,34 @@ width:100% !important
     background-color: #fff !important;*/
     box-shadow: none;
 }
+
+/*Jigar Changes*/
+.home-banner1 {
+    background: url('./images/back-right.jpg');
+    min-height: 1000px;
+    padding: 40px 15px;
+    background-size: cover;
+    background-position:10%;
+}
+.home-banner1 .banner-box{
+    max-width:300px;
+    text-align:center;
+    margin-left:10%;
+    float:right;
+    
+}
+.home-banner1 .btn{
+    /*border-color:#fff;*/
+}
+.home-banner1 .btn:hover{
+    box-shadow: none;
+}
+
+/*Jigar Changes END*/
+
+
+
+
 .offer-block{
     padding-top:15px;
     padding-bottom:15px;
