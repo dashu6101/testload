@@ -51,13 +51,13 @@ namespace DeliverLoad.Controllers
             return RedirectToAction("Index");
         }
 
+        
         [AllowAnonymous]
-        public ActionResult Index1(string returnUrl)
+        public ActionResult Testpage(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
 
 
         //
@@ -78,7 +78,7 @@ namespace DeliverLoad.Controllers
 
                     if (UserDetails.IsBloked == true)
                     {
-                        ModelState.AddModelError("", "You account is blocked. Please contact support@chitchatchannel.com");
+                        ModelState.AddModelError("", "You account is blocked. Please contact support@deliverload.com");
                         WebSecurity.Logout();
                         return View("Index", model);
                     }
@@ -125,7 +125,7 @@ namespace DeliverLoad.Controllers
                     var UserDetails = service.GetUserDetails(model.LoginUserName);
                     if (UserDetails.IsBloked == true)
                     {
-                        ModelState.AddModelError("", "You account is blocked. Please contact support@chitchatchannel.com");
+                        ModelState.AddModelError("", "You account is blocked. Please contact support@deliverload.com");
                         WebSecurity.Logout();
                         ajaxResponse.Message = "You account is blocked. Please contact support@deliverload.com";
                     }
@@ -240,7 +240,7 @@ namespace DeliverLoad.Controllers
                     var UserDetails = service.GetUserDetails(model.LoginModel.LoginUserName);
                     if (UserDetails.IsBloked == true)
                     {
-                        ModelState.AddModelError("", "You are Bloked, Please contact support@chitchatchannel.com!");
+                        ModelState.AddModelError("", "You are Bloked, Please contact support@deliverload.com!");
                         WebSecurity.Logout();
                         return Redirect(returnurl);
                     }

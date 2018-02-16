@@ -142,7 +142,7 @@ namespace DeliverLoad.Mvc.Mailers
             //return Populate(x =>
             //{
             //    x.ViewName = "AzureVideoUploadNotifiction";
-            //    x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+            //    x.From = new System.Net.Mail.MailAddress("deliverload Admin<no-reply@deliverload.com>");
             //});
 
         }

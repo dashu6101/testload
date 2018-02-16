@@ -133,7 +133,7 @@ namespace DeliverLoad.Controllers
                 {
                     string channelNumber = service.GetChannelNumberByCategoryId(CategoryId);
                     var mail = UserMailer.NewContentNotification(item.FirstName, channel.Name, sUser.UserName, Name, channelNumber);
-                    mail.Subject = "New Content from ChitChatChannel";
+                    mail.Subject = "New Content from DeliverLoad";
                     mail.To.Add(new MailAddress(item.UserName));
 
                     var client = new SmtpClientWrapper();
@@ -186,7 +186,7 @@ namespace DeliverLoad.Controllers
                 if (objCategory.Count > 0)
                 {
                     var mail = UserMailer.NewCommentNotification(sUser.UserName.ToUpper(), objCategory.Select(x => x.ChannelNo).Distinct().FirstOrDefault(), objCategory.Select(x => x.ContentName).Distinct().FirstOrDefault());
-                    mail.Subject = "New Comment from ChitChatChannel";
+                    mail.Subject = "New Comment from DeliverLoad";
 
                     foreach (var item in objCategory.Select(x => x.UserEmail).Distinct())
                     {
@@ -215,7 +215,7 @@ namespace DeliverLoad.Controllers
                 if (objCategory.Count > 0)
                 {
                     var mail = UserMailer.NewCommentNotification(sUser.UserName.ToUpper(), objCategory.Select(x => x.ChannelNo).Distinct().FirstOrDefault(), objCategory.Select(x => x.ContentName).Distinct().FirstOrDefault());
-                    mail.Subject = "New Comment from ChitChatChannel";
+                    mail.Subject = "New Comment from DeliverLoad";
 
                     foreach (var item in objCategory.Select(x => x.UserEmail).Distinct())
                     {

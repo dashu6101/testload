@@ -71,12 +71,12 @@ namespace DeliverLoad.Controllers
 
             body += "<p>Dear  " + "aditya" + ",</p>";
             body += "<p>Your video has been encoded and ready for viewing.</p>";
-            body += "<p>Login to take a <a href=\"http://www.chitchatchannel.com/\">look</a></p>";
-            body += "<p>Sincerely,</p><p>ChitChatChannel Admin.</p>";
+            body += "<p>Login to take a <a href=\"http://www.deliverload.com/\">look</a></p>";
+            body += "<p>Sincerely,</p><p>DeliverLoad Admin.</p>";
             body += "<p>-------------------------------------------------<br/>This e-mail and any files transmitted with it may contain privileged or confidential information. It is solely for use by the individual for whom it is intended, even if addressed incorrectly. If you received this e-mail in error, please notify the sender; do not disclose, copy, distribute, or take any action in reliance on the contents of this information; and delete it from your system. Any other use of this e-mail is prohibited. Thank you for your compliance.";
             body += "--------------------------------------------------</p>";
 
-            var msg = new MailMessage("support@chitchatchannel.com", "aditya.murthy88@gmail.com");
+            var msg = new MailMessage("support@deliverload.com", "aditya.murthy88@gmail.com");
             msg.Subject = subject;
             msg.Body = body;
 
@@ -95,7 +95,7 @@ namespace DeliverLoad.Controllers
             {
 
                 var mail = UserMailer.ContactUs(model.UserName, model.FirstName, model.Message);
-                mail.Subject = "ChitChatChannel Enquiries";
+                mail.Subject = "DeliverLoad Enquiries";
                 mail.To.Add(new MailAddress(ConfigurationManager.AppSettings["ContactUSEmail"].ToString()));
 
                 var client = new SmtpClientWrapper();
@@ -207,7 +207,7 @@ namespace DeliverLoad.Controllers
             foreach (var item in emailId.Split(','))
             {
                 var mail = UserMailer.SendInvite(user.FirstName.ToUpper() + " " + user.LastName.ToUpper(), channelName, ChannelNo);
-                mail.Subject = "ChitChatChannel Invitation";
+                mail.Subject = "DeliverLoad Invitation";
                 mail.To.Add(new MailAddress(item));
 
                 var client = new SmtpClientWrapper();

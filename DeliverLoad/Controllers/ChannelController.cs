@@ -112,7 +112,7 @@ namespace DeliverLoad.Controllers
                     var confirmationToken = WebSecurity.CreateUserAndAccount(model.UserName, model.Password, UserInfo, true);
 
                     var mail = UserMailer.ConfirmAccount(model.FirstName, confirmationToken);
-                    mail.Subject = "ChitChatChannel account confirmation";
+                    mail.Subject = "DeliverLoad account confirmation";
                     mail.To.Add(new MailAddress(model.UserName));
 
                     var client = new SmtpClientWrapper();

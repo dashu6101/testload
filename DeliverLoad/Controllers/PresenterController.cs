@@ -833,7 +833,7 @@ namespace DeliverLoad.Controllers
             int status = service.updateVideoURL(nodeId, streamingUrl, User.Identity.Name);
 
             //var mail = UserMailer.AzureVideoUploadNotification(User.Identity.Name, status, "");
-            //mail.Subject = "ChitChatChannel account confirmation";
+            //mail.Subject = "DeliverLoad account confirmation";
             //mail.To.Add(new MailAddress(User.Identity.Name));
 
             //var client = new SmtpClientWrapper();
@@ -846,12 +846,12 @@ namespace DeliverLoad.Controllers
 
             body += "<p>Dear  " + user.FirstName + ",</p>";
             body += "<p>Your video has been encoded and ready for viewing.</p>";
-            body += "<p>Login to take a <a href=\"http://www.chitchatchannel.com/\">look</a></p>";
-            body += "<p>Sincerely,</p><p>ChitChatChannel Admin.</p>";
+            body += "<p>Login to take a <a href=\"http://www.deliverload.com/\">look</a></p>";
+            body += "<p>Sincerely,</p><p>DeliverLoad Admin.</p>";
             body += "<p>-------------------------------------------------<br/>This e-mail and any files transmitted with it may contain privileged or confidential information. It is solely for use by the individual for whom it is intended, even if addressed incorrectly. If you received this e-mail in error, please notify the sender; do not disclose, copy, distribute, or take any action in reliance on the contents of this information; and delete it from your system. Any other use of this e-mail is prohibited. Thank you for your compliance.<br/>";
             body +=  "--------------------------------------------------</p>";
 
-            var msg = new MailMessage("support@chitchatchannel.com", user.UserName);
+            var msg = new MailMessage("support@DeliverLoad.com", user.UserName);
             msg.Subject = subject;
             msg.Body = body;
 

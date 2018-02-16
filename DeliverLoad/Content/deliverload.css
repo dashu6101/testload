@@ -142,27 +142,36 @@ width:100% !important
     background-position:10%;
 }
 .home-banner .banner-box{
-    max-width:300px;
+    max-width:330px;
     text-align:center;
     margin-left:16%
 }
-.home-banner .btn{
-    /*border-color:#fff;*/
-}
+/*.home-banner .btn{
+    border-color:#fff;
+}*/
 .home-banner .btn:hover{
     /*border-color: #fff;
     background-color: #fff !important;*/
     box-shadow: none;
 }
 
-/*Jigar Changes*/
-.home-banner1 {
+.mobilehand {
     background: url('./images/back-right.jpg');
-    min-height: 1000px;
+    min-height: 450px;
     padding: 40px 15px;
     background-size: cover;
-    background-position:10%;
+    background-position: 10%;
 }
+    .mobilehand .findspace{
+        padding:0px;
+    }
+    .home-banner1 {
+        background: url('./images/back-right.jpg');
+        min-height: 1000px;
+        padding: 40px 15px;
+        background-size: cover;
+        background-position: 10%;
+    }
 .home-banner1 .banner-box{
     max-width:300px;
     text-align:center;
@@ -170,9 +179,9 @@ width:100% !important
     float:right;
     
 }
-.home-banner1 .btn{
-    /*border-color:#fff;*/
-}
+/*.home-banner1 .btn{
+    border-color:#fff;
+}*/
 .home-banner1 .btn:hover{
     box-shadow: none;
 }
@@ -192,9 +201,9 @@ width:100% !important
     text-align:center;
     margin-left:16%
 }
-.home-banner-index1 .btn{
-    /*border-color:#fff;*/
-}
+    /*.home-banner-index1 .btn{
+    border-color:#fff;
+}*/
 .home-banner-index1 .btn:hover{
     /*border-color: #fff;
     background-color: #fff !important;*/
@@ -226,6 +235,9 @@ width:100% !important
         outline: none;
         box-shadow: none !important;
         max-width: 100%;
+    }
+    .findspace .input-group {
+        margin-bottom: 10px !important;
     }
 .offerride {
     border: 1px solid #eaeaea;

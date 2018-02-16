@@ -426,6 +426,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="404.html" />
+    <Content Include="Content\videos\Depositphotos_59969769_smallweb.mov" />
+    <Content Include="Content\videos\banner.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader%281%29.gif" />
@@ -671,7 +673,6 @@
     <Content Include="Views\Participant\ChannelList.cshtml" />
     <Content Include="Views\UserMailer\AzureVideoUploadNotifiction.cshtml" />
     <Content Include="Views\UserMailer\UploadVideoNotification.cshtml" />
-    <Content Include="Views\Account\Index - Copy.cshtml" />
     <Content Include="Views\Loadowner\Index.cshtml" />
     <Content Include="Views\Loadowner\_ViewStart.cshtml" />
     <Content Include="Views\Vehicleowner\CategoryDetails.cshtml" />
@@ -700,6 +701,7 @@
     <Content Include="Views\Payment\PaymentSummury.cshtml" />
     <Content Include="Views\Payment\_OrderDetails.cshtml" />
     <Content Include="Views\Account\PhoneVerification.cshtml" />
+    <Content Include="Views\Account\Testpage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
