@@ -94,29 +94,44 @@
         <div class="wraper">
             <div class="banner-box">
                 <h1 class="text-center bold">Got a space to deliver load ?</h1>
-                <a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent">Offer Space</a>
+                <a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent">Do you have a load to deliver?</a>
             </div>
-            <div class="searchform">
-                @Html.Partial("_FindSpaceForm", new FindSpaceViewModel())
-            </div>
+            @*<div class="searchform">
+                    @Html.Partial("_FindSpaceForm", new FindSpaceViewModel())
+                </div>*@
         </div>
     </div>
-    <div class="wraper offer-block">
-        <div class="col-sm-6">
-            <img src="~/Content/images/back-left-mid.jpg" class="img-responsive" style="margin-top:10px;" />
-        </div>
-        <div class="col-sm-6">
-            <h3 class="bold">Maximize your potential</h3>
-            <button class="btn btn-theme">Offer Space</button>
-        </div>
-        <div class="clearfix"></div>
-        <div class="col-sm-6 text-right">
-            <h1 class="bold">Got a load<br /> to deliver ?</h1>
-        </div>
-        <div class="col-sm-6">
-            <img src="~/Content/images/back-right.jpg" class="img-responsive" />
+    <div class="home-banner1">
+        <div class="wraper">
+
+            @Html.Partial("_FindSpaceForm", new FindSpaceViewModel())
+
+            <div class="banner-box">
+
+                @*<h3 class="bold">Maximize your potential</h3>
+                    <button class="btn btn-theme">Do you have space to deliver a load?</button>*@
+                @*<a href="@Url.Action("Index","FindSpace")" class="btn btn-theme btn-transparent">Do you have a load to deliver?</a>*@
+            </div>
+
         </div>
     </div>
+
+    @*<div class="wraper offer-block">
+            <div class="col-sm-6">
+                <img src="~/Content/images/back-left-mid.jpg" class="img-responsive" style="margin-top:10px;" />
+            </div>
+            <div class="col-sm-6">
+                <h3 class="bold">Maximize your potential</h3>
+                <button class="btn btn-theme">Do you have space to deliver a load?</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-6 text-right">
+                <h1 class="bold">Got a load<br /> to deliver ?</h1>
+            </div>
+            <div class="col-sm-12">
+                <img src="~/Content/images/back-right.jpg" class="img-responsive" />
+            </div>
+        </div>*@
     @*<div class="col-sm-12 offer-block">
             <div class="col-sm-4">
                 <h3 class="bold">Maximize your potential</h3>
@@ -207,71 +222,71 @@
 
 <script type="text/javascript">
 
-        function SaveSuccessSubscription(result) {
-            $('#SubscriptionMailId').val('');
-            //    alert('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.');
-            DisplayNotification('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.', 'success');
-            $(".AjaxLoader").hide();
-        }
+    function SaveSuccessSubscription(result) {
+        $('#SubscriptionMailId').val('');
+        //    alert('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.');
+        DisplayNotification('Your Email is successfully saved. You will begin to receive alerts on exciting channels shortly.', 'success');
+        $(".AjaxLoader").hide();
+    }
 
-        function SaveFailureSubscription(result) {
-            //  alert('Please enter an Email address.');
-            DisplayNotification('Please enter an Email address.', 'error');
-            $(".AjaxLoader").hide();
-        }
+    function SaveFailureSubscription(result) {
+        //  alert('Please enter an Email address.');
+        DisplayNotification('Please enter an Email address.', 'error');
+        $(".AjaxLoader").hide();
+    }
 
 
-        $(document).ready(function () {
-            $(".fancybox").fancybox({
-                type: "iframe",
-                width: 350, // or whatever
-                height: 250
-            });
-            $(".fancybox_2").fancybox({
-                type: "iframe",
-                width: 350, // or whatever
-                height: 500
-            });
-            $(".fancybox_3").fancybox({
-                type: "iframe",
-            });
+    $(document).ready(function () {
+        $(".fancybox").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 250
         });
+        $(".fancybox_2").fancybox({
+            type: "iframe",
+            width: 350, // or whatever
+            height: 500
+        });
+        $(".fancybox_3").fancybox({
+            type: "iframe",
+        });
+    });
 
-        function DisplayNotification(returnvalue, status) {
+    function DisplayNotification(returnvalue, status) {
 
-            if (returnvalue != null) {
-                if (status == "success") {
-                    toastr.success(returnvalue);
-                }
-                else if (status == "error") {
-                    toastr.error(returnvalue);
-                }
+        if (returnvalue != null) {
+            if (status == "success") {
+                toastr.success(returnvalue);
+            }
+            else if (status == "error") {
+                toastr.error(returnvalue);
             }
         }
+    }
 
-        $("#btnSubmitSubscription").click(function () {
-            $(".AjaxLoader").show();
-        });
+    $("#btnSubmitSubscription").click(function () {
+        $(".AjaxLoader").show();
+    });
 
-        //$(document).ajaxStart(function () {
-        //    $("input[type='submit']").click(function () {
-        //        var $this = $(this);
-        //        $this.attr('disabled', true);
-        //        setTimeout(function () {
-        //            $this.prop('disabled', false);
-        //        }, 3000);
-        //    });
-        //});
+    //$(document).ajaxStart(function () {
+    //    $("input[type='submit']").click(function () {
+    //        var $this = $(this);
+    //        $this.attr('disabled', true);
+    //        setTimeout(function () {
+    //            $this.prop('disabled', false);
+    //        }, 3000);
+    //    });
+    //});
 
-        $(document).ajaxComplete(function () {
-            $("#wait").css("display", "none");
-        });
+    $(document).ajaxComplete(function () {
+        $("#wait").css("display", "none");
+    });
 
-        $("#btnRegister").click(function () {
-            $(".AjaxLoaderRegister").show();
-        });
+    $("#btnRegister").click(function () {
+        $(".AjaxLoaderRegister").show();
+    });
 
-    </script>
+</script>
 
 
 
