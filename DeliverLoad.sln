@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliverLoad", "DeliverLoad\DeliverLoad.csproj", "{ADCF4222-C8F1-4AFC-A8AF-EC07FFA239B9}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "DeliverLoad.Azure", "DeliverLoad.Azure\DeliverLoad.Azure.ccproj", "{BFAB46EE-332F-40AD-B54A-07C25CCCEFE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{ADCF4222-C8F1-4AFC-A8AF-EC07FFA239B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADCF4222-C8F1-4AFC-A8AF-EC07FFA239B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADCF4222-C8F1-4AFC-A8AF-EC07FFA239B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFAB46EE-332F-40AD-B54A-07C25CCCEFE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFAB46EE-332F-40AD-B54A-07C25CCCEFE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFAB46EE-332F-40AD-B54A-07C25CCCEFE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFAB46EE-332F-40AD-B54A-07C25CCCEFE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34E9D1B2-401C-490C-9972-EB6F5F1575C1}
 	EndGlobalSection
 EndGlobal

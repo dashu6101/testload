@@ -620,7 +620,7 @@ namespace DeliverLoad.Controllers
                     var destinationBlob = assetContainer.GetBlockBlobReference(OriginalFileName);
 
                     destinationBlob.DeleteIfExists();
-                    destinationBlob.StartCopyFromBlob(sourceCloudBlob);
+                    //destinationBlob.StartCopyFromBlob(sourceCloudBlob);
                     destinationBlob.FetchAttributes();
 
                 }
