@@ -2,54 +2,125 @@
 @using System.Configuration;
 @{
     ViewBag.Title = "PhoneVerification";
-    Layout = "~/Views/Shared/_Layout2.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="findspace">
-    @using (Html.BeginForm(new { @id = "phoneverForm" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary()
-        <div class="input-group col-sm-3 col-md-3 date">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-map-marker"></span>
-            </span>
-            @Html.EditorFor(m => m.phone, new { @class = "form-control" })
-        </div>
-        if (Model.isconfirmed)
-        {
-            <div class="input-group col-sm-3 col-md-3 date">
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-map-marker"></span>
-                </span>
-                @Html.EditorFor(m => m.otp, new { @class = "form-control" })
-            </div>
+<div class="loader" style="display:none"></div>
+
+@section css{
+    <link href="~/Content/intlTelInput.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .intl-tel-input .country-list{width:248px;}
+        .cusaddon {
+            height: 35px;
+            display: inline-block;
+            vertical-align: top;
         }
-        <div class="input-group col-sm-2 col-md-2 text-center">
-            <button type="submit" class="btn btn-theme">
-                @*<span class="glyphicon glyphicon-plus"></span>*@
-                @Html.Raw((Model.isconfirmed) ? "Confirm" : "Verify")
-            </button>
+        .img-circle {
+            width: 40px;
+            height: 40px;
+            border: 3px solid;
+            padding-top: 7px;
+            margin: 0px auto;
+        }
+    </style>
+}
+@section scripts{
+    <script src="~/Scripts/intlTelInput.js"></script>
+    
+}
+<div class="page">
+    <div class="heading_message" style="border-bottom:1px solid #eaeaea">
+        <div class="wraper">
+            <div class="text-left">
+                @*<img src="~/Content/images/logo2.png" />*@
+                <img src="~/Content/images/logo.png" style="height:50px;margin-top:5px" />
+                <a href="@Url.Action("Index","Account")" class="nav-link pull-right" data-target="#registerModal" data-toggle="modal">Login</a>
+            </div>
         </div>
-    }
+    </div>
+    <div class="wraper">
+        <div class="findspace" style="overflow:visible">
+            @using (Html.BeginForm("PhoneVerification", "Account", FormMethod.Post, new { @id = "phoneverForm", @class = "form-inline text-center" }))
+            {
+
+                @Html.ValidationSummary()
+                <h2>Please verify your phone</h2>
+                @Html.HiddenFor(model => model.user_id)
+                <div id="phone" class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon cusaddon">
+                            <span class="glyphicon glyphicon-phone"></span>
+                        </span>
+                        @Html.TextBoxFor(model => model.phone, new { @id = "phoneIn", @class = "form-control", @placeholder = "Mobile Numner" })
+                    </div>
+                </div>
+                <div id="otp" class="form-group" style="display:none">
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.otp, new { @id = "otpIn", @class = "form-control", @placeholder = "OTP" })
+                    </div>
+                </div>
+
+                <button id="btnSubmit" type="submit" class="btn btn-theme">
+                    @*<span class="glyphicon glyphicon-plus"></span>*@
+                    @Html.Raw((Model.isconfirmed) ? "Verify" : "Confirm")
+                </button>
+
+            }
+        </div>
+        <div id="successmessage" class="wraper text-center text-success" style="display:none">
+            <div class="img-circle">
+                <i class="glyphicon glyphicon-ok"></i>
+            </div>
+            <h4>Phone Verified Successfully !!</h4>
+            <a href="@Url.Action("Index","Account")">Login</a>
+        </div>
+        <div id="statusmessage" class="text-center"></div>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
+        $("#phoneIn").intlTelInput({
+            initialCountry: "NG"
+        });
+
         $("#phoneverForm").on("submit", function (event) {
-            debugger;
+            $('.loader').show();
             var $this = $(this);
+            var countryCode = $('.selected-flag').attr("title").split("+")[1];
+            var phone = $('#phoneIn').val();
             var frmValues = $this.serialize();
-            var method = $('#otp').val() != null ? 'phoneverificationotp' : 'verifyphone';
+            frmValues.replace(phone, countryCode + phone);
+            var otpVal = $('#otpIn').val();
+            var method = (otpVal != "" && otpVal != 0) ? 'verifyphone' : 'phoneverificationotp';
             $.ajax({
                 type: 'POST',
-                url: '@ConfigurationManager.AppSettings["API_URL"]' + method,
+                url: '@ConfigurationManager.AppSettings["API_URL"]' + "account/" +method,
                 data: frmValues
                 })
-                .done(function () {
-                    @Model.isconfirmed = true;
+                .done(function (response) {
+                    if (response.Success) {
+                        if (method == "verifyphone") {
+                            $('#phoneverForm').hide();
+                            $('#successmessage').show();
+                            $('#statusmessage').hide()
+                        }
+                        else {
+                            $('#phoneIn').attr('readonly', 'true');
+                            $('#otp').css("display", "inline-block");
+                            $("#btnSubmit").text("Verify");
+                            $("#statusmessage").removeClass("text-danger").addClass("text-success").text("please check your phone inbox and enter otp to verify your phone number");
+                        }
+                    }
+                    else {
+                        $("#statusmessage").addClass("text-danger").removeClass("text-success").addClass("text-error").text(response.Message);
+                    }
+                    $('.loader').hide();
                 })
                 .fail(function () {
                     $("#verificationerror").text("An error occured");
+                    $("#statusmessage").removeClass("text-success").addClass("text-error").text("something went wrong!!");
+                    $('.loader').hide();
                 });
             event.preventDefault();
         });

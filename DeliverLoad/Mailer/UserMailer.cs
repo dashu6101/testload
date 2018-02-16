@@ -24,7 +24,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
                 {
                     x.ViewName = "ForgotPassword";
-                    x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                    x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
                 });
         }
 
@@ -41,7 +41,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "ContactUs";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("DeliverLoad Admin<no-reply@deliverload.com>");
             });
         }
 
@@ -71,7 +71,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "NewContentNotification";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
             });
         }
 
@@ -83,7 +83,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "ConfirmAccount";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
             });
         }
 
@@ -98,7 +98,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "SendInvite";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
             });
         }
 
@@ -111,7 +111,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "NewCommentNotification";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
             });
         }
 
@@ -136,7 +136,7 @@ namespace DeliverLoad.Mvc.Mailers
             return Populate(x =>
             {
                 x.ViewName = "ForgotPassword";
-                x.From = new System.Net.Mail.MailAddress("ChitChatChannel Admin<no-reply@chitchatchannel.com>");
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
             });
 
             //return Populate(x =>

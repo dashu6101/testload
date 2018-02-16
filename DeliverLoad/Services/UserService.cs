@@ -129,6 +129,26 @@ namespace DeliverLoad.Services
 
         }
 
-
+        public PhoneVerificationViewModel AddPhoneVerificationAttempts(PhoneVerificationViewModel objPVA)
+        {
+            PhoneVerificationAttempt userPVA = dbContext.PhoneVerificationAttempts.Where(l => l.Phone == objPVA.phone && l.Otp == objPVA.otp).FirstOrDefault();
+            if (userPVA != null)
+            {
+                userPVA.Otp = objPVA.otp;
+                dbContext.Entry(userPVA).State = System.Data.EntityState.Modified;
+            }
+            else
+            {
+                PhoneVerificationAttempt pva = new PhoneVerificationAttempt();
+                pva.Phone = objPVA.phone;
+                pva.UserId = objPVA.user_id;
+                pva.Otp = objPVA.otp;
+                pva.Status = "PENDING";
+                pva.AttemptedOn = DateTime.Now;
+                dbContext.PhoneVerificationAttempts.Add(pva);
+            }
+            dbContext.SaveChanges();
+            return objPVA;
+        }
     }
 }
