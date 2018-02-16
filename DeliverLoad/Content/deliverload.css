@@ -166,6 +166,31 @@ width:100% !important
     box-shadow: none;
 }
 
+
+
+
+.home-banner-index1 {
+    background: url('./images/slider-back.jpg');
+    min-height: 300px;
+    padding: 40px 15px;
+    background-size: cover;
+    background-position:10%;
+}
+.home-banner-index1 .banner-box{
+    max-width:300px;
+    text-align:center;
+    margin-left:16%
+}
+.home-banner-index1 .btn{
+    /*border-color:#fff;*/
+}
+.home-banner-index1 .btn:hover{
+    /*border-color: #fff;
+    background-color: #fff !important;*/
+    box-shadow: none;
+}
+
+
 /*Jigar Changes END*/
 
 

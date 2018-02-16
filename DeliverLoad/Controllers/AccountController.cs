@@ -51,6 +51,14 @@ namespace DeliverLoad.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
+        public ActionResult Index1(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+
 
         //
         // POST: /Account/Login
