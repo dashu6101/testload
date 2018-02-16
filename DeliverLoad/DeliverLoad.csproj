@@ -426,8 +426,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="404.html" />
-    <Content Include="Content\videos\Depositphotos_59969769_smallweb.mov" />
     <Content Include="Content\videos\banner.mp4" />
+    <Content Include="Content\videos\Depositphotos_59969769_smallweb.mov" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\ajax-loader%281%29.gif" />
