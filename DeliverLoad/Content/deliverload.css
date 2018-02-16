@@ -37,6 +37,17 @@ width:100% !important
     padding-top:10px;
     padding-bottom:10px
 }
+.loader {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    background-image: url('../images/ajax-loader(1).gif');
+    background-color: rgba(0, 0, 0, 0.57);
+    height: 100%;
+    z-index: 11111;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 /************************ Footer ****************/
 #map {
     height: 100%;

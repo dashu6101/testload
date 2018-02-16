@@ -342,6 +342,8 @@
     <Content Include="Content\images\duv_bg.png" />
     <Content Include="Content\images\facebook.png" />
     <Content Include="Content\images\FigsOnNodesSocialNetworking.jpg" />
+    <Content Include="Content\images\flags%402x.png" />
+    <Content Include="Content\images\flags.png" />
     <Content Include="Content\images\green_ball.png" />
     <Content Include="Content\images\ikeokw_transparent.jpg" />
     <Content Include="Content\images\ikeokw_transparent.png" />
@@ -358,6 +360,7 @@
     <Content Include="Content\images\Slide_5.jpg" />
     <Content Include="Content\images\social_media-wide.jpg" />
     <Content Include="Content\images\twitter.png" />
+    <Content Include="Content\intlTelInput.css" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
@@ -485,6 +488,7 @@
     <Content Include="Scripts\fancybox\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="Scripts\googlemap - Copy.js" />
     <Content Include="Scripts\googlemap.js" />
+    <Content Include="Scripts\intlTelInput.js" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
     <None Include="Scripts\jquery-1.4.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.4.js" />

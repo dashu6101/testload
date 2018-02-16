@@ -112,7 +112,7 @@
     <div class="modal fade" id="loginModal" role="dialog">
         @if (WebSecurity.CurrentUserName == "")
         {
-            @Html.Partial("_LoginPopup")
+            @Html.Partial("_LoginPopup",new DeliverLoad.Models.LoginModel())
         }
     </div>
     <div id="fb-root"></div>

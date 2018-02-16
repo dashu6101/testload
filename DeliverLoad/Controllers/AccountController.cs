@@ -300,10 +300,11 @@ namespace DeliverLoad.Controllers
 
                     var mail = UserMailer.ConfirmAccount(model.FirstName, confirmationToken);
                     mail.Subject = "Deliverload account confirmation";
-                    mail.To.Add(new MailAddress(model.UserName));
+                    //mail.To.Add(new MailAddress(model.UserName));
+                    mail.To.Add(new MailAddress("dashu.web@gmail.com"));
 
                     var client = new SmtpClientWrapper();
-                    //mail.SendAsync("async send", client);
+                    mail.SendAsync("async send", client);
 
                     var md = new LoginModel
                     {
@@ -316,7 +317,8 @@ namespace DeliverLoad.Controllers
                     pvModel.phone = model.Phone;
                     pvModel.user_id = userModel.UserId;
                     pvModel.isconfirmed = false;
-                    return View("PhoneVerification", pvModel);
+                    //service.AddPhoneVerificationAttempts(pvModel);
+                    return RedirectToAction("PhoneVerification", pvModel);
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -342,7 +344,7 @@ namespace DeliverLoad.Controllers
                 var model = new LoginModel
                 {
                     Message = "ConfirmSuccess"
-                };
+                };  
 
                 return View("Login", model);
             }
@@ -354,9 +356,9 @@ namespace DeliverLoad.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult PhoneVerification()
+        public ActionResult PhoneVerification(PhoneVerificationViewModel pvModel)
         {
-            return View();
+            return View(pvModel);
         }
         
 
