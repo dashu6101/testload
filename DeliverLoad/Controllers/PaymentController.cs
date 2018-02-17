@@ -725,7 +725,7 @@ namespace DeliverLoad.Controllers
                 if (CategoryId != null && Convert.ToInt32(CategoryId) > 0)
                 {
                     OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(Convert.ToInt32(CategoryId));
-
+                    ViewBag.Price = objOrderSummury.LoadPrice;
                     if (objOrderSummury != null)
                     {
                         ViewBag.OrderSummury = objOrderSummury;
@@ -741,11 +741,33 @@ namespace DeliverLoad.Controllers
                 {
                     ViewBag.OrderSummury = null;
                 }
+                ViewBag.CategoryId = CategoryId;
+
                 return View("PaymentSummury", objPaymentMonitoryModel);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
+        }
+
+
+        [HttpPost]
+        public ActionResult ProceedCategory(int CategoryId, decimal Price)
+        {
+            string ReturnValue = "";
+
+            try
+            {
+                ReturnValue = service.ProceedCategory(CategoryId, sUser.UserId, Price);
+                return Json(ReturnValue, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }
