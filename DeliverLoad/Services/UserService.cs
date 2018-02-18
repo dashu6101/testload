@@ -19,7 +19,7 @@ namespace DeliverLoad.Services
 
         public UserModel GetUserDetailsByUserId(int UserId)
         {
-            var userDetails = dbContext.Users.Where(x => x.UserId == UserId).Select(x => new UserModel { UserId = x.UserId, UserName = x.UserName, UserType = x.UserType, FirstName = x.FirstName, LastName = x.LastName, ScreenName = x.ScreenName, ProfilePicture = x.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + x.ProfilePicture, Balance = (decimal)x.Balance }).FirstOrDefault();
+            var userDetails = dbContext.Users.Where(x => x.UserId == UserId).Select(x => new UserModel { UserId = x.UserId, UserName = x.UserName, UserType = x.UserType, FirstName = x.FirstName, LastName = x.LastName, ScreenName = x.ScreenName, ProfilePicture = x.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + x.ProfilePicture, Balance = (decimal)x.Balance,EmailID = x.EmailID }).FirstOrDefault();
 
             return userDetails;
 

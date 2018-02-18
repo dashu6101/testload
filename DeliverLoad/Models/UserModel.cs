@@ -47,6 +47,9 @@ namespace DeliverLoad.Models
         public bool IsBlockedParticepant { get; set; }
 
         public bool IsBloked { get; set; }
+
+
+        public string EmailID { get; set; }
     }
 
     public class ContactModel

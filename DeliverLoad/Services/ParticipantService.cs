@@ -607,11 +607,11 @@ namespace DeliverLoad.Services
 
         public string ProceedCategory(int CategoryId, int UserId, Decimal Price)
         {
+            PaymentHistory objPH = new PaymentHistory();
             try
             {
-
                 var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
-
+              
                 //check balance
                 var Paymentdetails = GetPaymentDetailsByUserId(UserId);
                 //Decimal Balance = Paymentdetails.TotalBalance;
@@ -627,16 +627,37 @@ namespace DeliverLoad.Services
 
                         dbContext.SaveChanges();
 
-                        return "1";
+                       // return "1";
                     }
+                    else {
+                        LoadownerCategory objUC = new LoadownerCategory();
 
-                    LoadownerCategory objUC = new LoadownerCategory();
+                        objUC.CategoryId = CategoryId;
+                        objUC.UserId = UserId;
+                        objUC.HasJoinedCategory = true;
+                        objUC.JoinedDate = DateTime.Now;
+                        dbContext.LoadownerCategories.Add(objUC);
+                        dbContext.SaveChanges();
+                    }
+                   
 
-                    objUC.CategoryId = CategoryId;
-                    objUC.UserId = UserId;
-                    objUC.HasJoinedCategory = true;
-                    objUC.JoinedDate = DateTime.Now;
-                    dbContext.LoadownerCategories.Add(objUC);
+                    var userdetails = GetUserDetailsByUserId(UserId);
+                    
+                    var PaymentHistory = dbContext.PaymentHistories.FirstOrDefault();
+                    
+                    System.Random rand = new System.Random((int)System.DateTime.Now.Ticks);
+                    int random = rand.Next(1, 100000000);
+
+                    objPH.UserID = UserId;
+                    objPH.Payment_Date = DateTime.Now;
+                    objPH.Payment_Price = Price;
+                    objPH.Email = userdetails.EmailID;
+                    objPH.First_Name = userdetails.FirstName;
+                    objPH.Last_Name = userdetails.LastName;
+                    objPH.Is_Success = true;
+                    objPH.reason_fault="Success";
+                    objPH.Txn_Id = Convert.ToString(random);
+                    dbContext.PaymentHistories.Add(objPH);
                     dbContext.SaveChanges();
                     
                 }
@@ -652,7 +673,7 @@ namespace DeliverLoad.Services
                 throw ex;
             }
 
-            return "1";
+            return objPH.Txn_Id;
         }
 
         #region OrderSummury

@@ -167,7 +167,7 @@
                                                 <td><b> Deduct From your Delivery load acccount : </b></td>
                                                 <td>$@ViewBag.Price</td>
                                             </tr>
-                                           
+
                                             <tr>
                                                 <td colspan="2" style="text-align:center;vertical-align:top;">
                                                     <button class="btn btn-theme" onclick="ProceedClick('@ViewBag.CategoryId','@ViewBag.Price');">
@@ -176,7 +176,7 @@
 
                                                 </td>
                                             </tr>
-                                          
+
                                         </table>
                                     </div>
                                 </div>
@@ -203,8 +203,8 @@
             data: { CategoryId: CategoryId, Price: Price },
             success: function (data) {
 
-                if (data == "1") {
-                    location.reload();
+                if (data != "-1") {
+                    window.location.href = "/Payment/PaymentConfirmation?OrderId=" + data;
                 }
 
                 else {
@@ -220,6 +220,5 @@
     }
 
 </script>
-
 
 

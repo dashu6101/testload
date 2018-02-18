@@ -769,5 +769,12 @@ namespace DeliverLoad.Controllers
             }
 
         }
+
+        public ActionResult PaymentConfirmation(string OrderId)
+        {
+            ViewBag.OrderId = OrderId;
+            return View(); ;
+
+        }
     }
 }
