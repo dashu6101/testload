@@ -1,0 +1,53 @@
+<p>
+    Hi @ViewBag.UserName,
+</p>
+<p>
+    New order has been placed for you by @ViewBag.LoadOwnerName
+</p>
+<p>
+    Order Information
+    <hr />
+</p>
+<table cellpadding="0" cellspacing="0" border="1">
+    <tr>
+        <th>
+            Buyer Name
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Date
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @ViewBag.LoadOwnerName
+        </td>
+        <td>
+            @ViewBag.LoadName
+        </td>
+        <td>
+            @ViewBag.Price
+        </td>
+        <td>
+            @ViewBag.PaymentDate
+        </td>
+    </tr>
+</table>
+<br />
+<p>
+   <b>Note:- The order is not confirmed by owner yet. you will be notified once onwer will confirm this order.</b>
+</p>
+<p><a href="@ViewBag.SiteUrl">Click here</a>to send reminder to owner for confirmation of order. </p>
+<p>
+    Sincerely,
+</p>
+<p>DeliverLoad Admin.</p>
+<p>
+    -------------------------------------------------This e-mail and any files transmitted with it may contain privileged or confidential information. It is solely for use by the individual for whom it is intended, even if addressed incorrectly. If you received this e-mail in error, please notify the sender; do not disclose, copy, distribute, or take any action in reliance on the contents of this information; and delete it from your system. Any other use of this e-mail is prohibited. Thank you for your compliance.
+    --------------------------------------------------
+</p>

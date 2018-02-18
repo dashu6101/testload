@@ -19,6 +19,8 @@ using DeliverLoad.Services;
 //using Mvc.Mailer;
 
 using System.Net.Mail;
+using DeliverLoad.Mvc.Mailers;
+using Mvc.Mailer;
 
 namespace DeliverLoad.Controllers
 {
@@ -29,6 +31,16 @@ namespace DeliverLoad.Controllers
 
         //
         // GET: /Payment/
+
+        // GET: /Account/Login
+
+        private IUserMailer _userMailer = new UserMailer();
+
+        public IUserMailer UserMailer
+        {
+            get { return _userMailer; }
+            set { _userMailer = value; }
+        }
 
         private DeliverLoadService service = new DeliverLoadService();
 
@@ -760,6 +772,21 @@ namespace DeliverLoad.Controllers
             try
             {
                 ReturnValue = service.ProceedCategory(CategoryId, sUser.UserId, Price);
+                if (ReturnValue != "-1")
+                {
+                    OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(CategoryId);
+                    if (objOrderSummury != null)
+                    {
+                        if (objOrderSummury.LoadownerCategoryId != null && objOrderSummury.LoadOwnerEmail != null)
+                        {
+                            SendPaymentSuccessEmailToLoadOwner(objOrderSummury, ReturnValue);
+                        }
+                        if(objOrderSummury.VehicleOwnerId != null && objOrderSummury.VehicleOwnerEmail != null)
+                        {
+                            SendNewOrderEmailToVehicleOwner(objOrderSummury);
+                        }
+                    }
+                }
                 return Json(ReturnValue, JsonRequestBehavior.AllowGet);
 
             }
@@ -770,10 +797,57 @@ namespace DeliverLoad.Controllers
 
         }
 
+        public void SendPaymentSuccessEmailToLoadOwner(OrderSummuryModel objOrderSummury, string code)
+        {
+
+            //For local test
+            string url = "http://localhost:2018/Payment/PaymentSummury?CategoryId=197";
+            decimal extraCharge = 5;
+
+            var mail = UserMailer.PaymentSuccess(objOrderSummury.LoadOwnerFirstName + " " +objOrderSummury.LoadOwnerLastName, objOrderSummury.LoadName, Convert.ToInt64(objOrderSummury.LoadPrice), extraCharge, DateTime.UtcNow.ToString(), code, url);
+            mail.Subject = "Thank you for your payment for " + objOrderSummury.LoadName + " of $" + objOrderSummury.LoadPrice + extraCharge;
+            mail.To.Add(new MailAddress(objOrderSummury.LoadOwnerEmail));
+
+            var client = new SmtpClientWrapper();
+
+            client.SendCompleted += (sender, e) =>
+            {
+                if (e.Error != null || e.Cancelled)
+                {
+                     
+                }
+            };
+
+            mail.SendAsync("async send", client);
+        }
+
+        public void SendNewOrderEmailToVehicleOwner(OrderSummuryModel objOrderSummury) {
+
+            //For local test
+            string url = "http://localhost:2018/Payment/PaymentSummury?CategoryId=197";
+            decimal extraCharge = 5;
+
+            var mail = UserMailer.NewOrderNotification(objOrderSummury.VehicleOwnerFirstName +" " + objOrderSummury.VehicleOwnerLastName, objOrderSummury.LoadOwnerFirstName + " "+ objOrderSummury.LoadOwnerLastName, objOrderSummury.LoadName, Convert.ToInt64(objOrderSummury.LoadPrice) + extraCharge, DateTime.UtcNow.ToString(), url);
+            mail.Subject = "New order has been placed for " + objOrderSummury.LoadName + " of $" + objOrderSummury.LoadPrice + extraCharge;
+            mail.To.Add(new MailAddress(objOrderSummury.VehicleOwnerEmail));
+
+            var client = new SmtpClientWrapper();
+
+            client.SendCompleted += (sender, e) =>
+            {
+                if (e.Error != null || e.Cancelled)
+                {
+
+                }
+            };
+
+            mail.SendAsync("async send", client);
+        }
+
         public ActionResult PaymentConfirmation(string OrderId)
         {
             ViewBag.OrderId = OrderId;
-            return View(); ;
+            return View();
 
         }
     }

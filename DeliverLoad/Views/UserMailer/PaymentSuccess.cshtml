@@ -1,0 +1,67 @@
+
+<p>
+    Hi  @ViewBag.UserName,
+</p>
+
+<p>
+    Thank you for your order for @ViewBag.OrderName!
+</p>
+<p>
+    We have received your payment for @ViewBag.TotalPrice that you submitted on @ViewBag.PaymentDate. The payment has been authorized and approved.
+</p>
+<p>
+    <b>This is your order details:</b>
+</p>
+<table cellpadding="0" cellspacing="0" border="1">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @ViewBag.OrderName
+        </td>
+        <td>
+            @ViewBag.OrderPrice
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Additional charges
+        </td>
+        <td>
+            @ViewBag.ExtraCharge
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Total Price
+        </td>
+        <td>
+            @ViewBag.TotalPrice
+        </td>
+    </tr>
+</table>
+<br />
+<p>
+    Please use this "@ViewBag.Code" to notify vehicle owner about your odrer.
+</p>
+<p>
+    <b>Note:- &nbsp; Please note that your order is not started yet. 
+        you need to provide additional details including the code to viehicle owner to start your order.<br />
+        Based on your requirements and availability the vehicle owner will approve your order.
+    </b>
+</p>
+<p><a href="@ViewBag.SiteUrl">Click here</a>to provide more details. </p>
+<p>
+    Sincerely,
+</p>
+<p>DeliverLoad Admin.</p>
+<p>
+    -------------------------------------------------This e-mail and any files transmitted with it may contain privileged or confidential information. It is solely for use by the individual for whom it is intended, even if addressed incorrectly. If you received this e-mail in error, please notify the sender; do not disclose, copy, distribute, or take any action in reliance on the contents of this information; and delete it from your system. Any other use of this e-mail is prohibited. Thank you for your compliance.
+    --------------------------------------------------
+</p>

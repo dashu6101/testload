@@ -19,5 +19,9 @@ namespace DeliverLoad.Mvc.Mailers
         MvcMailMessage NewCommentNotification(string Name, string ChannelNo, string ChannelName);
 
         MvcMailMessage AzureVideoUploadNotification(string Name, int VideoStatus, string ChannelName);
+
+        MvcMailMessage PaymentSuccess(string userName, string orderName, decimal orderPrice, decimal extraCharge, string payementDate, string code, string additionalInfoUrl);
+
+        MvcMailMessage NewOrderNotification(string userName, string loadOwnerName, string loadName, decimal price, string payementDate, string sendReminderUrl);
     }
 }

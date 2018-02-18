@@ -681,14 +681,13 @@ namespace DeliverLoad.Services
         {
             OrderSummuryModel objOrderSummury = new OrderSummuryModel();
             objOrderSummury = (from OC in dbContext.OverloadCategories
-                                join LOC in dbContext.VehicleownerCategories on OC.CategoryId equals LOC.CategoryId
+                                join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
                                 join U in dbContext.Users on LOC.UserId equals U.UserId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 where OC.CategoryId == CategoryId
                                 select new OrderSummuryModel
                                 {
                                     CategoryId = OC.CategoryId,
-                                    
                                     LoadName = OC.Name,
                                     LoadDesc = OC.Description,
                                     LoadCreatedDate = OC.CreatedDate, 
@@ -703,12 +702,8 @@ namespace DeliverLoad.Services
                                     LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
                                     LoadChannelNo = OC.ChannelNo,
                                     LoadSpaceTitle = LS.LoadSpaceTitle,
-
                                     LoadownerCategoryId = LOC.Id,
                                     LoadOwnerId = LOC.UserId,
-                                    //LoadOwnerHasJoinedCategory = LOC.HasJoinedCategory == null ? false : LOC.HasJoinedCategory,
-                                    //LoadOwnerIsBlocked = LOC.IsBlocked == null ? false : LOC.IsBlocked,
-                                    //LoadOwnerJoinedDate = LOC.JoinedDate,
                                     LoadOwnerFirstName = U.FirstName,
                                     LoadOwnerMiddleName = U.MiddleName,
                                     LoadOwnerLastName = U.LastName,
@@ -727,7 +722,7 @@ namespace DeliverLoad.Services
             if (objOrderSummury != null)
             {
                 var VehicalOwnerSummury = (from OC in dbContext.OverloadCategories
-                                           join VOC in dbContext.LoadownerCategories on OC.CategoryId equals VOC.CategoryId
+                                           join VOC in dbContext.VehicleownerCategories on OC.CategoryId equals VOC.CategoryId
                                            join U in dbContext.Users on VOC.UserId equals U.UserId
                                            join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                            where OC.CategoryId == CategoryId

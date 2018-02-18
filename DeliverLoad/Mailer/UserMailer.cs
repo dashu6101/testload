@@ -147,5 +147,41 @@ namespace DeliverLoad.Mvc.Mailers
 
         }
 
+        public virtual MvcMailMessage PaymentSuccess(string userName, string orderName, decimal orderPrice, decimal extraCharge, string payementDate, string code, string additionalInfoUrl)
+        {
+
+            ViewBag.UserName = userName;
+            ViewBag.OrderName = orderName;
+            ViewBag.TotalPrice = orderPrice + extraCharge;
+            ViewBag.PaymentDate = payementDate;
+            ViewBag.OrderPrice = orderPrice;
+            ViewBag.ExtraCharge = extraCharge;
+            ViewBag.Code = code;
+            ViewBag.SiteUrl = additionalInfoUrl;
+            
+            return Populate(x =>
+            {
+                x.ViewName = "PaymentSuccess";
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
+            });
+        }
+
+        public virtual MvcMailMessage NewOrderNotification(string userName, string loadOwnerName, string loadName, decimal price, string payementDate, string sendReminderUrl)
+        {
+
+            ViewBag.UserName = userName;
+            ViewBag.LoadOwnerName = loadOwnerName;
+            ViewBag.LoadName = loadName;
+            ViewBag.PaymentDate = payementDate;
+            ViewBag.Price = price;
+            ViewBag.SiteUrl = sendReminderUrl;
+
+            return Populate(x =>
+            {
+                x.ViewName = "NewOrderNotification";
+                x.From = new System.Net.Mail.MailAddress("Deliverload Admin<no-reply@deliverload.com>");
+            });
+        }
+
     }
 }

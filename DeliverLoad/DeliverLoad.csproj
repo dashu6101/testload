@@ -702,6 +702,8 @@
     <Content Include="Views\Payment\_OrderDetails.cshtml" />
     <Content Include="Views\Account\PhoneVerification.cshtml" />
     <Content Include="Views\Account\Testpage.cshtml" />
+    <Content Include="Views\UserMailer\PaymentSuccess.cshtml" />
+    <Content Include="Views\UserMailer\NewOrderNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
