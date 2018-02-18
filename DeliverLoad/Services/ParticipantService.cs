@@ -613,13 +613,13 @@ namespace DeliverLoad.Services
                 var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
 
                 //check balance
-                var userdetails = GetUserDetailsByUserId(UserId);
-                Decimal Balance = userdetails.Balance;
+                var Paymentdetails = GetPaymentDetailsByUserId(UserId);
+                //Decimal Balance = Paymentdetails.TotalBalance;
 
-                if (Balance >= Price)
+                if (Paymentdetails.TotalBalance >= Price)
                 {
                     //deduct balance
-                    DeductBalance(UserId, Price);
+                    DeductBalanceFromPaymentMonitoring(UserId, Price);
 
                     if (Loadownerdetails != null)
                     {
@@ -638,8 +638,7 @@ namespace DeliverLoad.Services
                     objUC.JoinedDate = DateTime.Now;
                     dbContext.LoadownerCategories.Add(objUC);
                     dbContext.SaveChanges();
-
-
+                    
                 }
                 else
                 {
@@ -775,6 +774,14 @@ namespace DeliverLoad.Services
                 objPaymentMonitory = new PaymentMonitoryModel();
             }
             return objPaymentMonitory;
+        }
+
+        public PaymentMonitory GetPaymentDetailsByUserId(int UserId)
+        {
+            var PaymentMonitory = dbContext.PaymentMonitories.Where(x => x.UserId == UserId).FirstOrDefault();
+
+            return PaymentMonitory;
+
         }
         #endregion
     }

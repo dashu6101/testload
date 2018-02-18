@@ -164,7 +164,7 @@
                                                 <td colspan="2" style="text-align:center;"><h3>Summary</h3></td>
                                             </tr>
                                             <tr>
-                                                <td>Deduct From your Delivery load acccount : </td>
+                                                <td><b> Deduct From your Delivery load acccount : </b></td>
                                                 <td>$@ViewBag.Price</td>
                                             </tr>
                                            
@@ -196,11 +196,8 @@
 
 <script type="text/javascript">
     function ProceedClick(CategoryId, Price) {
-
-
-
         $.ajax({
-            url: '/PaymentSummury/ProceedCategory',
+            url: '/Payment/ProceedCategory',
             type: 'POST',
             dataType: 'JSON',
             data: { CategoryId: CategoryId, Price: Price },

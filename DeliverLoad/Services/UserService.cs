@@ -150,5 +150,24 @@ namespace DeliverLoad.Services
             dbContext.SaveChanges();
             return objPVA;
         }
+
+        public string DeductBalanceFromPaymentMonitoring(int UserId, decimal Balance)
+        {
+            try
+            {
+                PaymentMonitory objUser = dbContext.PaymentMonitories.Where(x => x.UserId == UserId).SingleOrDefault();
+
+                objUser.TotalBalance = objUser.TotalBalance - Balance;
+
+                dbContext.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return "1";
+
+        }
     }
 }
