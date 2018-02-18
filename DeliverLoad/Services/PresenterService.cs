@@ -543,71 +543,71 @@ namespace DeliverLoad.Services
         }
 
 
-        public string CreateOverLoadCategory(CategoryModel model, int UserId, string ChannelNo, string PostType)
-        {
-            try
+            public string CreateOverLoadCategory(CategoryModel model, int UserId, string ChannelNo, string PostType)
             {
-
-                OverloadCategory objCategory = new OverloadCategory();
-                objCategory.Name = model.Name;
-                objCategory.Description = model.Description;
-                objCategory.CreatedDate = DateTime.Now;
-                objCategory.Price = model.Price;
-                objCategory.IsFree = model.IsFreeChannel;
-                objCategory.PickupDate = model.PickupDate;
-                objCategory.PickupLocation = model.PickupLocation;
-                objCategory.DropOffDate = model.DropOffDate;
-                objCategory.DropOffLocation = model.DropOffLocation;
-                objCategory.LoadSpaceId = model.LoadSpaceId;
-                objCategory.IsAvailable = false;
-
-                var channelNo = GetMaxChannelNoVehicleOwner(UserId, ChannelNo);
-
-                objCategory.ChannelNo = channelNo;
-
-
-                if (model.ImageUpload != null)
+                try
                 {
-                    string image = Guid.NewGuid().ToString();
-                    image = image + model.ImageUpload.FileName.Substring(model.ImageUpload.FileName.LastIndexOf('.'));
-                    string physicalPath = System.IO.Path.Combine(
-                                  System.Web.HttpContext.Current.Server.MapPath("~/images/category/"), image);
-                    //string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
 
-                    model.ImageUpload.SaveAs(physicalPath);
-                    objCategory.Image = image;
+                    OverloadCategory objCategory = new OverloadCategory();
+                    objCategory.Name = model.Name;
+                    objCategory.Description = model.Description;
+                    objCategory.CreatedDate = DateTime.Now;
+                    objCategory.Price = model.Price;
+                    objCategory.IsFree = model.IsFreeChannel;
+                    objCategory.PickupDate = model.PickupDate;
+                    objCategory.PickupLocation = model.PickupLocation;
+                    objCategory.DropOffDate = model.DropOffDate;
+                    objCategory.DropOffLocation = model.DropOffLocation;
+                    objCategory.LoadSpaceId = model.LoadSpaceId;
+                    objCategory.IsAvailable = false;
 
+                    var channelNo = GetMaxChannelNoVehicleOwner(UserId, ChannelNo);
+
+                    objCategory.ChannelNo = channelNo;
+
+
+                    if (model.ImageUpload != null)
+                    {
+                        string image = Guid.NewGuid().ToString();
+                        image = image + model.ImageUpload.FileName.Substring(model.ImageUpload.FileName.LastIndexOf('.'));
+                        string physicalPath = System.IO.Path.Combine(
+                                      System.Web.HttpContext.Current.Server.MapPath("~/images/category/"), image);
+                        //string physicalPath = System.Web.HttpContext.Current.Server.MapPath("~/images/category/" + image);
+
+                        model.ImageUpload.SaveAs(physicalPath);
+                        objCategory.Image = image;
+
+                    }
+
+                    dbContext.OverloadCategories.Add(objCategory);
+
+                    if (PostType == "Vehicles")
+                    {
+                        VehicleownerCategory objVC = new VehicleownerCategory();
+
+                        objVC.CategoryId = objCategory.CategoryId;
+                        objVC.UserId = UserId;
+                        dbContext.VehicleownerCategories.Add(objVC);
+                        dbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        LoadownerCategory objUC = new LoadownerCategory();
+
+                        objUC.CategoryId = objCategory.CategoryId;
+                        objUC.UserId = UserId;
+                        dbContext.LoadownerCategories.Add(objUC);
+                        dbContext.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
 
-                dbContext.OverloadCategories.Add(objCategory);
-
-                if (PostType == "Vehicles")
-                {
-                    VehicleownerCategory objVC = new VehicleownerCategory();
-
-                    objVC.CategoryId = objCategory.CategoryId;
-                    objVC.UserId = UserId;
-                    dbContext.VehicleownerCategories.Add(objVC);
-                    dbContext.SaveChanges();
-                }
-                else
-                {
-                    LoadownerCategory objUC = new LoadownerCategory();
-
-                    objUC.CategoryId = objCategory.CategoryId;
-                    objUC.UserId = UserId;
-                    dbContext.LoadownerCategories.Add(objUC);
-                    dbContext.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return "1";
+                return "1";
             
-        }
+            }
 
 
         public string GetMaxChannelNoVehicleOwner(int UserId, string VehicleOwnerChannelNo)
