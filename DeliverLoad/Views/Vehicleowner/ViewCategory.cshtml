@@ -77,7 +77,9 @@
         <div class="border-box">
             <div class="border-bottom text-uppercase f-18 text-center py-10">
                 <div class="col-xs-6">
-                    <span class="f-22 bold">@Model.Price</span> <br /> ACCEPT
+                    <span class="f-22 bold">@Model.Price</span> <br /> <button class="btn btn-theme" onclick="goTo('@Url.Action("OrderSummury", "OrderSummury", new { CategoryId = Model.CategoryId })')">
+                                                                           ACCEPT
+</button>
                 </div>
                 <div class="col-xs-6 ">
                     @Model.LoadSpaceTitle <br />

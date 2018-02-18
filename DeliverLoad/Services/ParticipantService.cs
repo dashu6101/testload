@@ -605,12 +605,63 @@ namespace DeliverLoad.Services
             return "1";
         }
 
+        public string ProceedCategory(int CategoryId, int UserId, Decimal Price)
+        {
+            try
+            {
+
+                var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
+
+                //check balance
+                var userdetails = GetUserDetailsByUserId(UserId);
+                Decimal Balance = userdetails.Balance;
+
+                if (Balance >= Price)
+                {
+                    //deduct balance
+                    DeductBalance(UserId, Price);
+
+                    if (Loadownerdetails != null)
+                    {
+                        Loadownerdetails.HasJoinedCategory = true;
+
+                        dbContext.SaveChanges();
+
+                        return "1";
+                    }
+
+                    LoadownerCategory objUC = new LoadownerCategory();
+
+                    objUC.CategoryId = CategoryId;
+                    objUC.UserId = UserId;
+                    objUC.HasJoinedCategory = true;
+                    objUC.JoinedDate = DateTime.Now;
+                    dbContext.LoadownerCategories.Add(objUC);
+                    dbContext.SaveChanges();
+
+
+                }
+                else
+                {
+                    return "-1";
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return "1";
+        }
+
         #region OrderSummury
         public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId)
         {
             OrderSummuryModel objOrderSummury = new OrderSummuryModel();
             objOrderSummury = (from OC in dbContext.OverloadCategories
-                                join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
+                                join LOC in dbContext.VehicleownerCategories on OC.CategoryId equals LOC.CategoryId
                                 join U in dbContext.Users on LOC.UserId equals U.UserId
                                 join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                 where OC.CategoryId == CategoryId
@@ -635,9 +686,9 @@ namespace DeliverLoad.Services
 
                                     LoadownerCategoryId = LOC.Id,
                                     LoadOwnerId = LOC.UserId,
-                                    LoadOwnerHasJoinedCategory = LOC.HasJoinedCategory == null ? false : LOC.HasJoinedCategory,
-                                    LoadOwnerIsBlocked = LOC.IsBlocked == null ? false : LOC.IsBlocked,
-                                    LoadOwnerJoinedDate = LOC.JoinedDate,
+                                    //LoadOwnerHasJoinedCategory = LOC.HasJoinedCategory == null ? false : LOC.HasJoinedCategory,
+                                    //LoadOwnerIsBlocked = LOC.IsBlocked == null ? false : LOC.IsBlocked,
+                                    //LoadOwnerJoinedDate = LOC.JoinedDate,
                                     LoadOwnerFirstName = U.FirstName,
                                     LoadOwnerMiddleName = U.MiddleName,
                                     LoadOwnerLastName = U.LastName,
@@ -656,7 +707,7 @@ namespace DeliverLoad.Services
             if (objOrderSummury != null)
             {
                 var VehicalOwnerSummury = (from OC in dbContext.OverloadCategories
-                                           join VOC in dbContext.VehicleownerCategories on OC.CategoryId equals VOC.CategoryId
+                                           join VOC in dbContext.LoadownerCategories on OC.CategoryId equals VOC.CategoryId
                                            join U in dbContext.Users on VOC.UserId equals U.UserId
                                            join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
                                            where OC.CategoryId == CategoryId
