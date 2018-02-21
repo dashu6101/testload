@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="DeliverLoadModel.LoadSpace" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.OverloadCategory" Width="1.5" PointX="9" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.ParticipantCategory" Width="1.5" PointX="8.25" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DeliverLoadModel.PaymentHistory" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.PaymentMonitory" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.PhoneVerificationAttempt" Width="1.5" PointX="5.25" PointY="30.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.PresenterCategory" Width="1.5" PointX="8.25" PointY="17.5" IsExpanded="true" />
@@ -42,7 +41,10 @@
         <AssociationConnector Association="DeliverLoadModel.FK_PresenterCategory_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DeliverLoadModel.FK_VehicleownerCategory_Users" ManuallyRouted="false" />
         <AssociationConnector Association="DeliverLoadModel.webpages_UsersInRoles" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="DeliverLoadModel.PaymentHistory" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DeliverLoadModel.AcceptedLoadOffer" Width="1.5" PointX="11.25" PointY="21.375" />
+        <AssociationConnector Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

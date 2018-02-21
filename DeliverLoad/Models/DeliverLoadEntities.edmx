@@ -4,7 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcceptedLoadOffers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoadId" Type="int" Nullable="false" />
+          <Property Name="LoadOwnerId" Type="int" Nullable="false" />
+          <Property Name="VehicleOwnerId" Type="int" Nullable="false" />
+          <Property Name="AcceptedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="ModifiedAcceptedDate" Type="datetime" />
+          <Property Name="IsAcceptedByLoadOwner" Type="bit" />
+          <Property Name="LoadOwnerAcceptedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -102,6 +116,7 @@
           </Key>
           <Property Name="LoadSpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoadSpaceTitle" Type="varchar" MaxLength="50" />
+          <Property Name="LoadSpaceImage" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -122,6 +137,10 @@
           <Property Name="DropOffLocation" Type="varchar" MaxLength="500" />
           <Property Name="DropOffDate" Type="datetime" />
           <Property Name="LoadSpaceId" Type="int" />
+          <Property Name="PickupLocation_Latitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="PickupLocation_Longitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Latitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Longitude" Type="decimal" Precision="12" Scale="9" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -139,8 +158,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Payment_Id" Type="varchar" MaxLength="50" />
-          <Property Name="Txn_Id" Type="varchar" MaxLength="150" />
+          <Property Name="Payment_Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tracking_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Payment_Date" Type="datetime" />
           <Property Name="Payment_Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
@@ -155,6 +174,9 @@
           <Property Name="Is_Success" Type="bit" />
           <Property Name="reason_fault" Type="varchar" MaxLength="250" />
           <Property Name="UserID" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IsActivePaymentCode" Type="bit" />
+          <Property Name="IsActiveTrackingCode" Type="bit" />
+          <Property Name="Status" Type="tinyint" />
         </EntityType>
         <EntityType Name="PaymentMonitory">
           <Key>
@@ -248,6 +270,11 @@
           <Property Name="IsAuthenticated" Type="bit" />
           <Property Name="LastOnline" Type="datetime" />
           <Property Name="IsPhoneVerified" Type="bit" />
+          <Property Name="IsEmailVerified" Type="bit" />
+          <Property Name="IsBankVerified" Type="bit" />
+          <Property Name="IsDriverLicenseVerified" Type="bit" />
+          <Property Name="IsVIOVerified" Type="bit" />
+          <Property Name="IsAnyIdVerified" Type="bit" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -297,6 +324,18 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AcceptedLoadOffers_LoadId">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="1" />
+          <End Role="AcceptedLoadOffers" Type="Self.AcceptedLoadOffers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="AcceptedLoadOffers">
+              <PropertyRef Name="LoadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CategoryContent_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -560,6 +599,7 @@
           <Parameter Name="UserD" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DeliverLoadModelStoreContainer">
+          <EntitySet Name="AcceptedLoadOffers" EntityType="Self.AcceptedLoadOffers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContent" EntityType="Self.CategoryContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContentComment" EntityType="Self.CategoryContentComment" Schema="dbo" store:Type="Tables" />
@@ -581,6 +621,10 @@
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="Self.FK_AcceptedLoadOffers_LoadId">
+            <End Role="OverloadCategory" EntitySet="OverloadCategory" />
+            <End Role="AcceptedLoadOffers" EntitySet="AcceptedLoadOffers" />
+          </AssociationSet>
           <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="CategoryContent" EntitySet="CategoryContent" />
@@ -654,8 +698,7 @@
             <End Role="VehicleownerCategory" EntitySet="VehicleownerCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeliverLoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -771,6 +814,7 @@
           </Key>
           <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoadSpaceImage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -793,6 +837,11 @@
           <Property Name="LoadSpaceId" Type="Int32" />
           <NavigationProperty Name="LoadownerCategories" Relationship="Self.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
           <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Category" FromRole="OverloadCategory" ToRole="VehicleownerCategory" />
+          <Property Name="PickupLocation_Latitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="PickupLocation_Longitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Latitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Longitude" Type="Decimal" Precision="12" Scale="9" />
+          <NavigationProperty Name="AcceptedLoadOffers" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="OverloadCategory" ToRole="AcceptedLoadOffer" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -806,28 +855,6 @@
           <Property Name="IsBlocked" Type="Boolean" />
           <NavigationProperty Name="Category" Relationship="Self.FK_ParticipantCategory_Category" FromRole="ParticipantCategory" ToRole="Category" />
           <NavigationProperty Name="User" Relationship="Self.FK_ParticipantCategory_Users" FromRole="ParticipantCategory" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="PaymentHistory">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Payment_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Txn_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Payment_Date" Type="DateTime" Precision="3" />
-          <Property Name="Payment_Price" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Request_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Is_Success" Type="Boolean" />
-          <Property Name="reason_fault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="UserID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentMonitory">
           <Key>
@@ -933,6 +960,11 @@
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Users" FromRole="Users" ToRole="PresenterCategory" />
           <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Users" FromRole="Users" ToRole="VehicleownerCategory" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
+          <Property Name="IsEmailVerified" Type="Boolean" />
+          <Property Name="IsBankVerified" Type="Boolean" />
+          <Property Name="IsDriverLicenseVerified" Type="Boolean" />
+          <Property Name="IsVIOVerified" Type="Boolean" />
+          <Property Name="IsAnyIdVerified" Type="Boolean" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -1202,7 +1234,6 @@
           <EntitySet Name="LoadSpaces" EntityType="Self.LoadSpace" />
           <EntitySet Name="OverloadCategories" EntityType="Self.OverloadCategory" />
           <EntitySet Name="ParticipantCategories" EntityType="Self.ParticipantCategory" />
-          <EntitySet Name="PaymentHistories" EntityType="Self.PaymentHistory" />
           <EntitySet Name="PaymentMonitories" EntityType="Self.PaymentMonitory" />
           <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempt" />
           <EntitySet Name="PresenterCategories" EntityType="Self.PresenterCategory" />
@@ -1303,12 +1334,18 @@
             <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
-        </EntityContainer>
+          <EntitySet Name="PaymentHistories" EntityType="DeliverLoadModel.PaymentHistory" />
+          <EntitySet Name="AcceptedLoadOffers" EntityType="DeliverLoadModel.AcceptedLoadOffer" />
+          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="AcceptedLoadOffer" EntitySet="AcceptedLoadOffers" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <Property Type="Int32" Name="CategoryId" Nullable="false" />
@@ -1337,7 +1374,59 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
-      </Schema>
+        <EntityType Name="PaymentHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Payment_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tracking_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Payment_Date" Type="DateTime" Precision="3" />
+          <Property Name="Payment_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Request_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Success" Type="Boolean" />
+          <Property Name="reason_fault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsActivePaymentCode" Type="Boolean" />
+          <Property Name="IsActiveTrackingCode" Type="Boolean" />
+          <Property Name="Status" Type="Byte" />
+        </EntityType>
+        <EntityType Name="AcceptedLoadOffer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoadId" Type="Int32" Nullable="false" />
+          <Property Name="LoadOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="VehicleOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="AcceptedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedAcceptedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsAcceptedByLoadOwner" Type="Boolean" />
+          <Property Name="LoadOwnerAcceptedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="AcceptedLoadOffer" ToRole="OverloadCategory" />
+        </EntityType>
+        <Association Name="FK_AcceptedLoadOffers_LoadId">
+          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="1" />
+          <End Type="DeliverLoadModel.AcceptedLoadOffer" Role="AcceptedLoadOffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="AcceptedLoadOffer">
+              <PropertyRef Name="LoadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1444,6 +1533,7 @@
           <EntitySetMapping Name="LoadSpaces">
             <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
               <MappingFragment StoreEntitySet="LoadSpace">
+                <ScalarProperty Name="LoadSpaceImage" ColumnName="LoadSpaceImage" />
                 <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
                 <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
               </MappingFragment>
@@ -1452,6 +1542,10 @@
           <EntitySetMapping Name="OverloadCategories">
             <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
               <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="Dropoff_Longitude" ColumnName="Dropoff_Longitude" />
+                <ScalarProperty Name="Dropoff_Latitude" ColumnName="Dropoff_Latitude" />
+                <ScalarProperty Name="PickupLocation_Longitude" ColumnName="PickupLocation_Longitude" />
+                <ScalarProperty Name="PickupLocation_Latitude" ColumnName="PickupLocation_Latitude" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1479,29 +1573,6 @@
                 <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
                 <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
                 <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentHistories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentHistory">
-              <MappingFragment StoreEntitySet="PaymentHistory">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Payment_Id" ColumnName="Payment_Id" />
-                <ScalarProperty Name="Txn_Id" ColumnName="Txn_Id" />
-                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
-                <ScalarProperty Name="Payment_Price" ColumnName="Payment_Price" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
-                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
-                <ScalarProperty Name="Street" ColumnName="Street" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Zip" ColumnName="Zip" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
-                <ScalarProperty Name="Is_Success" ColumnName="Is_Success" />
-                <ScalarProperty Name="reason_fault" ColumnName="reason_fault" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1551,6 +1622,11 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DeliverLoadModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsAnyIdVerified" ColumnName="IsAnyIdVerified" />
+                <ScalarProperty Name="IsVIOVerified" ColumnName="IsVIOVerified" />
+                <ScalarProperty Name="IsDriverLicenseVerified" ColumnName="IsDriverLicenseVerified" />
+                <ScalarProperty Name="IsBankVerified" ColumnName="IsBankVerified" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1693,6 +1769,47 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PaymentHistories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentHistory">
+              <MappingFragment StoreEntitySet="PaymentHistory">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActiveTrackingCode" ColumnName="IsActiveTrackingCode" />
+                <ScalarProperty Name="IsActivePaymentCode" ColumnName="IsActivePaymentCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="reason_fault" ColumnName="reason_fault" />
+                <ScalarProperty Name="Is_Success" ColumnName="Is_Success" />
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Payment_Price" ColumnName="Payment_Price" />
+                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
+                <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
+                <ScalarProperty Name="Payment_Code" ColumnName="Payment_Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcceptedLoadOffers">
+            <EntityTypeMapping TypeName="DeliverLoadModel.AcceptedLoadOffer">
+              <MappingFragment StoreEntitySet="AcceptedLoadOffers">
+                <ScalarProperty Name="LoadOwnerAcceptedDate" ColumnName="LoadOwnerAcceptedDate" />
+                <ScalarProperty Name="IsAcceptedByLoadOwner" ColumnName="IsAcceptedByLoadOwner" />
+                <ScalarProperty Name="ModifiedAcceptedDate" ColumnName="ModifiedAcceptedDate" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="AcceptedDate" ColumnName="AcceptedDate" />
+                <ScalarProperty Name="VehicleOwnerId" ColumnName="VehicleOwnerId" />
+                <ScalarProperty Name="LoadOwnerId" ColumnName="LoadOwnerId" />
+                <ScalarProperty Name="LoadId" ColumnName="LoadId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

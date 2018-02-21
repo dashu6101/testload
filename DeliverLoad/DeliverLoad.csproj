@@ -213,6 +213,9 @@
     </Compile>
     <Compile Include="Mailer\IUserMailer.cs" />
     <Compile Include="Mailer\UserMailer.cs" />
+    <Compile Include="Models\AcceptedLoadOffer.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Category.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>

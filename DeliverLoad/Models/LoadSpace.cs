@@ -16,5 +16,6 @@ namespace DeliverLoad.Models
     {
         public int LoadSpaceId { get; set; }
         public string LoadSpaceTitle { get; set; }
+        public string LoadSpaceImage { get; set; }
     }
 }

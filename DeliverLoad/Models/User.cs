@@ -76,6 +76,11 @@ namespace DeliverLoad.Models
         public Nullable<bool> IsAuthenticated { get; set; }
         public Nullable<System.DateTime> LastOnline { get; set; }
         public Nullable<bool> IsPhoneVerified { get; set; }
+        public Nullable<bool> IsEmailVerified { get; set; }
+        public Nullable<bool> IsBankVerified { get; set; }
+        public Nullable<bool> IsDriverLicenseVerified { get; set; }
+        public Nullable<bool> IsVIOVerified { get; set; }
+        public Nullable<bool> IsAnyIdVerified { get; set; }
     
         public virtual ICollection<CategoryContentComment> CategoryContentComments { get; set; }
         public virtual ICollection<ChannelRequestMaster> ChannelRequestMasters { get; set; }

@@ -164,6 +164,30 @@ namespace DeliverLoad.Controllers
             }
             ViewBag.Type = Type;
 
+            if (ViewBag.CategoryId != null)
+            {
+                int loadOwnerId = service.GetLoadOwnerIdFromCategoryId(Convert.ToInt32(ViewBag.CategoryId));
+                if (loadOwnerId > 0)
+                {
+                    int count = service.IsOfferAcceptedByVehicleOwner(Convert.ToInt32(ViewBag.CategoryId), loadOwnerId, sUser.UserId);
+                    if (count > 0)
+                    {
+                        ViewBag.IsAccepted = true;
+                    }
+                    else
+                    {
+                        ViewBag.IsAccepted = false;
+                    }
+                }
+                else
+                {
+                    ViewBag.IsAccepted = false;
+                }
+            }
+            else {
+                ViewBag.IsAccepted = false;
+            }
+
             //int Categoryid = Convert.ToInt32(ViewBag.CategoryId);
             //var model = service.GetTreeVeiwList(Categoryid);
             CategoryModel model = service.getDeliveryLoadCategoryDetails(Convert.ToInt32(id), sUser.UserId, Type);
@@ -970,6 +994,45 @@ namespace DeliverLoad.Controllers
         //        return RedirectToAction("Index", "FindSpace");
         //    }
         //}
+        #endregion
+
+        #region Vehicle Owner Load Offer
+        [HttpPost]
+        public JsonResult SaveAcceptedLoadDetail(string categoryId)
+        {
+            try
+            {
+                bool isSuccess = false;
+                int loadOwnerId = service.GetLoadOwnerIdFromCategoryId(Convert.ToInt32(categoryId));
+                if (loadOwnerId > 0)
+                {
+                    isSuccess = service.SaveAcceptedLoadDetail(Convert.ToInt32(categoryId), loadOwnerId, sUser.UserId);
+                }
+                return Json(isSuccess);
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CancelAcceptedLoadDetail(string categoryId)
+        {
+            try
+            {
+                bool isSuccess = false;
+                int loadOwnerId = service.GetLoadOwnerIdFromCategoryId(Convert.ToInt32(categoryId));
+                if (loadOwnerId > 0)
+                {
+                    isSuccess = service.CancelAcceptedLoadDetail(Convert.ToInt32(categoryId), loadOwnerId, sUser.UserId);
+                }
+                return Json(isSuccess);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
     }
 }

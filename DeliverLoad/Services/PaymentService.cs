@@ -18,8 +18,8 @@ namespace DeliverLoad.Services
                 PaymentHistory objPaymentHistory = new PaymentHistory();
 
                 objPaymentHistory.UserID = UserId;
-                objPaymentHistory.Txn_Id = txn_id;
-                objPaymentHistory.Payment_Id = "";
+                objPaymentHistory.Tracking_Code = txn_id;
+                objPaymentHistory.Payment_Code = "";
                 objPaymentHistory.Payment_Price = payment_price;
                 objPaymentHistory.Email = email;
                 objPaymentHistory.Payment_Date = DateTime.Now;
@@ -84,7 +84,7 @@ namespace DeliverLoad.Services
         {
 
            var model = dbContext.PaymentHistories.Where(x => x.UserID == UserId).Select
-               (x => new PaymentHistoryModel{ID=x.ID,Payment_Id=x.Payment_Id,Txn_Id=x.Txn_Id,Payment_Date=(DateTime)x.Payment_Date,
+               (x => new PaymentHistoryModel{ID=x.ID,Payment_Id=x.Payment_Code,Txn_Id=x.Tracking_Code,Payment_Date=(DateTime)x.Payment_Date,
                Payment_Price=x.Payment_Price,First_Name=x.First_Name,Last_Name=x.Last_Name,Street = x.Street,City=x.City,State=x.State,Zip=x.Zip,
                Country=x.Country,Request_Id=x.Request_Id,Is_Success=x.Is_Success,reason_fault=x.reason_fault,UserID=x.UserID}).OrderByDescending(x => x.Payment_Date).ToList();
 

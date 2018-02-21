@@ -5,59 +5,63 @@
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<div class="col-sm-12 vehicle_details">
-    <div class="col-sm-4 text-left">
-        <button class="btn btn-theme">
-            Offer Ride
-        </button>
-    </div>
-    <div class="col-sm-4 text-center">
-        <button class="btn btn-theme">
-            Create Ride Alert
-        </button>
-    </div>
-    <div class="col-sm-4 text-right">
-        <p>&nbsp;</p>
-    </div>
-    <div class="clear-fix"></div>
-    <div class="col-sm-8">
-        <div class="border-box">
-            <table class="table table-responsive">
-                <tbody>
-                    <tr>
-                        <td>Departure Point</td>
-                        <td>@Html.Raw(Model.PickupLocation)</td>
-                        @*@Html.TextBoxFor(model => model.from, new { @id = "from", @class = "form-control", @placeholder = "From", @onfocus = "geolocate()" })*@
-                    </tr>
-                    <tr>
-                        <td>Drop-Off Point</td>
-                        <td>@Model.DropOffLocation</td>
-                        @*@Html.TextBoxFor(model => model.to, new { @id = "to", @class = "form-control", @placeholder = "To", @onfocus = "geolocate()" })*@
-                    </tr>
-                    <tr>
-                        <td>Departure Time</td>
-                        <td>@{var displayPickup = "";}
-@if (Model.PickupDate != null)
-{
-    var date = Model.PickupDate.Value.ToString("dd/MM/yyyy");
-    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
-    if (date == TodayDate)
-    {
-        displayPickup = "Today";
+    <div class="col-sm-12 vehicle_details">
+        @Html.HiddenFor(m => m.CategoryId, new { @id= "hdnCategoryId", @name = "CategoryId" })
+        <div class="col-sm-4 text-left">
+            <button class="btn btn-theme">
+                Offer Ride
+            </button>
+        </div>
+        <div class="col-sm-4 text-center">
+            <button class="btn btn-theme">
+                Create Ride Alert
+            </button>
+        </div>
+        <div class="col-sm-4 text-right">
+            <p>&nbsp;</p>
+        </div>
+        <div class="clear-fix"></div>
+        <div class="col-sm-8">
+            <div class="border-box">
+                <table class="table table-responsive">
+                    <tbody>
+                        <tr>
+                            <td>Departure Point</td>
+                            <td>
+                                @Html.LabelFor(m => m.PickupLocation, Model.PickupLocation.ToString(), new { @id= "lblPickupLocation", @name = "PickupLocation" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Drop-Off Point</td>
+                            <td>
+                                @Html.LabelFor(m => m.DropOffLocation, Model.DropOffLocation.ToString(), new { @id = "lblDropOffLocation", @name = "DropOffLocation" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Departure Time</td>
+                            <td>
+                                @{var displayPickup = "";}
+                            @if (Model.PickupDate != null)
+                            {
+                                var date = Model.PickupDate.Value.ToString("dd/MM/yyyy");
+                                var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
+                                if (date == TodayDate)
+                                {
+                                    displayPickup = "Today";
 
-    }
-    else
-    {
-        displayPickup = Model.PickupDate.Value.ToString("dd MMM yyyy");
-    }
+                                }
+                                else
+                                {
+                                    displayPickup = Model.PickupDate.Value.ToString("dd MMM yyyy");
+                                }
 
-    @displayPickup
+                                @Html.LabelFor(m => m.PickupDate, displayPickup, new { @id = "lblPickupDate", @name = "PickupDate" })
 
-}
+                            }
+                            
 
 
-
-                       </td>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -66,7 +70,7 @@
                     <img src="@Model.Image" class="img-responsive" />
                 </div>
                 <div class="col-sm-10">
-                   @Html.Raw(Model.Description)
+                    @Html.Raw(Model.Description)
                 </div>
             </div>
         </div>
@@ -77,9 +81,16 @@
         <div class="border-box">
             <div class="border-bottom text-uppercase f-18 text-center py-10">
                 <div class="col-xs-6">
-                    <span class="f-22 bold">@Model.Price</span> <br /> <button class="btn btn-theme" onclick="goTo('@Url.Action("OrderSummury", "OrderSummury", new { CategoryId = Model.CategoryId })')">
-                                                                           ACCEPT
-</button>
+                    <span class="f-22 bold">@Model.Price</span> <br />
+                    
+                    
+                    <input type="button" id="btnCancelOffer" class="btn btn-theme" onclick="CancelAcceptedLoadDetail()" value="Cancel" />
+                    <input type="button" id="btnAcceptOffer" class="btn btn-theme" onclick="SaveAcceptedLoadDetail()" value="Accept" />
+                    
+
+                    @*<button class="btn btn-theme" onclick="goTo('@Url.Action("OrderSummury", "OrderSummury", new { CategoryId = Model.CategoryId })')">
+                            ACCEPT
+                     </button>*@
                 </div>
                 <div class="col-xs-6 ">
                     @Model.LoadSpaceTitle <br />
@@ -90,13 +101,13 @@
                 MAKE COUNTER OFFER
             </div>
             <div class="f-14 py-10">
-                It's too late to book on this ride offer <br/>
+                It's too late to book on this ride offer <br />
                 <a href="#" class="link">Search for another ride</a>
             </div>
         </div>
         <div class="border-box mt-15">
             <h3 class="border-bottom colored-text">@Model.LoadSpaceTitle Owner</h3>
-            <img src="@Model.ProfileImage" class="img-responsive" style="max-width:200px;"/>
+            <img src="@Model.ProfileImage" class="img-responsive" style="max-width:200px;" />
             <h2>@Model.FirstName @Model.LastName</h2>
             <span class="text-success">Phone Number Verified</span><br />
             <span class="text-success">Email address Verified</span><br />
@@ -105,12 +116,13 @@
         <div class="border-box colored-text">
             <h4>Member Activity</h4>
             <p class="f-14">8 rides offered</p>
-            <p class="f-14">Last online: 
-            @{var displayLastOnline = "";}
-                @if (Model.LastOnline!= null)
+            <p class="f-14">
+                Last online:
+                @{var displayLastOnline = "";}
+                @if (Model.LastOnline != null)
                 {
                     var date = Model.LastOnline.Value.ToString("dd/MM/yyyy");
-                    var TodayDate =  DateTime.Now.ToString("dd/MM/yyyy");
+                    var TodayDate = DateTime.Now.ToString("dd/MM/yyyy");
                     if (date == TodayDate)
                     {
                         displayLastOnline = "Today - " + Model.LastOnline.Value.ToString("hh:mm");
@@ -120,32 +132,101 @@
                     {
                         displayLastOnline = Model.LastOnline.Value.ToString("dd MMM yyyy hh:mm");
                     }
-                    
+
                     @displayLastOnline
 
                 }
-            
-            
+
+
             </p>
-            <p class="f-14">Member since: 
-            @if (Model.RegistrationDate != null)
+            <p class="f-14">
+                Member since:
+                @if (Model.RegistrationDate != null)
             {
-                @Model.RegistrationDate.Value.ToString("MMM yyyy");
-                  
-            }
-            
+                    @Model.RegistrationDate.Value.ToString("MMM yyyy");
+
+                }
+
             </p>
             <a href="#" class="link">see public profile</a>
         </div>
     </div>
 </div>
 
+
 <script type="text/javascript">
     
-    //$(document).ready(function () {
-    //    debugger
-    //    AutocompleteDirectionsHandler($("map"));
-    //    geolocate();
-    //})
+    $(document).ready(function () {
+        var isAccepted = "@Html.Raw(ViewBag.IsAccepted)";
+        if(isAccepted != null && isAccepted != "" &&  isAccepted.toLowerCase() == "true"){
+            $("#btnAcceptOffer").hide();
+            $("#btnCancelOffer").show();
+        }
+        else{
+            $("#btnCancelOffer").hide();
+            $("#btnAcceptOffer").show();
+        }
+    });
+
+    function SaveAcceptedLoadDetail() {
+        var CategoryId = $("#hdnCategoryId").val();
+        if (CategoryId != null && CategoryId != "") {
+            $.ajax({
+                url: "/Vehicleowner/SaveAcceptedLoadDetail",
+                type: "POST",
+                data: { categoryId: CategoryId },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == true) {
+                        $("#btnAcceptOffer").hide();
+                        $("#btnCancelOffer").show();
+                        DisplayNotification('Congratulation..! your offer has been sent to load owner successfully ', 'success');
+                    }
+                    else {
+                        DisplayNotification('Error', 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        }
+    }
+
+    function CancelAcceptedLoadDetail() {
+        var CategoryId = $("#hdnCategoryId").val();
+        if (CategoryId != null && CategoryId != "") {
+            $.ajax({
+                url: "/Vehicleowner/CancelAcceptedLoadDetail",
+                type: "POST",
+                data: { categoryId: CategoryId },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == true) {
+                        $("#btnCancelOffer").hide();
+                        $("#btnAcceptOffer").show();
+                        DisplayNotification('Your accepted load offer removed successfully ', 'success');
+                    }
+                    else {
+                        DisplayNotification('Error', 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        }
+    }
+
+    //function getFormData($form) {
+    //    var unindexed_array = $form.serializeArray();
+    //    var indexed_array = {};
+
+    //    $.map(unindexed_array, function (n, i) {
+    //        indexed_array[n['name']] = n['value'];
+    //    });
+
+    //    return indexed_array;
+    //}
     
 </script>
