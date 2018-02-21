@@ -15,8 +15,8 @@ namespace DeliverLoad.Models
     public partial class PaymentHistory
     {
         public int ID { get; set; }
-        public string Payment_Id { get; set; }
-        public string Txn_Id { get; set; }
+        public string Payment_Code { get; set; }
+        public string Tracking_Code { get; set; }
         public Nullable<System.DateTime> Payment_Date { get; set; }
         public Nullable<decimal> Payment_Price { get; set; }
         public string Email { get; set; }
@@ -31,5 +31,8 @@ namespace DeliverLoad.Models
         public Nullable<bool> Is_Success { get; set; }
         public string reason_fault { get; set; }
         public decimal UserID { get; set; }
+        public Nullable<bool> IsActivePaymentCode { get; set; }
+        public Nullable<bool> IsActiveTrackingCode { get; set; }
+        public Nullable<byte> Status { get; set; }
     }
 }

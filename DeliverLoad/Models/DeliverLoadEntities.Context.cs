@@ -38,7 +38,6 @@ namespace DeliverLoad.Models
         public DbSet<LoadSpace> LoadSpaces { get; set; }
         public DbSet<OverloadCategory> OverloadCategories { get; set; }
         public DbSet<ParticipantCategory> ParticipantCategories { get; set; }
-        public DbSet<PaymentHistory> PaymentHistories { get; set; }
         public DbSet<PaymentMonitory> PaymentMonitories { get; set; }
         public DbSet<PhoneVerificationAttempt> PhoneVerificationAttempts { get; set; }
         public DbSet<PresenterCategory> PresenterCategories { get; set; }
@@ -48,6 +47,10 @@ namespace DeliverLoad.Models
         public DbSet<webpages_Membership> webpages_Membership { get; set; }
         public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public DbSet<webpages_Roles> webpages_Roles { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<TrackingInformation> TrackingInformations { get; set; }
+        public DbSet<UserDocument> UserDocuments { get; set; }
+        public DbSet<PaymentHistory> PaymentHistories { get; set; }
     
         public virtual ObjectResult<string> ELMAH_GetErrorsXml(string application, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {

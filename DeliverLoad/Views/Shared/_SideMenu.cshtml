@@ -1,11 +1,20 @@
 ﻿<div class="grid_2 border" style="margin-left:0; border-right:1px solid #ddd">
     <ul class="nav nav-pills nav-stacked">
-
         <li>@Html.ActionLink("Profile Edit", "ProfileEdit", "Home")</li>
-        
-        <li>@Html.ActionLink("Payments", "Index", "Payment") </li>
+       
+         @{
+            var obj = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
+            if (obj.UserType == "M")
+            {
 
-        <li>@Html.ActionLink("Subscription Details","SubscriptionDetails","Payment")</li>
-        
-    </ul>
-</div>
+                <li>@Html.ActionLink("Payments", "Index", "Payment") </li>
+
+                <li>@Html.ActionLink("Subscription Details", "SubscriptionDetails", "Payment")</li>
+            }
+
+            }
+            
+            <li>@Html.ActionLink("Document Verification", "DocumentVerification", "Home")</li>
+
+        </ul>
+    </div>

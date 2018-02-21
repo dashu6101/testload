@@ -35,6 +35,10 @@ namespace DeliverLoad.Models
         public string DropOffLocation { get; set; }
         public Nullable<System.DateTime> DropOffDate { get; set; }
         public Nullable<int> LoadSpaceId { get; set; }
+        public Nullable<decimal> PickupLocation_Latitude { get; set; }
+        public Nullable<decimal> PickupLocation_Longitude { get; set; }
+        public Nullable<decimal> Dropoff_Latitude { get; set; }
+        public Nullable<decimal> Dropoff_Longitude { get; set; }
     
         public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
         public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -69,6 +69,13 @@
           <Property Name="UserId" Type="int" />
           <Property Name="VisitDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Name="DocTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentName" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
             <PropertyRef Name="ErrorId" />
@@ -122,6 +129,10 @@
           <Property Name="DropOffLocation" Type="varchar" MaxLength="500" />
           <Property Name="DropOffDate" Type="datetime" />
           <Property Name="LoadSpaceId" Type="int" />
+          <Property Name="PickupLocation_Latitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="PickupLocation_Longitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Latitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Longitude" Type="decimal" Precision="12" Scale="9" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -139,8 +150,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Payment_Id" Type="varchar" MaxLength="50" />
-          <Property Name="Txn_Id" Type="varchar" MaxLength="150" />
+          <Property Name="Payment_Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tracking_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Payment_Date" Type="datetime" />
           <Property Name="Payment_Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
@@ -155,6 +166,9 @@
           <Property Name="Is_Success" Type="bit" />
           <Property Name="reason_fault" Type="varchar" MaxLength="250" />
           <Property Name="UserID" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IsActivePaymentCode" Type="bit" />
+          <Property Name="IsActiveTrackingCode" Type="bit" />
+          <Property Name="Status" Type="tinyint" />
         </EntityType>
         <EntityType Name="PaymentMonitory">
           <Key>
@@ -194,6 +208,32 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmailId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TrackingInformation">
+          <Key>
+            <PropertyRef Name="TRA_Id" />
+          </Key>
+          <Property Name="TRA_Id" Type="int" Nullable="false" />
+          <Property Name="Tracking_Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartingLatitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="StartingLongitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="CurrentLatitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+          <Property Name="CurrentLongitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+          <Property Name="EndingLatitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="EndingLongitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserDocument">
+          <Key>
+            <PropertyRef Name="UserDocumentId" />
+          </Key>
+          <Property Name="UserDocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentImage" Type="varchar" MaxLength="50" />
+          <Property Name="DocTypeId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="IsActiveDocument" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -248,6 +288,11 @@
           <Property Name="IsAuthenticated" Type="bit" />
           <Property Name="LastOnline" Type="datetime" />
           <Property Name="IsPhoneVerified" Type="bit" />
+          <Property Name="IsEmailVerified" Type="bit" />
+          <Property Name="IsBankVerified" Type="bit" />
+          <Property Name="IsDriverLicenseVerified" Type="bit" />
+          <Property Name="IsVIOVerified" Type="bit" />
+          <Property Name="IsAnyIdVerified" Type="bit" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -495,6 +540,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrackingInformation_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrackingInformation" Type="Self.TrackingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrackingInformation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_UserId">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
@@ -565,6 +622,7 @@
           <EntitySet Name="CategoryContentComment" EntityType="Self.CategoryContentComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChannelRequestMaster" EntityType="Self.ChannelRequestMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContentVisitors" EntityType="Self.ContentVisitors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadownerCategory" EntityType="Self.LoadownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadSpace" EntityType="Self.LoadSpace" Schema="dbo" store:Type="Tables" />
@@ -575,6 +633,8 @@
           <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackingInformation" EntityType="Self.TrackingInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDocument" EntityType="Self.UserDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VehicleownerCategory" EntityType="Self.VehicleownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
@@ -641,6 +701,10 @@
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrackingInformation_Users" Association="Self.FK_TrackingInformation_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrackingInformation" EntitySet="TrackingInformation" />
+          </AssociationSet>
           <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
             <End Role="Users" EntitySet="Users" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
@@ -654,8 +718,7 @@
             <End Role="VehicleownerCategory" EntitySet="VehicleownerCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DeliverLoadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -793,6 +856,10 @@
           <Property Name="LoadSpaceId" Type="Int32" />
           <NavigationProperty Name="LoadownerCategories" Relationship="Self.FK_LoadownerCategory_Category" FromRole="OverloadCategory" ToRole="LoadownerCategory" />
           <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Category" FromRole="OverloadCategory" ToRole="VehicleownerCategory" />
+          <Property Name="PickupLocation_Latitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="PickupLocation_Longitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Latitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="Dropoff_Longitude" Type="Decimal" Precision="12" Scale="9" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -806,28 +873,6 @@
           <Property Name="IsBlocked" Type="Boolean" />
           <NavigationProperty Name="Category" Relationship="Self.FK_ParticipantCategory_Category" FromRole="ParticipantCategory" ToRole="Category" />
           <NavigationProperty Name="User" Relationship="Self.FK_ParticipantCategory_Users" FromRole="ParticipantCategory" ToRole="Users" />
-        </EntityType>
-        <EntityType Name="PaymentHistory">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Payment_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Txn_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Payment_Date" Type="DateTime" Precision="3" />
-          <Property Name="Payment_Price" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Request_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Is_Success" Type="Boolean" />
-          <Property Name="reason_fault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="UserID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentMonitory">
           <Key>
@@ -933,6 +978,12 @@
           <NavigationProperty Name="PresenterCategories" Relationship="Self.FK_PresenterCategory_Users" FromRole="Users" ToRole="PresenterCategory" />
           <NavigationProperty Name="VehicleownerCategories" Relationship="Self.FK_VehicleownerCategory_Users" FromRole="Users" ToRole="VehicleownerCategory" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Users" ToRole="webpages_Roles" />
+          <Property Name="IsEmailVerified" Type="Boolean" />
+          <Property Name="IsBankVerified" Type="Boolean" />
+          <Property Name="IsDriverLicenseVerified" Type="Boolean" />
+          <Property Name="IsVIOVerified" Type="Boolean" />
+          <Property Name="IsAnyIdVerified" Type="Boolean" />
+          <NavigationProperty Name="TrackingInformations" Relationship="DeliverLoadModel.FK_TrackingInformation_Users" FromRole="User" ToRole="TrackingInformation" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -1202,7 +1253,6 @@
           <EntitySet Name="LoadSpaces" EntityType="Self.LoadSpace" />
           <EntitySet Name="OverloadCategories" EntityType="Self.OverloadCategory" />
           <EntitySet Name="ParticipantCategories" EntityType="Self.ParticipantCategory" />
-          <EntitySet Name="PaymentHistories" EntityType="Self.PaymentHistory" />
           <EntitySet Name="PaymentMonitories" EntityType="Self.PaymentMonitory" />
           <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempt" />
           <EntitySet Name="PresenterCategories" EntityType="Self.PresenterCategory" />
@@ -1303,11 +1353,19 @@
             <Parameter Name="TimeUtc" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
-            <Parameter Name="UserD" Mode="In" Type="Int32" />
+          <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="DocumentTypes" EntityType="DeliverLoadModel.DocumentType" />
+          <EntitySet Name="TrackingInformations" EntityType="DeliverLoadModel.TrackingInformation" />
+          <EntitySet Name="UserDocuments" EntityType="DeliverLoadModel.UserDocument" />
+          <AssociationSet Name="FK_TrackingInformation_Users" Association="DeliverLoadModel.FK_TrackingInformation_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TrackingInformation" EntitySet="TrackingInformations" />
+          </AssociationSet>
+          <EntitySet Name="PaymentHistories" EntityType="DeliverLoadModel.PaymentHistory" />
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1337,6 +1395,77 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Name="DocTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TrackingInformation">
+          <Key>
+            <PropertyRef Name="TRA_Id" />
+          </Key>
+          <Property Name="TRA_Id" Type="Int32" Nullable="false" />
+          <Property Name="Tracking_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StartingLatitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="StartingLongitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="CurrentLatitude" Type="Decimal" Nullable="false" Precision="12" Scale="9" />
+          <Property Name="CurrentLongitude" Type="Decimal" Nullable="false" Precision="12" Scale="9" />
+          <Property Name="EndingLatitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="EndingLongitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_TrackingInformation_Users" FromRole="TrackingInformation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserDocument">
+          <Key>
+            <PropertyRef Name="UserDocumentId" />
+          </Key>
+          <Property Name="UserDocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocTypeId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IsActiveDocument" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_TrackingInformation_Users">
+          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="1" />
+          <End Type="DeliverLoadModel.TrackingInformation" Role="TrackingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrackingInformation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PaymentHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Payment_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tracking_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Payment_Date" Type="DateTime" Precision="3" />
+          <Property Name="Payment_Price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="First_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Zip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Request_Id" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Success" Type="Boolean" />
+          <Property Name="reason_fault" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsActivePaymentCode" Type="Boolean" />
+          <Property Name="IsActiveTrackingCode" Type="Boolean" />
+          <Property Name="Status" Type="Byte" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1452,6 +1581,10 @@
           <EntitySetMapping Name="OverloadCategories">
             <EntityTypeMapping TypeName="DeliverLoadModel.OverloadCategory">
               <MappingFragment StoreEntitySet="OverloadCategory">
+                <ScalarProperty Name="Dropoff_Longitude" ColumnName="Dropoff_Longitude" />
+                <ScalarProperty Name="Dropoff_Latitude" ColumnName="Dropoff_Latitude" />
+                <ScalarProperty Name="PickupLocation_Longitude" ColumnName="PickupLocation_Longitude" />
+                <ScalarProperty Name="PickupLocation_Latitude" ColumnName="PickupLocation_Latitude" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1479,29 +1612,6 @@
                 <ScalarProperty Name="HasJoinedCategory" ColumnName="HasJoinedCategory" />
                 <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
                 <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentHistories">
-            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentHistory">
-              <MappingFragment StoreEntitySet="PaymentHistory">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Payment_Id" ColumnName="Payment_Id" />
-                <ScalarProperty Name="Txn_Id" ColumnName="Txn_Id" />
-                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
-                <ScalarProperty Name="Payment_Price" ColumnName="Payment_Price" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
-                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
-                <ScalarProperty Name="Street" ColumnName="Street" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Zip" ColumnName="Zip" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
-                <ScalarProperty Name="Is_Success" ColumnName="Is_Success" />
-                <ScalarProperty Name="reason_fault" ColumnName="reason_fault" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1551,6 +1661,11 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DeliverLoadModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsAnyIdVerified" ColumnName="IsAnyIdVerified" />
+                <ScalarProperty Name="IsVIOVerified" ColumnName="IsVIOVerified" />
+                <ScalarProperty Name="IsDriverLicenseVerified" ColumnName="IsDriverLicenseVerified" />
+                <ScalarProperty Name="IsBankVerified" ColumnName="IsBankVerified" />
+                <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -1693,6 +1808,68 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="DocumentTypes">
+            <EntityTypeMapping TypeName="DeliverLoadModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+                <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackingInformations">
+            <EntityTypeMapping TypeName="DeliverLoadModel.TrackingInformation">
+              <MappingFragment StoreEntitySet="TrackingInformation">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EndingLongitude" ColumnName="EndingLongitude" />
+                <ScalarProperty Name="EndingLatitude" ColumnName="EndingLatitude" />
+                <ScalarProperty Name="CurrentLongitude" ColumnName="CurrentLongitude" />
+                <ScalarProperty Name="CurrentLatitude" ColumnName="CurrentLatitude" />
+                <ScalarProperty Name="StartingLongitude" ColumnName="StartingLongitude" />
+                <ScalarProperty Name="StartingLatitude" ColumnName="StartingLatitude" />
+                <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
+                <ScalarProperty Name="TRA_Id" ColumnName="TRA_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDocuments">
+            <EntityTypeMapping TypeName="DeliverLoadModel.UserDocument">
+              <MappingFragment StoreEntitySet="UserDocument">
+                <ScalarProperty Name="IsActiveDocument" ColumnName="IsActiveDocument" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
+                <ScalarProperty Name="DocumentImage" ColumnName="DocumentImage" />
+                <ScalarProperty Name="UserDocumentId" ColumnName="UserDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentHistories">
+            <EntityTypeMapping TypeName="DeliverLoadModel.PaymentHistory">
+              <MappingFragment StoreEntitySet="PaymentHistory">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsActiveTrackingCode" ColumnName="IsActiveTrackingCode" />
+                <ScalarProperty Name="IsActivePaymentCode" ColumnName="IsActivePaymentCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="reason_fault" ColumnName="reason_fault" />
+                <ScalarProperty Name="Is_Success" ColumnName="Is_Success" />
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Last_Name" ColumnName="Last_Name" />
+                <ScalarProperty Name="First_Name" ColumnName="First_Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Payment_Price" ColumnName="Payment_Price" />
+                <ScalarProperty Name="Payment_Date" ColumnName="Payment_Date" />
+                <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
+                <ScalarProperty Name="Payment_Code" ColumnName="Payment_Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

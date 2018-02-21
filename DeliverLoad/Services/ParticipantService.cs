@@ -656,7 +656,7 @@ namespace DeliverLoad.Services
                     objPH.Last_Name = userdetails.LastName;
                     objPH.Is_Success = true;
                     objPH.reason_fault="Success";
-                    objPH.Txn_Id = Convert.ToString(random);
+                    objPH.Tracking_Code = Convert.ToString(random);
                     dbContext.PaymentHistories.Add(objPH);
                     dbContext.SaveChanges();
                     
@@ -673,7 +673,7 @@ namespace DeliverLoad.Services
                 throw ex;
             }
 
-            return objPH.Txn_Id;
+            return objPH.Tracking_Code;
         }
 
         #region OrderSummury

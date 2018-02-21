@@ -25,6 +25,7 @@ namespace DeliverLoad.Models
             this.PresenterCategories = new HashSet<PresenterCategory>();
             this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
             this.webpages_Roles = new HashSet<webpages_Roles>();
+            this.TrackingInformations = new HashSet<TrackingInformation>();
         }
     
         public int UserId { get; set; }
@@ -76,6 +77,11 @@ namespace DeliverLoad.Models
         public Nullable<bool> IsAuthenticated { get; set; }
         public Nullable<System.DateTime> LastOnline { get; set; }
         public Nullable<bool> IsPhoneVerified { get; set; }
+        public Nullable<bool> IsEmailVerified { get; set; }
+        public Nullable<bool> IsBankVerified { get; set; }
+        public Nullable<bool> IsDriverLicenseVerified { get; set; }
+        public Nullable<bool> IsVIOVerified { get; set; }
+        public Nullable<bool> IsAnyIdVerified { get; set; }
     
         public virtual ICollection<CategoryContentComment> CategoryContentComments { get; set; }
         public virtual ICollection<ChannelRequestMaster> ChannelRequestMasters { get; set; }
@@ -86,5 +92,6 @@ namespace DeliverLoad.Models
         public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
         public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
+        public virtual ICollection<TrackingInformation> TrackingInformations { get; set; }
     }
 }
