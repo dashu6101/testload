@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\siddharth\Desktop\Deliver Load\testload-master\DeliverLoad\Models\DeliverLoadEntities.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\jigar_000\Source\Repos\testload2\DeliverLoad\Models\DeliverLoadEntities.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

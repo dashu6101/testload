@@ -48,8 +48,33 @@ namespace DeliverLoad.Models
 
         public bool IsBloked { get; set; }
 
-
+        [Display(Name = "Email")]
         public string EmailID { get; set; }
+
+        [Display(Name = "Mobile")]
+        public string Mobile { get; set; }
+
+        public Boolean? IsPhoneVerified { get; set; }
+
+        public Boolean? IsEmailVerified { get; set; }
+
+        public Boolean? IsBankVerified { get; set; }
+
+        public Boolean? IsDriverLicenseVerified { get; set; }
+
+        public Boolean? IsVIOVerified { get; set; }
+
+        public Boolean? IsAnyIdVerified { get; set; }
+
+        [Display(Name = "Driver License")]
+        public HttpPostedFileBase DriverLicense { get; set; }
+
+        [Display(Name = "VIO")]
+        public HttpPostedFileBase VIO { get; set; }
+
+        [Display(Name = "Any Id")]
+        public HttpPostedFileBase AnyId { get; set; }
+
     }
 
     public class ContactModel

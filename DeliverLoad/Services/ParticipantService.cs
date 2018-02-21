@@ -656,7 +656,7 @@ namespace DeliverLoad.Services
                     objPH.First_Name = userdetails.FirstName;
                     objPH.Last_Name = userdetails.LastName;
                     objPH.Is_Success = true;
-                    objPH.reason_fault = "Success";
+                    objPH.reason_fault="Success";
                     objPH.Tracking_Code = Convert.ToString(random);
                     dbContext.PaymentHistories.Add(objPH);
                     dbContext.SaveChanges();

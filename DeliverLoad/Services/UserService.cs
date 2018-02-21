@@ -19,7 +19,7 @@ namespace DeliverLoad.Services
 
         public UserModel GetUserDetailsByUserId(int UserId)
         {
-            var userDetails = dbContext.Users.Where(x => x.UserId == UserId).Select(x => new UserModel { UserId = x.UserId, UserName = x.UserName, UserType = x.UserType, FirstName = x.FirstName, LastName = x.LastName, ScreenName = x.ScreenName, ProfilePicture = x.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + x.ProfilePicture, Balance = (decimal)x.Balance,EmailID = x.EmailID }).FirstOrDefault();
+            var userDetails = dbContext.Users.Where(x => x.UserId == UserId).Select(x => new UserModel { UserId = x.UserId, UserName = x.UserName, UserType = x.UserType, FirstName = x.FirstName, LastName = x.LastName, ScreenName = x.ScreenName, ProfilePicture = x.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + x.ProfilePicture, Balance = (decimal)x.Balance, EmailID = x.EmailID, Mobile = x.Mobile, IsPhoneVerified = x.IsPhoneVerified, IsEmailVerified = x.IsEmailVerified, IsDriverLicenseVerified = x.IsDriverLicenseVerified, IsVIOVerified = x.IsVIOVerified, IsAnyIdVerified = x.IsAnyIdVerified }).FirstOrDefault();
 
             return userDetails;
 
@@ -54,6 +54,111 @@ namespace DeliverLoad.Services
 
                 }
                 dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return UserType;
+        }
+
+
+        public string DocumentVerification(int UserId, string UserType, HttpPostedFileBase AnyId, HttpPostedFileBase VOI, HttpPostedFileBase DriverLicense)
+        {
+            try
+            {
+                UserDocument objUserDoc = dbContext.UserDocuments.Where(x => x.UserId == UserId).SingleOrDefault();
+
+                if (AnyId != null)
+                {
+                    UserDocument objUserAnyId = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.DocTypeId == 3).SingleOrDefault();
+
+                    if (objUserAnyId != null) {
+                        objUserAnyId.IsActiveDocument = "N";
+                        dbContext.SaveChanges();
+                    }
+
+                    string FileAnyId = Guid.NewGuid().ToString();
+                    FileAnyId = FileAnyId + AnyId.FileName.Substring(AnyId.FileName.LastIndexOf('.'));
+                    string physicalPath = System.IO.Path.Combine(
+                                  System.Web.HttpContext.Current.Server.MapPath("~/UserDocuments/"), FileAnyId);
+
+
+                    AnyId.SaveAs(physicalPath);
+                    
+
+                    UserDocument objD = new UserDocument();
+                    objD.DocumentImage = FileAnyId;
+                    objD.DocTypeId = 3;
+                    objD.UserId = UserId;
+                    objD.IsActiveDocument = "Y";
+
+                    dbContext.UserDocuments.Add(objD);
+                    dbContext.SaveChanges();
+                       
+                }
+
+                if (VOI != null)
+                {
+                    UserDocument objUserVOI = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.DocTypeId == 2).SingleOrDefault();
+
+                    if (objUserVOI != null)
+                    {
+                        objUserVOI.IsActiveDocument = "N";
+                        dbContext.SaveChanges();
+                    }
+
+
+                    string FileVOI = Guid.NewGuid().ToString();
+                    FileVOI = FileVOI + VOI.FileName.Substring(VOI.FileName.LastIndexOf('.'));
+                    string physicalPath = System.IO.Path.Combine(
+                                  System.Web.HttpContext.Current.Server.MapPath("~/UserDocuments/"), FileVOI);
+
+
+                    VOI.SaveAs(physicalPath);
+
+                    UserDocument objDoc = new UserDocument();
+                    objDoc.DocumentImage = FileVOI;
+                    objDoc.DocTypeId = 2;
+                    objDoc.UserId = UserId;
+                    objDoc.IsActiveDocument = "Y";
+
+                    dbContext.UserDocuments.Add(objDoc);
+                    dbContext.SaveChanges();
+
+                }
+
+                if (DriverLicense != null)
+                {
+
+                    UserDocument objUserDriverLicense = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.DocTypeId == 1).SingleOrDefault();
+
+                    if (DriverLicense != null)
+                    {
+                        objUserDriverLicense.IsActiveDocument = "N";
+                        dbContext.SaveChanges();
+                    }
+
+
+                    string FileDriverLicense = Guid.NewGuid().ToString();
+                    FileDriverLicense = FileDriverLicense + VOI.FileName.Substring(DriverLicense.FileName.LastIndexOf('.'));
+                    string physicalPath = System.IO.Path.Combine(
+                                  System.Web.HttpContext.Current.Server.MapPath("~/UserDocuments/"), FileDriverLicense);
+
+
+                    DriverLicense.SaveAs(physicalPath);
+                    
+
+                    UserDocument objDoc1 = new UserDocument();
+                    objDoc1.DocumentImage = FileDriverLicense;
+                    objDoc1.DocTypeId = 1;
+                    objDoc1.UserId = UserId;
+                    objDoc1.IsActiveDocument = "Y";
+
+                    dbContext.UserDocuments.Add(objDoc1);
+                    dbContext.SaveChanges();
+                }
             }
             catch (Exception ex)
             {
@@ -125,7 +230,7 @@ namespace DeliverLoad.Services
             var userDetails = dbContext.Users.Where(x => x.UserId == UserId).FirstOrDefault();
             userDetails.LastOnline = DateTime.Now;
             dbContext.SaveChanges();
-           
+
 
         }
 

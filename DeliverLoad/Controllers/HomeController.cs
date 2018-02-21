@@ -43,6 +43,25 @@ namespace DeliverLoad.Controllers
             return View(model);
         }
 
+        public ActionResult DocumentVerification()
+        {
+
+            var model = service.GetUserDetailsByUserId(sUser.UserId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult DocumentVerification(int UserId, string UserType, HttpPostedFileBase AnyId, HttpPostedFileBase VOI, HttpPostedFileBase DriverLicense)
+        {
+
+            string returnvalue = service.DocumentVerification(UserId, UserType, AnyId, VOI, DriverLicense);
+
+            // assing session b'caz user update profile then require some field like usertype,image etc..
+            Session["sUser"] = DeliverLoad.Utils.Utils.GetDeliverLoadUser(WebSecurity.CurrentUserName);
+            return Json(returnvalue, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         public ActionResult ProfileEdit(int UserId, string ScreenName, string FirstName, string LastName, string UserType, HttpPostedFileBase imageUpload)
         {
@@ -67,7 +86,7 @@ namespace DeliverLoad.Controllers
         {
 
             string subject = "Video encoding successful";
-            string body = "";            
+            string body = "";
 
             body += "<p>Dear  " + "aditya" + ",</p>";
             body += "<p>Your video has been encoded and ready for viewing.</p>";
@@ -190,13 +209,13 @@ namespace DeliverLoad.Controllers
                 files.SaveAs(filepath);
             }
 
-         
+
 
             string path = "UploadedImages/" + finalstring;
             url = Request.Url.GetLeftPart(UriPartial.Authority) + "/" + path;
 
             return Json(new { filelink = url });
-           
+
         }
 
         public JsonResult SendInvites(string emailId, string channelName, string ChannelNo)
@@ -217,6 +236,6 @@ namespace DeliverLoad.Controllers
             return Json("1", JsonRequestBehavior.AllowGet);
         }
 
-      
+
     }
 }

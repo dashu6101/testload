@@ -25,6 +25,7 @@ namespace DeliverLoad.Models
             this.PresenterCategories = new HashSet<PresenterCategory>();
             this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
             this.webpages_Roles = new HashSet<webpages_Roles>();
+            this.TrackingInformations = new HashSet<TrackingInformation>();
         }
     
         public int UserId { get; set; }
@@ -91,5 +92,6 @@ namespace DeliverLoad.Models
         public virtual ICollection<PresenterCategory> PresenterCategories { get; set; }
         public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
+        public virtual ICollection<TrackingInformation> TrackingInformations { get; set; }
     }
 }

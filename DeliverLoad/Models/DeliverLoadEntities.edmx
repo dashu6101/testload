@@ -4,21 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AcceptedLoadOffers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LoadId" Type="int" Nullable="false" />
-          <Property Name="LoadOwnerId" Type="int" Nullable="false" />
-          <Property Name="VehicleOwnerId" Type="int" Nullable="false" />
-          <Property Name="AcceptedDate" Type="datetime" Nullable="false" />
-          <Property Name="IsDelete" Type="bit" Nullable="false" />
-          <Property Name="ModifiedAcceptedDate" Type="datetime" />
-          <Property Name="IsAcceptedByLoadOwner" Type="bit" />
-          <Property Name="LoadOwnerAcceptedDate" Type="datetime" />
-        </EntityType>
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -83,6 +69,13 @@
           <Property Name="UserId" Type="int" />
           <Property Name="VisitDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Name="DocTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentName" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ELMAH_Error">
           <Key>
             <PropertyRef Name="ErrorId" />
@@ -116,7 +109,6 @@
           </Key>
           <Property Name="LoadSpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoadSpaceTitle" Type="varchar" MaxLength="50" />
-          <Property Name="LoadSpaceImage" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -216,6 +208,32 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmailId" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TrackingInformation">
+          <Key>
+            <PropertyRef Name="TRA_Id" />
+          </Key>
+          <Property Name="TRA_Id" Type="int" Nullable="false" />
+          <Property Name="Tracking_Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartingLatitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="StartingLongitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="CurrentLatitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+          <Property Name="CurrentLongitude" Type="decimal" Precision="12" Scale="9" Nullable="false" />
+          <Property Name="EndingLatitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="EndingLongitude" Type="decimal" Precision="12" Scale="9" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserDocument">
+          <Key>
+            <PropertyRef Name="UserDocumentId" />
+          </Key>
+          <Property Name="UserDocumentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentImage" Type="varchar" MaxLength="50" />
+          <Property Name="DocTypeId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="IsActiveDocument" Type="char" MaxLength="1" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -324,18 +342,6 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_AcceptedLoadOffers_LoadId">
-          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="1" />
-          <End Role="AcceptedLoadOffers" Type="Self.AcceptedLoadOffers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OverloadCategory">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="AcceptedLoadOffers">
-              <PropertyRef Name="LoadId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CategoryContent_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -534,6 +540,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrackingInformation_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TrackingInformation" Type="Self.TrackingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrackingInformation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_UserId">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
@@ -599,12 +617,12 @@
           <Parameter Name="UserD" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DeliverLoadModelStoreContainer">
-          <EntitySet Name="AcceptedLoadOffers" EntityType="Self.AcceptedLoadOffers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContent" EntityType="Self.CategoryContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContentComment" EntityType="Self.CategoryContentComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChannelRequestMaster" EntityType="Self.ChannelRequestMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContentVisitors" EntityType="Self.ContentVisitors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ELMAH_Error" EntityType="Self.ELMAH_Error" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadownerCategory" EntityType="Self.LoadownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadSpace" EntityType="Self.LoadSpace" Schema="dbo" store:Type="Tables" />
@@ -615,16 +633,14 @@
           <EntitySet Name="PhoneVerificationAttempts" EntityType="Self.PhoneVerificationAttempts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PresenterCategory" EntityType="Self.PresenterCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackingInformation" EntityType="Self.TrackingInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDocument" EntityType="Self.UserDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VehicleownerCategory" EntityType="Self.VehicleownerCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="Self.FK_AcceptedLoadOffers_LoadId">
-            <End Role="OverloadCategory" EntitySet="OverloadCategory" />
-            <End Role="AcceptedLoadOffers" EntitySet="AcceptedLoadOffers" />
-          </AssociationSet>
           <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="CategoryContent" EntitySet="CategoryContent" />
@@ -684,6 +700,10 @@
           <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
             <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingInformation_Users" Association="Self.FK_TrackingInformation_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TrackingInformation" EntitySet="TrackingInformation" />
           </AssociationSet>
           <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
             <End Role="Users" EntitySet="Users" />
@@ -814,7 +834,6 @@
           </Key>
           <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LoadSpaceImage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -841,7 +860,6 @@
           <Property Name="PickupLocation_Longitude" Type="Decimal" Precision="12" Scale="9" />
           <Property Name="Dropoff_Latitude" Type="Decimal" Precision="12" Scale="9" />
           <Property Name="Dropoff_Longitude" Type="Decimal" Precision="12" Scale="9" />
-          <NavigationProperty Name="AcceptedLoadOffers" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="OverloadCategory" ToRole="AcceptedLoadOffer" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -965,6 +983,7 @@
           <Property Name="IsDriverLicenseVerified" Type="Boolean" />
           <Property Name="IsVIOVerified" Type="Boolean" />
           <Property Name="IsAnyIdVerified" Type="Boolean" />
+          <NavigationProperty Name="TrackingInformations" Relationship="DeliverLoadModel.FK_TrackingInformation_Users" FromRole="User" ToRole="TrackingInformation" />
         </EntityType>
         <EntityType Name="VehicleownerCategory">
           <Key>
@@ -1339,13 +1358,15 @@
           <FunctionImport Name="PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST" ReturnType="Collection(DeliverLoadModel.PR_GET_PARTICIPANT_REQUESTED_CHANNEL_LIST_Result)">
           <Parameter Name="UserD" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="PaymentHistories" EntityType="DeliverLoadModel.PaymentHistory" />
-          <EntitySet Name="AcceptedLoadOffers" EntityType="DeliverLoadModel.AcceptedLoadOffer" />
-          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId">
-            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
-            <End Role="AcceptedLoadOffer" EntitySet="AcceptedLoadOffers" />
+          <EntitySet Name="DocumentTypes" EntityType="DeliverLoadModel.DocumentType" />
+          <EntitySet Name="TrackingInformations" EntityType="DeliverLoadModel.TrackingInformation" />
+          <EntitySet Name="UserDocuments" EntityType="DeliverLoadModel.UserDocument" />
+          <AssociationSet Name="FK_TrackingInformation_Users" Association="DeliverLoadModel.FK_TrackingInformation_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TrackingInformation" EntitySet="TrackingInformations" />
           </AssociationSet>
-          </EntityContainer>
+          <EntitySet Name="PaymentHistories" EntityType="DeliverLoadModel.PaymentHistory" />
+        </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <Property Type="Int32" Name="CategoryId" Nullable="false" />
@@ -1374,6 +1395,52 @@
           <Property Type="String" Name="RequestComment" Nullable="true" />
           <Property Type="String" Name="RequestDate" Nullable="true" MaxLength="10" />
         </ComplexType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="DocTypeId" />
+          </Key>
+          <Property Name="DocTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TrackingInformation">
+          <Key>
+            <PropertyRef Name="TRA_Id" />
+          </Key>
+          <Property Name="TRA_Id" Type="Int32" Nullable="false" />
+          <Property Name="Tracking_Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StartingLatitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="StartingLongitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="CurrentLatitude" Type="Decimal" Nullable="false" Precision="12" Scale="9" />
+          <Property Name="CurrentLongitude" Type="Decimal" Nullable="false" Precision="12" Scale="9" />
+          <Property Name="EndingLatitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="EndingLongitude" Type="Decimal" Precision="12" Scale="9" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="DeliverLoadModel.FK_TrackingInformation_Users" FromRole="TrackingInformation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserDocument">
+          <Key>
+            <PropertyRef Name="UserDocumentId" />
+          </Key>
+          <Property Name="UserDocumentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocTypeId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="IsActiveDocument" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_TrackingInformation_Users">
+          <End Type="DeliverLoadModel.User" Role="User" Multiplicity="1" />
+          <End Type="DeliverLoadModel.TrackingInformation" Role="TrackingInformation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TrackingInformation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="PaymentHistory">
           <Key>
             <PropertyRef Name="ID" />
@@ -1399,34 +1466,7 @@
           <Property Name="IsActiveTrackingCode" Type="Boolean" />
           <Property Name="Status" Type="Byte" />
         </EntityType>
-        <EntityType Name="AcceptedLoadOffer">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LoadId" Type="Int32" Nullable="false" />
-          <Property Name="LoadOwnerId" Type="Int32" Nullable="false" />
-          <Property Name="VehicleOwnerId" Type="Int32" Nullable="false" />
-          <Property Name="AcceptedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
-          <Property Name="ModifiedAcceptedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsAcceptedByLoadOwner" Type="Boolean" />
-          <Property Name="LoadOwnerAcceptedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="AcceptedLoadOffer" ToRole="OverloadCategory" />
-        </EntityType>
-        <Association Name="FK_AcceptedLoadOffers_LoadId">
-          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="1" />
-          <End Type="DeliverLoadModel.AcceptedLoadOffer" Role="AcceptedLoadOffer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OverloadCategory">
-              <PropertyRef Name="CategoryId" />
-            </Principal>
-            <Dependent Role="AcceptedLoadOffer">
-              <PropertyRef Name="LoadId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1533,7 +1573,6 @@
           <EntitySetMapping Name="LoadSpaces">
             <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
               <MappingFragment StoreEntitySet="LoadSpace">
-                <ScalarProperty Name="LoadSpaceImage" ColumnName="LoadSpaceImage" />
                 <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
                 <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
               </MappingFragment>
@@ -1769,6 +1808,42 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="DocumentTypes">
+            <EntityTypeMapping TypeName="DeliverLoadModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+                <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackingInformations">
+            <EntityTypeMapping TypeName="DeliverLoadModel.TrackingInformation">
+              <MappingFragment StoreEntitySet="TrackingInformation">
+                <ScalarProperty Name="LastUpdatedOn" ColumnName="LastUpdatedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EndingLongitude" ColumnName="EndingLongitude" />
+                <ScalarProperty Name="EndingLatitude" ColumnName="EndingLatitude" />
+                <ScalarProperty Name="CurrentLongitude" ColumnName="CurrentLongitude" />
+                <ScalarProperty Name="CurrentLatitude" ColumnName="CurrentLatitude" />
+                <ScalarProperty Name="StartingLongitude" ColumnName="StartingLongitude" />
+                <ScalarProperty Name="StartingLatitude" ColumnName="StartingLatitude" />
+                <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
+                <ScalarProperty Name="TRA_Id" ColumnName="TRA_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDocuments">
+            <EntityTypeMapping TypeName="DeliverLoadModel.UserDocument">
+              <MappingFragment StoreEntitySet="UserDocument">
+                <ScalarProperty Name="IsActiveDocument" ColumnName="IsActiveDocument" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
+                <ScalarProperty Name="DocumentImage" ColumnName="DocumentImage" />
+                <ScalarProperty Name="UserDocumentId" ColumnName="UserDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentHistories">
             <EntityTypeMapping TypeName="DeliverLoadModel.PaymentHistory">
               <MappingFragment StoreEntitySet="PaymentHistory">
@@ -1792,21 +1867,6 @@
                 <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
                 <ScalarProperty Name="Payment_Code" ColumnName="Payment_Code" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AcceptedLoadOffers">
-            <EntityTypeMapping TypeName="DeliverLoadModel.AcceptedLoadOffer">
-              <MappingFragment StoreEntitySet="AcceptedLoadOffers">
-                <ScalarProperty Name="LoadOwnerAcceptedDate" ColumnName="LoadOwnerAcceptedDate" />
-                <ScalarProperty Name="IsAcceptedByLoadOwner" ColumnName="IsAcceptedByLoadOwner" />
-                <ScalarProperty Name="ModifiedAcceptedDate" ColumnName="ModifiedAcceptedDate" />
-                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
-                <ScalarProperty Name="AcceptedDate" ColumnName="AcceptedDate" />
-                <ScalarProperty Name="VehicleOwnerId" ColumnName="VehicleOwnerId" />
-                <ScalarProperty Name="LoadOwnerId" ColumnName="LoadOwnerId" />
-                <ScalarProperty Name="LoadId" ColumnName="LoadId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
