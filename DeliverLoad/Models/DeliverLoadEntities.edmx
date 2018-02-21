@@ -4,7 +4,21 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DeliverLoadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcceptedLoadOffers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoadId" Type="int" Nullable="false" />
+          <Property Name="LoadOwnerId" Type="int" Nullable="false" />
+          <Property Name="VehicleOwnerId" Type="int" Nullable="false" />
+          <Property Name="AcceptedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsDelete" Type="bit" Nullable="false" />
+          <Property Name="ModifiedAcceptedDate" Type="datetime" />
+          <Property Name="IsAcceptedByLoadOwner" Type="bit" />
+          <Property Name="LoadOwnerAcceptedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryId" />
@@ -109,6 +123,7 @@
           </Key>
           <Property Name="LoadSpaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LoadSpaceTitle" Type="varchar" MaxLength="50" />
+          <Property Name="LoadSpaceImage" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -213,7 +228,7 @@
           <Key>
             <PropertyRef Name="TRA_Id" />
           </Key>
-          <Property Name="TRA_Id" Type="int" Nullable="false" />
+          <Property Name="TRA_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tracking_Code" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="StartingLatitude" Type="decimal" Precision="12" Scale="9" />
           <Property Name="StartingLongitude" Type="decimal" Precision="12" Scale="9" />
@@ -342,6 +357,18 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AcceptedLoadOffers_LoadId">
+          <End Role="OverloadCategory" Type="Self.OverloadCategory" Multiplicity="1" />
+          <End Role="AcceptedLoadOffers" Type="Self.AcceptedLoadOffers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="AcceptedLoadOffers">
+              <PropertyRef Name="LoadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CategoryContent_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -617,6 +644,7 @@
           <Parameter Name="UserD" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="DeliverLoadModelStoreContainer">
+          <EntitySet Name="AcceptedLoadOffers" EntityType="Self.AcceptedLoadOffers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContent" EntityType="Self.CategoryContent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryContentComment" EntityType="Self.CategoryContentComment" Schema="dbo" store:Type="Tables" />
@@ -641,6 +669,10 @@
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="Self.FK_AcceptedLoadOffers_LoadId">
+            <End Role="OverloadCategory" EntitySet="OverloadCategory" />
+            <End Role="AcceptedLoadOffers" EntitySet="AcceptedLoadOffers" />
+          </AssociationSet>
           <AssociationSet Name="FK_CategoryContent_Category" Association="Self.FK_CategoryContent_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="CategoryContent" EntitySet="CategoryContent" />
@@ -834,6 +866,7 @@
           </Key>
           <Property Name="LoadSpaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LoadSpaceTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoadSpaceImage" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OverloadCategory">
           <Key>
@@ -860,6 +893,7 @@
           <Property Name="PickupLocation_Longitude" Type="Decimal" Precision="12" Scale="9" />
           <Property Name="Dropoff_Latitude" Type="Decimal" Precision="12" Scale="9" />
           <Property Name="Dropoff_Longitude" Type="Decimal" Precision="12" Scale="9" />
+          <NavigationProperty Name="AcceptedLoadOffers" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="OverloadCategory" ToRole="AcceptedLoadOffer" />
         </EntityType>
         <EntityType Name="ParticipantCategory">
           <Key>
@@ -1366,6 +1400,11 @@
             <End Role="TrackingInformation" EntitySet="TrackingInformations" />
           </AssociationSet>
           <EntitySet Name="PaymentHistories" EntityType="DeliverLoadModel.PaymentHistory" />
+          <EntitySet Name="AcceptedLoadOffers" EntityType="DeliverLoadModel.AcceptedLoadOffer" />
+          <AssociationSet Name="FK_AcceptedLoadOffers_LoadId" Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId">
+            <End Role="OverloadCategory" EntitySet="OverloadCategories" />
+            <End Role="AcceptedLoadOffer" EntitySet="AcceptedLoadOffers" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="PR_GET_PARTICIPANT_CHANNEL_LIST_Result">
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -1466,6 +1505,33 @@
           <Property Name="IsActiveTrackingCode" Type="Boolean" />
           <Property Name="Status" Type="Byte" />
         </EntityType>
+        <EntityType Name="AcceptedLoadOffer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoadId" Type="Int32" Nullable="false" />
+          <Property Name="LoadOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="VehicleOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="AcceptedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDelete" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedAcceptedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsAcceptedByLoadOwner" Type="Boolean" />
+          <Property Name="LoadOwnerAcceptedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="OverloadCategory" Relationship="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" FromRole="AcceptedLoadOffer" ToRole="OverloadCategory" />
+        </EntityType>
+        <Association Name="FK_AcceptedLoadOffers_LoadId">
+          <End Type="DeliverLoadModel.OverloadCategory" Role="OverloadCategory" Multiplicity="1" />
+          <End Type="DeliverLoadModel.AcceptedLoadOffer" Role="AcceptedLoadOffer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OverloadCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="AcceptedLoadOffer">
+              <PropertyRef Name="LoadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1573,6 +1639,7 @@
           <EntitySetMapping Name="LoadSpaces">
             <EntityTypeMapping TypeName="DeliverLoadModel.LoadSpace">
               <MappingFragment StoreEntitySet="LoadSpace">
+                <ScalarProperty Name="LoadSpaceImage" ColumnName="LoadSpaceImage" />
                 <ScalarProperty Name="LoadSpaceId" ColumnName="LoadSpaceId" />
                 <ScalarProperty Name="LoadSpaceTitle" ColumnName="LoadSpaceTitle" />
               </MappingFragment>
@@ -1867,6 +1934,21 @@
                 <ScalarProperty Name="Tracking_Code" ColumnName="Tracking_Code" />
                 <ScalarProperty Name="Payment_Code" ColumnName="Payment_Code" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcceptedLoadOffers">
+            <EntityTypeMapping TypeName="DeliverLoadModel.AcceptedLoadOffer">
+              <MappingFragment StoreEntitySet="AcceptedLoadOffers">
+                <ScalarProperty Name="LoadOwnerAcceptedDate" ColumnName="LoadOwnerAcceptedDate" />
+                <ScalarProperty Name="IsAcceptedByLoadOwner" ColumnName="IsAcceptedByLoadOwner" />
+                <ScalarProperty Name="ModifiedAcceptedDate" ColumnName="ModifiedAcceptedDate" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="AcceptedDate" ColumnName="AcceptedDate" />
+                <ScalarProperty Name="VehicleOwnerId" ColumnName="VehicleOwnerId" />
+                <ScalarProperty Name="LoadOwnerId" ColumnName="LoadOwnerId" />
+                <ScalarProperty Name="LoadId" ColumnName="LoadId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -51,6 +51,7 @@ namespace DeliverLoad.Models
         public DbSet<TrackingInformation> TrackingInformations { get; set; }
         public DbSet<UserDocument> UserDocuments { get; set; }
         public DbSet<PaymentHistory> PaymentHistories { get; set; }
+        public DbSet<AcceptedLoadOffer> AcceptedLoadOffers { get; set; }
     
         public virtual ObjectResult<string> ELMAH_GetErrorsXml(string application, Nullable<int> pageIndex, Nullable<int> pageSize, ObjectParameter totalCount)
         {
