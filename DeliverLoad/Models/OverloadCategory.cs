@@ -18,6 +18,7 @@ namespace DeliverLoad.Models
         {
             this.LoadownerCategories = new HashSet<LoadownerCategory>();
             this.VehicleownerCategories = new HashSet<VehicleownerCategory>();
+            this.AcceptedLoadOffers = new HashSet<AcceptedLoadOffer>();
         }
     
         public int CategoryId { get; set; }
@@ -42,5 +43,6 @@ namespace DeliverLoad.Models
     
         public virtual ICollection<LoadownerCategory> LoadownerCategories { get; set; }
         public virtual ICollection<VehicleownerCategory> VehicleownerCategories { get; set; }
+        public virtual ICollection<AcceptedLoadOffer> AcceptedLoadOffers { get; set; }
     }
 }

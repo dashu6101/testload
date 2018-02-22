@@ -611,7 +611,7 @@ namespace DeliverLoad.Services
             try
             {
                 var Loadownerdetails = dbContext.LoadownerCategories.Where(x => x.CategoryId == CategoryId && x.UserId == UserId).FirstOrDefault();
-              
+
                 //check balance
                 var Paymentdetails = GetPaymentDetailsByUserId(UserId);
                 //Decimal Balance = Paymentdetails.TotalBalance;
@@ -627,9 +627,10 @@ namespace DeliverLoad.Services
 
                         dbContext.SaveChanges();
 
-                       // return "1";
+                        // return "1";
                     }
-                    else {
+                    else
+                    {
                         LoadownerCategory objUC = new LoadownerCategory();
 
                         objUC.CategoryId = CategoryId;
@@ -639,12 +640,12 @@ namespace DeliverLoad.Services
                         dbContext.LoadownerCategories.Add(objUC);
                         dbContext.SaveChanges();
                     }
-                   
+
 
                     var userdetails = GetUserDetailsByUserId(UserId);
-                    
+
                     var PaymentHistory = dbContext.PaymentHistories.FirstOrDefault();
-                    
+
                     System.Random rand = new System.Random((int)System.DateTime.Now.Ticks);
                     int random = rand.Next(1, 100000000);
 
@@ -659,7 +660,7 @@ namespace DeliverLoad.Services
                     objPH.Tracking_Code = Convert.ToString(random);
                     dbContext.PaymentHistories.Add(objPH);
                     dbContext.SaveChanges();
-                    
+
                 }
                 else
                 {
@@ -681,43 +682,43 @@ namespace DeliverLoad.Services
         {
             OrderSummuryModel objOrderSummury = new OrderSummuryModel();
             objOrderSummury = (from OC in dbContext.OverloadCategories
-                                join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
-                                join U in dbContext.Users on LOC.UserId equals U.UserId
-                                join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                where OC.CategoryId == CategoryId
-                                select new OrderSummuryModel
-                                {
-                                    CategoryId = OC.CategoryId,
-                                    LoadName = OC.Name,
-                                    LoadDesc = OC.Description,
-                                    LoadCreatedDate = OC.CreatedDate, 
-                                    LoadImage = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
-                                    LoadPrice = OC.Price,
-                                    LoadPickupDate = OC.PickupDate,
-                                    LoadDropOffDate = OC.DropOffDate,
-                                    LoadPickupLocation = OC.PickupLocation,
-                                    LoadDropOffLocation = OC.DropOffLocation,
-                                    LoadSpaceId = OC.LoadSpaceId,
-                                    LoadIsFree = OC.IsFree == null ? false : OC.IsFree,
-                                    LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
-                                    LoadChannelNo = OC.ChannelNo,
-                                    LoadSpaceTitle = LS.LoadSpaceTitle,
-                                    LoadownerCategoryId = LOC.Id,
-                                    LoadOwnerId = LOC.UserId,
-                                    LoadOwnerFirstName = U.FirstName,
-                                    LoadOwnerMiddleName = U.MiddleName,
-                                    LoadOwnerLastName = U.LastName,
-                                    LoadOwnerEmail = U.EmailID,
-                                    LoadOwnerAge = U.Age,
-                                    LoadOwnerGender = U.Gender,
-                                    LoadOwnerCityId = U.CityID,
-                                    LoadOwnerStateId = U.StateID,
-                                    LoadOwnerCountryId = U.CountryID,
-                                    LoadOwnerAddress = U.Address,
-                                    LoadOwnerDOB = U.DOB,
-                                    LoadOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
-                                    LoadOwnerLastOnlineDate = U.LastOnline
-                                }).ToList().FirstOrDefault();
+                               join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
+                               join U in dbContext.Users on LOC.UserId equals U.UserId
+                               join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                               where OC.CategoryId == CategoryId
+                               select new OrderSummuryModel
+                               {
+                                   CategoryId = OC.CategoryId,
+                                   LoadName = OC.Name,
+                                   LoadDesc = OC.Description,
+                                   LoadCreatedDate = OC.CreatedDate,
+                                   LoadImage = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                   LoadPrice = OC.Price,
+                                   LoadPickupDate = OC.PickupDate,
+                                   LoadDropOffDate = OC.DropOffDate,
+                                   LoadPickupLocation = OC.PickupLocation,
+                                   LoadDropOffLocation = OC.DropOffLocation,
+                                   LoadSpaceId = OC.LoadSpaceId,
+                                   LoadIsFree = OC.IsFree == null ? false : OC.IsFree,
+                                   LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
+                                   LoadChannelNo = OC.ChannelNo,
+                                   LoadSpaceTitle = LS.LoadSpaceTitle,
+                                   LoadownerCategoryId = LOC.Id,
+                                   LoadOwnerId = LOC.UserId,
+                                   LoadOwnerFirstName = U.FirstName,
+                                   LoadOwnerMiddleName = U.MiddleName,
+                                   LoadOwnerLastName = U.LastName,
+                                   LoadOwnerEmail = U.EmailID,
+                                   LoadOwnerAge = U.Age,
+                                   LoadOwnerGender = U.Gender,
+                                   LoadOwnerCityId = U.CityID,
+                                   LoadOwnerStateId = U.StateID,
+                                   LoadOwnerCountryId = U.CountryID,
+                                   LoadOwnerAddress = U.Address,
+                                   LoadOwnerDOB = U.DOB,
+                                   LoadOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
+                                   LoadOwnerLastOnlineDate = U.LastOnline
+                               }).ToList().FirstOrDefault();
 
             if (objOrderSummury != null)
             {
@@ -786,7 +787,8 @@ namespace DeliverLoad.Services
                                       CouponCode = pm.CouponCode
                                   }).ToList().FirstOrDefault();
 
-            if (objPaymentMonitory == null) {
+            if (objPaymentMonitory == null)
+            {
                 objPaymentMonitory = new PaymentMonitoryModel();
             }
             return objPaymentMonitory;
@@ -798,6 +800,94 @@ namespace DeliverLoad.Services
 
             return PaymentMonitory;
 
+        }
+        #endregion
+
+        #region Load Accept Detail
+
+        public int GetLoadOwnerIdFromCategoryId(int CategoryId)
+        {
+            var loadOwnerId = (from c in dbContext.LoadownerCategories
+                               where c.CategoryId == CategoryId
+                               select c.UserId).FirstOrDefault();
+            if (loadOwnerId != null && Convert.ToInt32(loadOwnerId) > 0)
+            {
+                return Convert.ToInt32(loadOwnerId);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public bool SaveAcceptedLoadDetail(int CategoryId, int loadOwnerId, int vehicleOwnerId)
+        {
+            var acceptedLoadDetail = (from c in dbContext.AcceptedLoadOffers
+                                      where c.LoadId == CategoryId
+                                        && c.LoadOwnerId == loadOwnerId && c.VehicleOwnerId == vehicleOwnerId
+                                      select c).FirstOrDefault();
+
+            if (acceptedLoadDetail == null)
+            {
+                AcceptedLoadOffer objAcceptedLoadOffer = new AcceptedLoadOffer();
+                objAcceptedLoadOffer.LoadId = CategoryId;
+                objAcceptedLoadOffer.LoadOwnerId = loadOwnerId;
+                objAcceptedLoadOffer.VehicleOwnerId = vehicleOwnerId;
+                objAcceptedLoadOffer.AcceptedDate = DateTime.UtcNow;
+                objAcceptedLoadOffer.IsDelete = false;
+                objAcceptedLoadOffer.IsAcceptedByLoadOwner = false;
+                objAcceptedLoadOffer.LoadOwnerAcceptedDate = null;
+                dbContext.AcceptedLoadOffers.Add(objAcceptedLoadOffer);
+            }
+            else
+            {
+                acceptedLoadDetail.IsDelete = false;
+                acceptedLoadDetail.ModifiedAcceptedDate = DateTime.UtcNow;
+                dbContext.Entry(acceptedLoadDetail).State = System.Data.EntityState.Modified;
+            }
+
+            if (dbContext.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int IsOfferAcceptedByVehicleOwner(int LoadId, int LoadOwnerId, int VehicleOwnerId)
+        {
+
+            int count = dbContext.AcceptedLoadOffers.Count(x => x.LoadId == LoadId
+                                                && x.LoadOwnerId == LoadOwnerId 
+                                                && x.VehicleOwnerId == VehicleOwnerId && x.IsDelete != true);
+            return count;
+        }
+
+
+        public bool CancelAcceptedLoadDetail(int CategoryId, int loadOwnerId, int vehicleOwnerId)
+        {
+            var acceptedLoadDetail = (from c in dbContext.AcceptedLoadOffers
+                                      where c.LoadId == CategoryId
+                                        && c.LoadOwnerId == loadOwnerId && c.VehicleOwnerId == vehicleOwnerId
+                                      select c).FirstOrDefault();
+
+            if (acceptedLoadDetail != null)
+            {
+                acceptedLoadDetail.IsDelete = true;
+                acceptedLoadDetail.ModifiedAcceptedDate = DateTime.UtcNow;
+                dbContext.Entry(acceptedLoadDetail).State = System.Data.EntityState.Modified;
+            }
+            
+            if (dbContext.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
     }

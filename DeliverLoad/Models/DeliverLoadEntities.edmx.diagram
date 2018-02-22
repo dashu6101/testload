@@ -46,6 +46,8 @@
         <EntityTypeShape EntityType="DeliverLoadModel.UserDocument" Width="1.5" PointX="12.375" PointY="4.75" />
         <AssociationConnector Association="DeliverLoadModel.FK_TrackingInformation_Users" />
         <EntityTypeShape EntityType="DeliverLoadModel.PaymentHistory" Width="1.5" PointX="12.375" PointY="7.75" />
+        <EntityTypeShape EntityType="DeliverLoadModel.AcceptedLoadOffer" Width="1.5" PointX="11.25" PointY="21.375" />
+        <AssociationConnector Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
