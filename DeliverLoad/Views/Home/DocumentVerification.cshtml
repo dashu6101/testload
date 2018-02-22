@@ -10,7 +10,8 @@
     .field-validation-error {
         color: Red;
     }
-    .heading_message button {
+
+    .heading_message button, .heading_message a {
         border-radius: 20px;
         padding: 8px;
         border: none;
@@ -25,7 +26,7 @@
         color: #000;
     }
 
-    .heading_message button {
+    .heading_message button, .heading_message a {
         background-color: #e2db06 !important;
         color: #000;
         outline: none !important;
@@ -183,7 +184,9 @@
                             <div class="form-actions" style="float:right;">
                                 @if (GetAnyIdDocument != null)
                                 {
-                                    <button type="button" class="btn btn-success" id="btnAnyIdUploaded">View Uploaded Document</button>
+                                    
+                                <a class="btn btn-success" href="/UserDocuments/@GetAnyIdDocument.DocumentImage" download role="button">View Uploaded Document</a>
+                                   
                                 }
                                 <button type="button" class="btn btn-success clsUpload" id="btnAnyIdUpdate">Upload</button>
                             </div>
@@ -239,6 +242,10 @@
                                 </div>
                             </div>
                             <div class="form-actions" style="float:right;">
+                                @if (GetDLDocument != null)
+                                {<a class="btn btn-success" href="/UserDocuments/@GetDLDocument.DocumentImage" download role="button">View Uploaded Document</a>
+                                    @*<button type="button" class="btn btn-success" id="btnDLUploaded">View Uploaded Document</button>*@
+                                }
                                 <button type="button" class="btn btn-success clsUpload" id="btnDriverLicenseUpdate">Upload</button>
                             </div>
 
@@ -293,6 +300,11 @@
                             </div>
 
                             <div class="form-actions" style="float:right;">
+                                @if (GetVOIDocument != null)
+                                {
+                                   <a class="btn btn-success" href="/UserDocuments/@GetVOIDocument.DocumentImage" download role="button">View Uploaded Document</a>
+                                    @*<button type="button" class="btn btn-success" id="btnVOIUploaded"><a href="/images/myw3schoolsimage.jpg" download>View Uploaded Document</button>*@
+                                }
                                 <button type="button" class="btn btn-success clsUpload" id="btnVOIUpdate">Upload</button>
                             </div>
                         </div>
