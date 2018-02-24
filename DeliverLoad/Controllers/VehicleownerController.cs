@@ -996,7 +996,7 @@ namespace DeliverLoad.Controllers
         //}
         #endregion
 
-        #region Vehicle Owner Load Offer
+        #region Vehicle Owner Offers
         [HttpPost]
         public JsonResult SaveAcceptedLoadDetail(string categoryId)
         {
@@ -1027,6 +1027,53 @@ namespace DeliverLoad.Controllers
                     isSuccess = service.CancelAcceptedLoadDetail(Convert.ToInt32(categoryId), loadOwnerId, sUser.UserId);
                 }
                 return Json(isSuccess);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public ActionResult MyOffers()
+        {
+            try
+            {
+                List<AcceptedLoadOffers> acceptedLoadOfferList = service.GetVehicleOwnerAcceptedOffers(sUser.UserId);
+                if (acceptedLoadOfferList == null)
+                {
+                    acceptedLoadOfferList = new List<AcceptedLoadOffers>();
+                }
+                else {
+                    foreach(var item in acceptedLoadOfferList)
+                    {
+                        if (item.LoadId > 0) {
+                            OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(item.LoadId);
+                            if (objOrderSummury.CategoryId > 0 && objOrderSummury.LoadOwnerId > 0)
+                            {
+                                item.orderSummuryModel.LoadName = objOrderSummury.LoadName;
+                                item.orderSummuryModel.LoadDesc = objOrderSummury.LoadDesc;
+                                item.orderSummuryModel.LoadCreatedDate = objOrderSummury.LoadCreatedDate;
+                                item.orderSummuryModel.LoadImage = objOrderSummury.LoadImage;
+                                item.orderSummuryModel.LoadPrice = objOrderSummury.LoadPrice;
+                                item.orderSummuryModel.LoadPickupDate = objOrderSummury.LoadPickupDate;
+                                item.orderSummuryModel.LoadDropOffDate = objOrderSummury.LoadDropOffDate;
+                                item.orderSummuryModel.LoadPickupLocation = objOrderSummury.LoadPickupLocation;
+                                item.orderSummuryModel.LoadDropOffLocation = objOrderSummury.LoadDropOffLocation;
+                                item.orderSummuryModel.LoadOwnerFirstName = objOrderSummury.LoadOwnerFirstName;
+                                item.orderSummuryModel.LoadOwnerMiddleName = objOrderSummury.LoadOwnerMiddleName;
+                                item.orderSummuryModel.LoadOwnerEmail = objOrderSummury.LoadOwnerEmail;
+                                item.orderSummuryModel.LoadOwnerGender = objOrderSummury.LoadOwnerGender;
+                                item.orderSummuryModel.LoadOwnerProfileImage = objOrderSummury.LoadOwnerProfileImage;
+                                item.orderSummuryModel.VehicleOwnerFirstName = objOrderSummury.VehicleOwnerFirstName;
+                                item.orderSummuryModel.VehicleOwnerLastName = objOrderSummury.VehicleOwnerLastName;
+                                item.orderSummuryModel.VehicleOwnerEmail = objOrderSummury.VehicleOwnerEmail;
+                                    
+                            }
+                        }
+
+                    }
+                }
+                return View(acceptedLoadOfferList);
             }
             catch (Exception ex)
             {

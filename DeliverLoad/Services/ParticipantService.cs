@@ -889,6 +889,27 @@ namespace DeliverLoad.Services
                 return false;
             }
         }
+
+        public List<AcceptedLoadOffers> GetVehicleOwnerAcceptedOffers(int vehicleOwnerId)
+        {
+            List<AcceptedLoadOffers> acceptedLoadOffers = new List<AcceptedLoadOffers>();
+            acceptedLoadOffers = (from c in dbContext.AcceptedLoadOffers
+                                  where c.VehicleOwnerId == vehicleOwnerId && c.IsDelete != true
+                                  select new AcceptedLoadOffers
+                                  {
+                                      Id = c.Id,
+                                      LoadId = c.LoadId,
+                                      LoadOwnerId = c.LoadOwnerId,
+                                      VehicleOwnerId = c.VehicleOwnerId,
+                                      IsDelete = c.IsDelete,
+                                      AcceptedDate = c.AcceptedDate,
+                                      ModifiedAcceptedDate = c.ModifiedAcceptedDate,
+                                      IsAcceptedByLoadOwner = c.IsAcceptedByLoadOwner,
+                                      LoadOwnerAcceptedDate = c.LoadOwnerAcceptedDate
+                                  }).ToList();
+
+            return acceptedLoadOffers;
+        }
         #endregion
     }
 }

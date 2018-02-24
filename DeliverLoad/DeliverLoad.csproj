@@ -216,6 +216,7 @@
     <Compile Include="Models\AcceptedLoadOffer.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AcceptedLoadOffers.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Category.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
@@ -716,6 +717,7 @@
     <Content Include="Views\Account\Testpage.cshtml" />
     <Content Include="Views\UserMailer\PaymentSuccess.cshtml" />
     <Content Include="Views\UserMailer\NewOrderNotification.cshtml" />
+    <Content Include="Views\Vehicleowner\MyOffers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
