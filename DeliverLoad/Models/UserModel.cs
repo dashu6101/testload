@@ -75,21 +75,23 @@ namespace DeliverLoad.Models
         [Display(Name = "Any Id")]
         public HttpPostedFileBase AnyId { get; set; }
 
+        public List<UserDocument> UserDocuments { get; set; }
+
     }
 
     public class ContactModel
     {
 
         [Required()]
-        [Display(Name="Email")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
 
-       
+
         public string FirstName { get; set; }
 
         [Required()]
         [Display(Name = "Message")]
         public string Message { get; set; }
-       
+
     }
 }

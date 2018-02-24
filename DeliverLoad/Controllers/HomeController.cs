@@ -46,7 +46,9 @@ namespace DeliverLoad.Controllers
         public ActionResult DocumentVerification()
         {
 
+
             var model = service.GetUserDetailsByUserId(sUser.UserId);
+            model.UserDocuments = service.GetUserDocuments(sUser.UserId);
             return View(model);
         }
 

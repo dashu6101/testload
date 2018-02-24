@@ -74,7 +74,8 @@ namespace DeliverLoad.Services
                 {
                     UserDocument objUserAnyId = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.DocTypeId == 3).SingleOrDefault();
 
-                    if (objUserAnyId != null) {
+                    if (objUserAnyId != null)
+                    {
                         objUserAnyId.IsActiveDocument = "N";
                         dbContext.SaveChanges();
                     }
@@ -86,7 +87,7 @@ namespace DeliverLoad.Services
 
 
                     AnyId.SaveAs(physicalPath);
-                    
+
 
                     UserDocument objD = new UserDocument();
                     objD.DocumentImage = FileAnyId;
@@ -96,7 +97,7 @@ namespace DeliverLoad.Services
 
                     dbContext.UserDocuments.Add(objD);
                     dbContext.SaveChanges();
-                       
+
                 }
 
                 if (VOI != null)
@@ -134,7 +135,7 @@ namespace DeliverLoad.Services
 
                     UserDocument objUserDriverLicense = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.DocTypeId == 1).SingleOrDefault();
 
-                    if (DriverLicense != null)
+                    if (objUserDriverLicense != null)
                     {
                         objUserDriverLicense.IsActiveDocument = "N";
                         dbContext.SaveChanges();
@@ -142,13 +143,13 @@ namespace DeliverLoad.Services
 
 
                     string FileDriverLicense = Guid.NewGuid().ToString();
-                    FileDriverLicense = FileDriverLicense + VOI.FileName.Substring(DriverLicense.FileName.LastIndexOf('.'));
+                    FileDriverLicense = FileDriverLicense + DriverLicense.FileName.Substring(DriverLicense.FileName.LastIndexOf('.'));
                     string physicalPath = System.IO.Path.Combine(
                                   System.Web.HttpContext.Current.Server.MapPath("~/UserDocuments/"), FileDriverLicense);
 
 
                     DriverLicense.SaveAs(physicalPath);
-                    
+
 
                     UserDocument objDoc1 = new UserDocument();
                     objDoc1.DocumentImage = FileDriverLicense;
@@ -272,6 +273,13 @@ namespace DeliverLoad.Services
                 return ex.Message;
             }
             return "1";
+
+        }
+
+        public List<UserDocument> GetUserDocuments(int UserId)
+        {
+            var userDocument = dbContext.UserDocuments.Where(x => x.UserId == UserId && x.IsActiveDocument == "Y").ToList();
+            return userDocument;
 
         }
     }

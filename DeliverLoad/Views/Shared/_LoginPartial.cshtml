@@ -15,6 +15,7 @@
 
         <ul class="dropdown-menu" role="menu">
             <li><a href="/Home/ProfileEdit">My Account</a></li>
+            <li><a href="/Home/DocumentVerification">Document Verification</a></li>
             @if (obj.UserType == "M")
             {
                 <li>@Html.ActionLink("Payments", "Index", "Payment") </li>
