@@ -19,6 +19,7 @@
             @if (obj.UserType == "M")
             {
                 <li>@Html.ActionLink("Payments", "Index", "Payment") </li>
+                <li>@Html.ActionLink("My Load", "MyLoads", "LoadOwner") </li>
             }
             @if (obj.UserType == "A")
             {

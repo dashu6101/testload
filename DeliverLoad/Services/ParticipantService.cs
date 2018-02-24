@@ -803,7 +803,7 @@ namespace DeliverLoad.Services
         }
         #endregion
 
-        #region Load Accept Detail
+        #region Vehicle Owner Load Accept And Cancel
 
         public int GetLoadOwnerIdFromCategoryId(int CategoryId)
         {
@@ -819,7 +819,7 @@ namespace DeliverLoad.Services
                 return 0;
             }
         }
-
+        
         public bool SaveAcceptedLoadDetail(int CategoryId, int loadOwnerId, int vehicleOwnerId)
         {
             var acceptedLoadDetail = (from c in dbContext.AcceptedLoadOffers
@@ -910,6 +910,113 @@ namespace DeliverLoad.Services
 
             return acceptedLoadOffers;
         }
+        #endregion
+
+        #region Load Owner Accept And Cancel
+
+        public SelectList GetLoadListByLoadOwnerUserId(int LoadOwnerUserId) {
+
+            List<OverloadCategory> objLoadlist = (from ao in dbContext.AcceptedLoadOffers
+                                                        join oc in dbContext.OverloadCategories on ao.LoadId equals oc.CategoryId
+                                                        where ao.LoadOwnerId == LoadOwnerUserId
+                                                        select oc).ToList();
+
+            SelectList objmodeldata = new SelectList(objLoadlist, "CategoryId", "Name");
+            /*Assign value to model*/
+
+            return objmodeldata;
+        }
+
+        public List<AcceptedLoadOffers> GetVehicleOwnersOffersByLoadId(int LoadId, int LoadOwnerUserId)
+        {
+            List<AcceptedLoadOffers> acceptedLoadOffers = new List<AcceptedLoadOffers>();
+            acceptedLoadOffers = (from c in dbContext.AcceptedLoadOffers
+                                  where c.LoadId == LoadId && c.IsDelete != true && c.LoadOwnerId == LoadOwnerUserId
+                                  select new AcceptedLoadOffers
+                                  {
+                                      Id = c.Id,
+                                      LoadId = c.LoadId,
+                                      LoadOwnerId = c.LoadOwnerId,
+                                      VehicleOwnerId = c.VehicleOwnerId,
+                                      IsDelete = c.IsDelete,
+                                      AcceptedDate = c.AcceptedDate,
+                                      OfferPrice = c.OfferPrice,
+                                      ModifiedAcceptedDate = c.ModifiedAcceptedDate,
+                                      IsAcceptedByLoadOwner = c.IsAcceptedByLoadOwner,
+                                      LoadOwnerAcceptedDate = c.LoadOwnerAcceptedDate
+                                  }).ToList();
+
+            return acceptedLoadOffers;
+        }
+
+        public int GetVehicleOwnerIdFromCategoryId(int CategoryId)
+        {
+            var vehicleOwnerId = (from c in dbContext.VehicleownerCategories
+                               where c.CategoryId == CategoryId
+                               select c.UserId).FirstOrDefault();
+            if (vehicleOwnerId != null && Convert.ToInt32(vehicleOwnerId) > 0)
+            {
+                return Convert.ToInt32(vehicleOwnerId);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public bool ConfirmVehicleOwnerOfferByLoadOwner(int LoadID, int VehicleOwnerID, int LoadOwnerID) {
+
+            var acceptedLoadDetail = (from c in dbContext.AcceptedLoadOffers
+                                      where c.LoadId == LoadID
+                                      && c.LoadOwnerId == LoadOwnerID && c.VehicleOwnerId == VehicleOwnerID
+                                      select c).FirstOrDefault();
+
+            if (acceptedLoadDetail != null)
+            {
+                acceptedLoadDetail.IsAcceptedByLoadOwner = true;
+                acceptedLoadDetail.LoadOwnerAcceptedDate = DateTime.UtcNow;
+                dbContext.Entry(acceptedLoadDetail).State = System.Data.EntityState.Modified;
+                if (dbContext.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CancelConfirmVehicleOwnerOffer(int LoadId, int vehicleOwnerId, int loadOwnerId)
+        {
+            var acceptedLoadDetail = (from c in dbContext.AcceptedLoadOffers
+                                      where c.LoadId == LoadId
+                                        && c.LoadOwnerId == loadOwnerId && c.VehicleOwnerId == vehicleOwnerId
+                                      select c).FirstOrDefault();
+
+            if (acceptedLoadDetail != null)
+            {
+                acceptedLoadDetail.IsAcceptedByLoadOwner = false;
+                acceptedLoadDetail.ModifiedAcceptedDate = null;
+                dbContext.Entry(acceptedLoadDetail).State = System.Data.EntityState.Modified;
+                if (dbContext.SaveChanges() > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

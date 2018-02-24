@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "My Offers";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+@if (ViewBag.LoadDetail != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>Select your load</label>
+            @Html.DropDownList("LoadDetail", (IEnumerable<SelectListItem>)ViewBag.LoadDetail, new { @id = "ddlLoadDetail", @onchange = "LoadChanged(this.value)" })
+        </div>
+    </div>
+}
+
+<div id="divMyLoads">
+    <div class="table-responsive" id="divNoRecordTbl" style="display:none;">
+        <table class="table table-bordered table-condensed table-striped table-hover sortable">
+            <tr>
+                <td colspan="10">No Record's found.</td>
+            </tr>
+        </table>
+    </div>
+    
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var value = $("#ddlLoadDetail").val();
+        if (value != null && value != "") {
+            LoadChanged(value);
+        }
+    });
+
+    function LoadChanged(value) {
+        if (value != null && value != "") {
+            $.ajax({
+                url: "/Loadowner/GetVehicleOwnersOffersByLoadId",
+                type: "POST",
+                data: { CategoryId: value },
+                dataType: "Json",
+                success: function (data) {
+                    if (data != null) {
+                        $('#divNoRecordTbl').hide();
+                        LoadVehicleOwnerOfferGrid(data);
+                    }
+                    else {
+                        $('#divNoRecordTbl').show();
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                    $('#divNoRecordTbl').show();
+                }
+            });
+        }
+    }
+
+    function LoadVehicleOwnerOfferGrid(data) {
+        $.ajax({
+            url: "/Loadowner/MyLoadForLoadOwner",
+            type: "POST",
+            data: JSON.stringify({ acceptedLoadOfferList: data }),
+            contentType: "application/json",
+            success: function (data) {
+                if (data != null) {
+                    $('#divNoRecordTbl').hide();
+                    $('#divMyLoads').html(data);
+                }
+                else {
+                    $('#divNoRecordTbl').show();
+                }
+            },
+            error: function (data) {
+                DisplayNotification('Error', 'error');
+                $('#divNoRecordTbl').show();
+            }
+        });
+    }
+
+</script>

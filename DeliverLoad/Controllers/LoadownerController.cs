@@ -138,11 +138,113 @@ namespace DeliverLoad.Controllers
 
             ViewBag.IsChannelSelected = "1";
             return View(model);
+        }
 
+        public ActionResult MyLoads() {
+            try
+            {
+                ViewBag.LoadDetail = service.GetLoadListByLoadOwnerUserId(sUser.UserId);
+                return View();
+            }
+            catch(Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
 
+        [HttpPost]
+        public JsonResult GetVehicleOwnersOffersByLoadId(string CategoryId) {
+            try
+            {
+                List<AcceptedLoadOffers> acceptedLoadOfferList = service.GetVehicleOwnersOffersByLoadId(Convert.ToInt32(CategoryId), sUser.UserId);
+                return Json(acceptedLoadOfferList);
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+            
+        }
 
+        [HttpPost]
+        public ActionResult MyLoadForLoadOwner(List<AcceptedLoadOffers> acceptedLoadOfferList)
+        {
+            try
+            {
+                if (acceptedLoadOfferList == null)
+                {
+                    acceptedLoadOfferList = new List<AcceptedLoadOffers>();
+                }
+                else
+                {
+                    foreach (var item in acceptedLoadOfferList)
+                    {
+                        if (item.LoadId > 0)
+                        {
+                            OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(item.LoadId);
+                            if (objOrderSummury.CategoryId > 0 && objOrderSummury.LoadOwnerId > 0)
+                            {
+                                item.orderSummuryModel.LoadName = objOrderSummury.LoadName;
+                                item.orderSummuryModel.LoadDesc = objOrderSummury.LoadDesc;
+                                item.orderSummuryModel.LoadCreatedDate = objOrderSummury.LoadCreatedDate;
+                                item.orderSummuryModel.LoadImage = objOrderSummury.LoadImage;
+                                item.orderSummuryModel.LoadPrice = objOrderSummury.LoadPrice;
+                                item.orderSummuryModel.LoadPickupDate = objOrderSummury.LoadPickupDate;
+                                item.orderSummuryModel.LoadDropOffDate = objOrderSummury.LoadDropOffDate;
+                                item.orderSummuryModel.LoadPickupLocation = objOrderSummury.LoadPickupLocation;
+                                item.orderSummuryModel.LoadDropOffLocation = objOrderSummury.LoadDropOffLocation;
+                                item.orderSummuryModel.VehicleOwnerFirstName = objOrderSummury.VehicleOwnerFirstName;
+                                item.orderSummuryModel.VehicleOwnerMiddleName = objOrderSummury.VehicleOwnerMiddleName;
+                                item.orderSummuryModel.VehicleOwnerEmail = objOrderSummury.VehicleOwnerEmail;
+                                item.orderSummuryModel.VehicleOwnerGender = objOrderSummury.VehicleOwnerGender;
+                                item.orderSummuryModel.VehicleOwnerProfileImage = objOrderSummury.VehicleOwnerProfileImage;
+                            }
+                        }
 
+                    }
+                }
+                return PartialView("_MyLoadForLoadOwner", acceptedLoadOfferList);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
         }
+
+        [HttpPost]
+        public JsonResult ConfirmVehicleOwnerOfferByLoadOwner(string categoryId, string vehicleOwnerId)
+        {
+            try
+            {
+                bool isSuccess = false;
+                if (Convert.ToInt32(vehicleOwnerId) > 0)
+                {
+                    isSuccess = service.ConfirmVehicleOwnerOfferByLoadOwner(Convert.ToInt32(categoryId), Convert.ToInt32(vehicleOwnerId), sUser.UserId);
+                }
+                return Json(isSuccess);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CancelConfirmVehicleOwnerOffer(string categoryId, string vehicleOwnerId)
+        {
+            try
+            {
+                bool isSuccess = false;
+                if (Convert.ToInt32(vehicleOwnerId) > 0)
+                {
+                    isSuccess = service.CancelConfirmVehicleOwnerOffer(Convert.ToInt32(categoryId), Convert.ToInt32(vehicleOwnerId), sUser.UserId);
+                }
+                return Json(isSuccess);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

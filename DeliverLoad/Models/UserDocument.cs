@@ -19,5 +19,8 @@ namespace DeliverLoad.Models
         public Nullable<int> DocTypeId { get; set; }
         public Nullable<int> UserId { get; set; }
         public string IsActiveDocument { get; set; }
+        public Nullable<System.DateTime> UploadedOn { get; set; }
+        public Nullable<bool> IsVerify { get; set; }
+        public Nullable<System.DateTime> VerifiedOn { get; set; }
     }
 }

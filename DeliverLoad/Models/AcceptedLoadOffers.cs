@@ -17,6 +17,7 @@ namespace DeliverLoad.Models
         public int LoadOwnerId { get; set; }
         public int VehicleOwnerId { get; set; }
         public DateTime AcceptedDate { get; set; }
+        public Decimal? OfferPrice { get; set; }
         public bool IsDelete { get; set; }
         public DateTime? ModifiedAcceptedDate { get; set; }
         public bool? IsAcceptedByLoadOwner { get; set; }

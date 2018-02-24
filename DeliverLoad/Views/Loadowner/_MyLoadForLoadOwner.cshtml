@@ -1,0 +1,139 @@
+﻿@using DeliverLoad;
+@model List<DeliverLoad.Models.AcceptedLoadOffers>
+
+<style type="text/css">
+    .yellowColor {
+        background-color: #e2db06 !important;
+    }
+
+    table, tr, td {
+        border: 1px solid #e2db06 !important;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped table-hover sortable">
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="10">No Record's found.</td>
+            </tr>
+        }
+        else
+        {
+            <thead>
+                <tr class="yellowColor">
+                    <th>Load Image</th>
+                    <th>Load Name</th>
+                    <th>Pickup Date</th>
+                    <th>Pickup Location</th>
+                    <th>Drop of Date</th>
+                    <th>Drop of Location</th>
+                    <th>Load Price</th>
+                    <th>Offer Price</th>
+                    <th>VehicleOwner Photo</th>
+                    <th>VehicleOwner Name</th>
+                    <th>VehicleOwner Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td><img src="@item.orderSummuryModel.LoadImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
+                    <td>@Html.Raw(item.orderSummuryModel.LoadName)</td>
+                    <td>
+                        @if (item.orderSummuryModel.LoadPickupDate != null)
+                        {
+                            var GetDateTime = item.orderSummuryModel.LoadPickupDate.ToString();
+                            var GetDate = GetDateTime.Split(' ')[0];
+                            @GetDate;
+                        }
+
+                    </td>
+                    <td>@item.orderSummuryModel.LoadPickupLocation</td>
+                    <td>
+                        @if (item.orderSummuryModel.LoadDropOffDate != null)
+                        {
+                            var GetDateTime1 = item.orderSummuryModel.LoadDropOffDate.ToString();
+                            var GetDate1 = GetDateTime1.Split(' ')[0];
+                            @GetDate1;
+                        }
+                    </td>
+                    <td>@item.orderSummuryModel.LoadDropOffLocation</td>
+                    <td>@item.orderSummuryModel.LoadPrice</td>
+                    <td>@item.orderSummuryModel.LoadPrice</td>
+                    <td><img class="media-object thumbnail" src="@item.orderSummuryModel.VehicleOwnerProfileImage" alt="" style="width:100px;height:100px;"></td>
+                    <td>@Html.Raw(item.orderSummuryModel.VehicleOwnerFirstName) @Html.Raw(item.orderSummuryModel.VehicleOwnerLastName)</td>
+                    <td>@item.orderSummuryModel.VehicleOwnerEmail</td>
+                    <td>
+                        @if (item.IsAcceptedByLoadOwner == true)
+                        {
+                            <input type="button" class="pull-right btn btn-theme" id="btnProceedToPayment" value="Proceed to payment" onclick="goTo('@Url.Action("OrderSummury", "OrderSummury", new { CategoryId = item.LoadId })')" style="margin-left:5px;" />
+
+                            <input type="button" class="pull-right btn btn-theme" id="btnCancel" value="Cancel" onclick="CancelAcceptedLoadDetail(@item.LoadId, @item.VehicleOwnerId)" />
+                        }
+                        else
+                        {
+                            <input type="button" class="pull-right btn btn-theme" id="btnAccept" value="Accept" onclick="SaveAcceptedLoadDetail(@item.LoadId, @item.VehicleOwnerId)" />
+                        }
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<script type="text/javascript">
+    function CancelAcceptedLoadDetail(CategoryId, VehicleOwnerId) {
+        if (CategoryId != null && CategoryId != "" && VehicleOwnerId != null && VehicleOwnerId != "") {
+            $.ajax({
+                url: "/Loadowner/CancelConfirmVehicleOwnerOffer",
+                type: "POST",
+                data: { categoryId: CategoryId, vehicleOwnerId: VehicleOwnerId },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == true) {
+                        DisplayNotification('Vehicle owner offer rejected succesfully ', 'success');
+                        BindOfferGrid();
+                    }
+                    else {
+                        DisplayNotification('Error', 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        }
+    }
+
+    function BindOfferGrid() {
+        var loadDetailValue = $("#ddlLoadDetail").val();
+        if (loadDetailValue != null && loadDetailValue != "") {
+            LoadChanged(loadDetailValue);
+        }
+    }
+
+    function SaveAcceptedLoadDetail(CategoryId, VehicleOwnerId) {
+        if (CategoryId != null && CategoryId != "" && VehicleOwnerId != null && VehicleOwnerId != "") {
+            $.ajax({
+                url: "/Loadowner/ConfirmVehicleOwnerOfferByLoadOwner",
+                type: "POST",
+                data: { categoryId: CategoryId, vehicleOwnerId: VehicleOwnerId },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == true) {
+                        DisplayNotification('You accepted the vehicle owner offer succesfully', 'success');
+                        BindOfferGrid();
+                    }
+                    else {
+                        DisplayNotification('Error', 'error');
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        }
+    }
+</script>

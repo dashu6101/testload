@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5f7a3b1f0f26417580608fac5bb41912" Name="Diagram1" ZoomLevel="80">
+      <Diagram DiagramId="5f7a3b1f0f26417580608fac5bb41912" Name="Diagram1" ZoomLevel="90">
         <EntityTypeShape EntityType="DeliverLoadModel.Category" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.CategoryContent" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DeliverLoadModel.CategoryContentComment" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
@@ -46,7 +46,7 @@
         <EntityTypeShape EntityType="DeliverLoadModel.UserDocument" Width="1.5" PointX="12.375" PointY="4.75" />
         <AssociationConnector Association="DeliverLoadModel.FK_TrackingInformation_Users" />
         <EntityTypeShape EntityType="DeliverLoadModel.PaymentHistory" Width="1.5" PointX="12.375" PointY="7.75" />
-        <EntityTypeShape EntityType="DeliverLoadModel.AcceptedLoadOffer" Width="1.5" PointX="11.25" PointY="21.375" />
+        <EntityTypeShape EntityType="DeliverLoadModel.AcceptedLoadOffer" Width="1.5" PointX="11.25" PointY="21.25" />
         <AssociationConnector Association="DeliverLoadModel.FK_AcceptedLoadOffers_LoadId" />
       </Diagram>
     </edmx:Diagrams>

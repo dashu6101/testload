@@ -18,6 +18,7 @@ namespace DeliverLoad.Models
         public int LoadId { get; set; }
         public int LoadOwnerId { get; set; }
         public int VehicleOwnerId { get; set; }
+        public Nullable<decimal> OfferPrice { get; set; }
         public System.DateTime AcceptedDate { get; set; }
         public bool IsDelete { get; set; }
         public Nullable<System.DateTime> ModifiedAcceptedDate { get; set; }

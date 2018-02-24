@@ -13,6 +13,7 @@
           <Property Name="LoadId" Type="int" Nullable="false" />
           <Property Name="LoadOwnerId" Type="int" Nullable="false" />
           <Property Name="VehicleOwnerId" Type="int" Nullable="false" />
+          <Property Name="OfferPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="AcceptedDate" Type="datetime" Nullable="false" />
           <Property Name="IsDelete" Type="bit" Nullable="false" />
           <Property Name="ModifiedAcceptedDate" Type="datetime" />
@@ -249,6 +250,9 @@
           <Property Name="DocTypeId" Type="int" />
           <Property Name="UserId" Type="int" />
           <Property Name="IsActiveDocument" Type="char" MaxLength="1" />
+          <Property Name="UploadedOn" Type="datetime" />
+          <Property Name="IsVerify" Type="bit" />
+          <Property Name="VerifiedOn" Type="datetime" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -1467,6 +1471,9 @@
           <Property Name="DocTypeId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="IsActiveDocument" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UploadedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsVerify" Type="Boolean" />
+          <Property Name="VerifiedOn" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_TrackingInformation_Users">
           <End Type="DeliverLoadModel.User" Role="User" Multiplicity="1" />
@@ -1513,6 +1520,7 @@
           <Property Name="LoadId" Type="Int32" Nullable="false" />
           <Property Name="LoadOwnerId" Type="Int32" Nullable="false" />
           <Property Name="VehicleOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="OfferPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="AcceptedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDelete" Type="Boolean" Nullable="false" />
           <Property Name="ModifiedAcceptedDate" Type="DateTime" Precision="3" />
@@ -1903,6 +1911,9 @@
           <EntitySetMapping Name="UserDocuments">
             <EntityTypeMapping TypeName="DeliverLoadModel.UserDocument">
               <MappingFragment StoreEntitySet="UserDocument">
+                <ScalarProperty Name="VerifiedOn" ColumnName="VerifiedOn" />
+                <ScalarProperty Name="IsVerify" ColumnName="IsVerify" />
+                <ScalarProperty Name="UploadedOn" ColumnName="UploadedOn" />
                 <ScalarProperty Name="IsActiveDocument" ColumnName="IsActiveDocument" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="DocTypeId" ColumnName="DocTypeId" />
@@ -1945,6 +1956,7 @@
                 <ScalarProperty Name="ModifiedAcceptedDate" ColumnName="ModifiedAcceptedDate" />
                 <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
                 <ScalarProperty Name="AcceptedDate" ColumnName="AcceptedDate" />
+                <ScalarProperty Name="OfferPrice" ColumnName="OfferPrice" />
                 <ScalarProperty Name="VehicleOwnerId" ColumnName="VehicleOwnerId" />
                 <ScalarProperty Name="LoadOwnerId" ColumnName="LoadOwnerId" />
                 <ScalarProperty Name="LoadId" ColumnName="LoadId" />

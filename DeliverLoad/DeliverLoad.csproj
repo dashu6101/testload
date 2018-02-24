@@ -718,6 +718,8 @@
     <Content Include="Views\UserMailer\PaymentSuccess.cshtml" />
     <Content Include="Views\UserMailer\NewOrderNotification.cshtml" />
     <Content Include="Views\Vehicleowner\MyOffers.cshtml" />
+    <Content Include="Views\Loadowner\MyLoads.cshtml" />
+    <Content Include="Views\Loadowner\_MyLoadForLoadOwner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
