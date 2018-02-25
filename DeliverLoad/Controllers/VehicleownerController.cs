@@ -1047,27 +1047,13 @@ namespace DeliverLoad.Controllers
                     foreach(var item in acceptedLoadOfferList)
                     {
                         if (item.LoadId > 0) {
-                            OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(item.LoadId);
-                            if (objOrderSummury.CategoryId > 0 && objOrderSummury.LoadOwnerId > 0)
+                            OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(item.LoadId, item.VehicleOwnerId, item.LoadOwnerId);
+                            if (objOrderSummury.LoadDetail.LoadId > 0 && objOrderSummury.LoadOwnerDetail.LoadOwner.UserId > 0)
                             {
-                                item.orderSummuryModel.LoadName = objOrderSummury.LoadName;
-                                item.orderSummuryModel.LoadDesc = objOrderSummury.LoadDesc;
-                                item.orderSummuryModel.LoadCreatedDate = objOrderSummury.LoadCreatedDate;
-                                item.orderSummuryModel.LoadImage = objOrderSummury.LoadImage;
-                                item.orderSummuryModel.LoadPrice = objOrderSummury.LoadPrice;
-                                item.orderSummuryModel.LoadPickupDate = objOrderSummury.LoadPickupDate;
-                                item.orderSummuryModel.LoadDropOffDate = objOrderSummury.LoadDropOffDate;
-                                item.orderSummuryModel.LoadPickupLocation = objOrderSummury.LoadPickupLocation;
-                                item.orderSummuryModel.LoadDropOffLocation = objOrderSummury.LoadDropOffLocation;
-                                item.orderSummuryModel.LoadOwnerFirstName = objOrderSummury.LoadOwnerFirstName;
-                                item.orderSummuryModel.LoadOwnerMiddleName = objOrderSummury.LoadOwnerMiddleName;
-                                item.orderSummuryModel.LoadOwnerEmail = objOrderSummury.LoadOwnerEmail;
-                                item.orderSummuryModel.LoadOwnerGender = objOrderSummury.LoadOwnerGender;
-                                item.orderSummuryModel.LoadOwnerProfileImage = objOrderSummury.LoadOwnerProfileImage;
-                                item.orderSummuryModel.VehicleOwnerFirstName = objOrderSummury.VehicleOwnerFirstName;
-                                item.orderSummuryModel.VehicleOwnerLastName = objOrderSummury.VehicleOwnerLastName;
-                                item.orderSummuryModel.VehicleOwnerEmail = objOrderSummury.VehicleOwnerEmail;
-                                    
+                                item.orderSummuryModel.LoadDetail = objOrderSummury.LoadDetail;
+                                item.orderSummuryModel.VehicleOwnerDetail = objOrderSummury.VehicleOwnerDetail;
+                                item.orderSummuryModel.LoadOwnerDetail = objOrderSummury.LoadOwnerDetail;
+                                item.orderSummuryModel.PaymentSummury = objOrderSummury.PaymentSummury;
                             }
                         }
 

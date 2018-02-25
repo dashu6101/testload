@@ -44,32 +44,32 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td><img src="@item.orderSummuryModel.LoadImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
-                        <td>@Html.Raw(item.orderSummuryModel.LoadName)</td>
-                        <td>@Html.Raw(item.orderSummuryModel.LoadDesc)</td>
+                        <td><img src="@item.orderSummuryModel.LoadDetail.LoadImage" title="Category Image" class="thumbnail" style="height: 100px;width:100px" /></td>
+                        <td>@Html.Raw(item.orderSummuryModel.LoadDetail.LoadName)</td>
+                        <td>@Html.Raw(item.orderSummuryModel.LoadDetail.LoadDesc)</td>
                         <td>
-                            @if (item.orderSummuryModel.LoadPickupDate != null)
+                            @if (item.orderSummuryModel.LoadDetail.LoadPickupDate != null)
                             {
-                                var GetDateTime = item.orderSummuryModel.LoadPickupDate.ToString();
+                                var GetDateTime = item.orderSummuryModel.LoadDetail.LoadPickupDate.ToString();
                                 var GetDate = GetDateTime.Split(' ')[0];
                                 @GetDate;
                             }
 
                         </td>
-                        <td>@item.orderSummuryModel.LoadPickupLocation</td>
+                        <td>@item.orderSummuryModel.LoadDetail.LoadPickupLocation</td>
                         <td>
-                            @if (item.orderSummuryModel.LoadDropOffDate != null)
+                            @if (item.orderSummuryModel.LoadDetail.LoadDropOffDate != null)
                             {
-                                var GetDateTime1 = item.orderSummuryModel.LoadDropOffDate.ToString();
+                                var GetDateTime1 = item.orderSummuryModel.LoadDetail.LoadDropOffDate.ToString();
                                 var GetDate1 = GetDateTime1.Split(' ')[0];
                                 @GetDate1;
                             }
                         </td>
-                        <td>@item.orderSummuryModel.LoadDropOffLocation</td>
-                        <td>@item.orderSummuryModel.LoadPrice</td>
-                        <td><img class="media-object thumbnail" src="@item.orderSummuryModel.LoadOwnerProfileImage" alt="" style="width:100px;height:100px;"></td>
-                        <td>@Html.Raw(item.orderSummuryModel.LoadOwnerFirstName) @Html.Raw(item.orderSummuryModel.LoadOwnerLastName)</td>
-                        <td>@item.orderSummuryModel.LoadOwnerEmail</td>
+                        <td>@item.orderSummuryModel.LoadDetail.LoadDropOffLocation</td>
+                        <td>@item.orderSummuryModel.LoadDetail.LoadPrice</td>
+                        <td><img class="media-object thumbnail" src="@item.orderSummuryModel.LoadOwnerDetail.LoadOwner.ProfilePicture" alt="" style="width:100px;height:100px;"></td>
+                        <td>@Html.Raw(item.orderSummuryModel.LoadOwnerDetail.LoadOwner.FirstName) @Html.Raw(item.orderSummuryModel.LoadOwnerDetail.LoadOwner.LastName)</td>
+                        <td>@item.orderSummuryModel.LoadOwnerDetail.LoadOwner.EmailID</td>
                         <td>
                             @if (item.IsAcceptedByLoadOwner == true)
                             {

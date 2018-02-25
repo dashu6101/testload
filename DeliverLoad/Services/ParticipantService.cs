@@ -678,93 +678,158 @@ namespace DeliverLoad.Services
         }
 
         #region OrderSummury
-        public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId)
+        public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId, int VehicleOwnerId, int LoadOwnerId)
         {
             OrderSummuryModel objOrderSummury = new OrderSummuryModel();
-            objOrderSummury = (from OC in dbContext.OverloadCategories
-                               join LOC in dbContext.LoadownerCategories on OC.CategoryId equals LOC.CategoryId
-                               join U in dbContext.Users on LOC.UserId equals U.UserId
-                               join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                               where OC.CategoryId == CategoryId
-                               select new OrderSummuryModel
-                               {
-                                   CategoryId = OC.CategoryId,
-                                   LoadName = OC.Name,
-                                   LoadDesc = OC.Description,
-                                   LoadCreatedDate = OC.CreatedDate,
-                                   LoadImage = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
-                                   LoadPrice = OC.Price,
-                                   LoadPickupDate = OC.PickupDate,
-                                   LoadDropOffDate = OC.DropOffDate,
-                                   LoadPickupLocation = OC.PickupLocation,
-                                   LoadDropOffLocation = OC.DropOffLocation,
-                                   LoadSpaceId = OC.LoadSpaceId,
-                                   LoadIsFree = OC.IsFree == null ? false : OC.IsFree,
-                                   LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
-                                   LoadChannelNo = OC.ChannelNo,
-                                   LoadSpaceTitle = LS.LoadSpaceTitle,
-                                   LoadownerCategoryId = LOC.Id,
-                                   LoadOwnerId = LOC.UserId,
-                                   LoadOwnerFirstName = U.FirstName,
-                                   LoadOwnerMiddleName = U.MiddleName,
-                                   LoadOwnerLastName = U.LastName,
-                                   LoadOwnerEmail = U.EmailID,
-                                   LoadOwnerAge = U.Age,
-                                   LoadOwnerGender = U.Gender,
-                                   LoadOwnerCityId = U.CityID,
-                                   LoadOwnerStateId = U.StateID,
-                                   LoadOwnerCountryId = U.CountryID,
-                                   LoadOwnerAddress = U.Address,
-                                   LoadOwnerDOB = U.DOB,
-                                   LoadOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
-                                   LoadOwnerLastOnlineDate = U.LastOnline
-                               }).ToList().FirstOrDefault();
 
-            if (objOrderSummury != null)
-            {
-                var VehicalOwnerSummury = (from OC in dbContext.OverloadCategories
-                                           join VOC in dbContext.VehicleownerCategories on OC.CategoryId equals VOC.CategoryId
-                                           join U in dbContext.Users on VOC.UserId equals U.UserId
-                                           join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
-                                           where OC.CategoryId == CategoryId
-                                           select new OrderSummuryModel
-                                           {
-                                               VehicleOwnerCategoryId = VOC.Id,
-                                               VehicleOwnerId = VOC.UserId,
-                                               VehicleOwnerFirstName = U.FirstName,
-                                               VehicleOwnerMiddleName = U.MiddleName,
-                                               VehicleOwnerLastName = U.LastName,
-                                               VehicleOwnerEmail = U.EmailID,
-                                               VehicleOwnerAge = U.Age,
-                                               VehicleOwnerGender = U.Gender,
-                                               VehicleOwnerCityId = U.CityID,
-                                               VehicleOwnerStateId = U.StateID,
-                                               VehicleOwnerCountryId = U.CountryID,
-                                               VehicleOwnerAddress = U.Address,
-                                               VehicleOwnerDOB = U.DOB,
-                                               VehicleOwnerProfileImage = U.ProfilePicture == null ? "/Images/nopic.png" : "/Images/ProfilePicture/" + U.ProfilePicture,
-                                               VehicleOwnerLastOnlineDate = U.LastOnline
-                                           }).ToList().FirstOrDefault();
+            objOrderSummury.LoadDetail   = (from OC in dbContext.OverloadCategories
+                                            join LS in dbContext.LoadSpaces on OC.LoadSpaceId equals LS.LoadSpaceId
+                                            where OC.CategoryId == CategoryId
+                                            select new LoadModel
+                                            {
+                                                LoadId = OC.CategoryId,
+                                                LoadName = OC.Name,
+                                                LoadDesc = OC.Description,
+                                                LoadCreatedDate = OC.CreatedDate,
+                                                LoadImage = OC.Image == null ? "/Images/CategoryImage.jpg" : "/Images/Category/" + OC.Image,
+                                                LoadPrice = OC.Price,
+                                                LoadPickupDate = OC.PickupDate,
+                                                LoadDropOffDate = OC.DropOffDate,
+                                                LoadPickupLocation = OC.PickupLocation,
+                                                LoadDropOffLocation = OC.DropOffLocation,
+                                                LoadSpaceId = OC.LoadSpaceId,
+                                                LoadIsFree = OC.IsFree == null ? false : OC.IsFree,
+                                                LoadIsAvailable = OC.IsAvailable == null ? false : OC.IsAvailable,
+                                                LoadChannelNo = OC.ChannelNo,
+                                                LoadSpaceTitle = LS.LoadSpaceTitle
+                                            }).FirstOrDefault();
 
-                if (VehicalOwnerSummury != null)
-                {
-                    objOrderSummury.VehicleOwnerCategoryId = VehicalOwnerSummury.VehicleOwnerCategoryId;
-                    objOrderSummury.VehicleOwnerId = VehicalOwnerSummury.VehicleOwnerId;
-                    objOrderSummury.VehicleOwnerFirstName = VehicalOwnerSummury.VehicleOwnerFirstName;
-                    objOrderSummury.VehicleOwnerMiddleName = VehicalOwnerSummury.VehicleOwnerMiddleName;
-                    objOrderSummury.VehicleOwnerLastName = VehicalOwnerSummury.VehicleOwnerLastName;
-                    objOrderSummury.VehicleOwnerEmail = VehicalOwnerSummury.VehicleOwnerEmail;
-                    objOrderSummury.VehicleOwnerAge = VehicalOwnerSummury.VehicleOwnerAge;
-                    objOrderSummury.VehicleOwnerGender = VehicalOwnerSummury.VehicleOwnerGender;
-                    objOrderSummury.VehicleOwnerCityId = VehicalOwnerSummury.VehicleOwnerCityId;
-                    objOrderSummury.VehicleOwnerStateId = VehicalOwnerSummury.VehicleOwnerStateId;
-                    objOrderSummury.VehicleOwnerCountryId = VehicalOwnerSummury.VehicleOwnerCountryId;
-                    objOrderSummury.VehicleOwnerAddress = VehicalOwnerSummury.VehicleOwnerAddress;
-                    objOrderSummury.VehicleOwnerDOB = VehicalOwnerSummury.VehicleOwnerDOB;
-                    objOrderSummury.VehicleOwnerProfileImage = VehicalOwnerSummury.VehicleOwnerProfileImage;
-                    objOrderSummury.VehicleOwnerLastOnlineDate = VehicalOwnerSummury.VehicleOwnerLastOnlineDate;
-                }
-            }
+            objOrderSummury.LoadOwnerDetail = (from loc in dbContext.LoadownerCategories
+                                               join u in dbContext.Users on loc.UserId equals u.UserId
+                                               where loc.UserId == LoadOwnerId
+                                               select new LoadOwnerModel
+                                               {
+                                                   HasJoinedCategory = loc.HasJoinedCategory,
+                                                   IsBlocked = loc.IsBlocked,
+                                                   JoinedDate = loc.JoinedDate,
+                                                   LoadOwner = new UserMasterModel
+                                                   {
+                                                     UserId = u.UserId,
+                                                     FirstName = u.FirstName,
+                                                     MiddleName = u.MiddleName,
+                                                     LastName = u.LastName,
+                                                     ScreenName = u.ScreenName,
+                                                     MaritalStatus = u.MaritalStatus,
+                                                     Age = u.Age,
+                                                     Gender = u.Gender,
+                                                     CityID= u.CityID,
+                                                     StateID = u.StateID,
+                                                     CountryID = u.StateID,
+                                                     EthnicityID = u.StateID,
+                                                     EducationID = u.StateID,
+                                                     EmailID = u.EmailID,
+                                                     Address = u.Address,
+                                                     Phone = u.Phone,
+                                                     Mobile = u.Mobile,
+                                                     IsDisable = u.IsDisable,
+                                                     IsChildWorking = u.IsChildWorking,
+                                                     Picture = u.Picture,
+                                                     DOB = u.DOB,
+                                                     UserType = u.UserType,
+                                                     UserStatus = u.UserStatus,
+                                                     RegistrationTypeID = u.RegistrationTypeID,
+                                                     CurID = u.CurID,
+                                                     ExchRate = u.ExchRate,
+                                                     CurEffectiveDate = u.CurEffectiveDate,
+                                                     ProfilePicture = u.ProfilePicture,
+                                                     GroupName = u.GroupName,
+                                                     isSuspended = u.isSuspended,
+                                                     RegistrationDate = u.RegistrationDate,
+                                                     LastModified = u.LastModified,
+                                                     LastModifiedBy = u.LastModifiedBy,
+                                                     isfree = u.isfree,
+                                                     Activechat = u.Activechat,
+                                                     Balance = u.Balance,
+                                                     PaymentAmount = u.PaymentAmount,
+                                                     PaymentFrequency = u.PaymentFrequency,
+                                                     MeetingAvailability = u.MeetingAvailability,
+                                                     BackgroundImage = u.BackgroundImage,
+                                                     Expectation = u.Expectation,
+                                                     IsChannel = u.IsChannel,
+                                                     ContinentID = u.ContinentID,
+                                                     ChannelNo = u.ChannelNo,
+                                                     IsAuthenticated = u.IsAuthenticated,
+                                                     LastOnline = u.LastOnline,
+                                                     IsPhoneVerified = u.IsPhoneVerified,
+                                                     IsEmailVerified = u.IsEmailVerified,
+                                                     IsBankVerified = u.IsBankVerified,
+                                                     IsDriverLicenseVerified = u.IsDriverLicenseVerified,
+                                                     IsVIOVerified = u.IsVIOVerified,
+                                                     IsAnyIdVerified = u.IsAnyIdVerified
+                                                   }
+                                               }).FirstOrDefault();
+
+            objOrderSummury.VehicleOwnerDetail = (from voc in dbContext.VehicleownerCategories
+                                               join u in dbContext.Users on voc.UserId equals u.UserId
+                                               where voc.UserId == VehicleOwnerId
+                                               select new VehicleOwnerModel
+                                               {
+                                                   VehicleOwner = new UserMasterModel
+                                                   {
+                                                       UserId = u.UserId,
+                                                       FirstName = u.FirstName,
+                                                       MiddleName = u.MiddleName,
+                                                       LastName = u.LastName,
+                                                       ScreenName = u.ScreenName,
+                                                       MaritalStatus = u.MaritalStatus,
+                                                       Age = u.Age,
+                                                       Gender = u.Gender,
+                                                       CityID = u.CityID,
+                                                       StateID = u.StateID,
+                                                       CountryID = u.StateID,
+                                                       EthnicityID = u.StateID,
+                                                       EducationID = u.StateID,
+                                                       EmailID = u.EmailID,
+                                                       Address = u.Address,
+                                                       Phone = u.Phone,
+                                                       Mobile = u.Mobile,
+                                                       IsDisable = u.IsDisable,
+                                                       IsChildWorking = u.IsChildWorking,
+                                                       Picture = u.Picture,
+                                                       DOB = u.DOB,
+                                                       UserType = u.UserType,
+                                                       UserStatus = u.UserStatus,
+                                                       RegistrationTypeID = u.RegistrationTypeID,
+                                                       CurID = u.CurID,
+                                                       ExchRate = u.ExchRate,
+                                                       CurEffectiveDate = u.CurEffectiveDate,
+                                                       ProfilePicture = u.ProfilePicture,
+                                                       GroupName = u.GroupName,
+                                                       isSuspended = u.isSuspended,
+                                                       RegistrationDate = u.RegistrationDate,
+                                                       LastModified = u.LastModified,
+                                                       LastModifiedBy = u.LastModifiedBy,
+                                                       isfree = u.isfree,
+                                                       Activechat = u.Activechat,
+                                                       Balance = u.Balance,
+                                                       PaymentAmount = u.PaymentAmount,
+                                                       PaymentFrequency = u.PaymentFrequency,
+                                                       MeetingAvailability = u.MeetingAvailability,
+                                                       BackgroundImage = u.BackgroundImage,
+                                                       Expectation = u.Expectation,
+                                                       IsChannel = u.IsChannel,
+                                                       ContinentID = u.ContinentID,
+                                                       ChannelNo = u.ChannelNo,
+                                                       IsAuthenticated = u.IsAuthenticated,
+                                                       LastOnline = u.LastOnline,
+                                                       IsPhoneVerified = u.IsPhoneVerified,
+                                                       IsEmailVerified = u.IsEmailVerified,
+                                                       IsBankVerified = u.IsBankVerified,
+                                                       IsDriverLicenseVerified = u.IsDriverLicenseVerified,
+                                                       IsVIOVerified = u.IsVIOVerified,
+                                                       IsAnyIdVerified = u.IsAnyIdVerified
+                                                   }
+                                               }).FirstOrDefault();
             return objOrderSummury;
         }
         #endregion
@@ -916,10 +981,10 @@ namespace DeliverLoad.Services
 
         public SelectList GetLoadListByLoadOwnerUserId(int LoadOwnerUserId) {
 
-            List<OverloadCategory> objLoadlist = (from ao in dbContext.AcceptedLoadOffers
-                                                        join oc in dbContext.OverloadCategories on ao.LoadId equals oc.CategoryId
-                                                        where ao.LoadOwnerId == LoadOwnerUserId
-                                                        select oc).ToList();
+            List<OverloadCategory> objLoadlist = (from oc in dbContext.OverloadCategories
+                                                    join loc in dbContext.LoadownerCategories on oc.CategoryId equals loc.CategoryId
+                                                    where loc.UserId == LoadOwnerUserId
+                                                    select oc).ToList();
 
             SelectList objmodeldata = new SelectList(objLoadlist, "CategoryId", "Name");
             /*Assign value to model*/

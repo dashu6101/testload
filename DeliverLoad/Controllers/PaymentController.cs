@@ -736,8 +736,12 @@ namespace DeliverLoad.Controllers
             {
                 if (CategoryId != null && Convert.ToInt32(CategoryId) > 0)
                 {
-                    OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(Convert.ToInt32(CategoryId));
-                    ViewBag.Price = objOrderSummury.LoadPrice;
+                    //commented because change in order summury
+                    //OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(Convert.ToInt32(CategoryId));
+
+                    OrderSummuryModel objOrderSummury = new OrderSummuryModel();
+                    ViewBag.Price = objOrderSummury.LoadDetail.LoadPrice;
+
                     if (objOrderSummury != null)
                     {
                         ViewBag.OrderSummury = objOrderSummury;
@@ -774,14 +778,17 @@ namespace DeliverLoad.Controllers
                 ReturnValue = service.ProceedCategory(CategoryId, sUser.UserId, Price);
                 if (ReturnValue != "-1")
                 {
-                    OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(CategoryId);
+                    //commented because change in order summury
+                    //OrderSummuryModel objOrderSummury = service.getOrderSummuryByCategoryId(CategoryId);
+
+                    OrderSummuryModel objOrderSummury = new OrderSummuryModel();
                     if (objOrderSummury != null)
                     {
-                        if (objOrderSummury.LoadownerCategoryId != null && objOrderSummury.LoadOwnerEmail != null)
+                        if (objOrderSummury.LoadOwnerDetail.LoadOwner.UserId > 0 && objOrderSummury.LoadOwnerDetail.LoadOwner.EmailID != null)
                         {
                             SendPaymentSuccessEmailToLoadOwner(objOrderSummury, ReturnValue);
                         }
-                        if(objOrderSummury.VehicleOwnerId != null && objOrderSummury.VehicleOwnerEmail != null)
+                        if (objOrderSummury.VehicleOwnerDetail.VehicleOwner.UserId > 0 && objOrderSummury.VehicleOwnerDetail.VehicleOwner.EmailID != null)
                         {
                             SendNewOrderEmailToVehicleOwner(objOrderSummury);
                         }
@@ -804,9 +811,9 @@ namespace DeliverLoad.Controllers
             string url = "http://localhost:2018/Payment/PaymentSummury?CategoryId=197";
             decimal extraCharge = 5;
 
-            var mail = UserMailer.PaymentSuccess(objOrderSummury.LoadOwnerFirstName + " " +objOrderSummury.LoadOwnerLastName, objOrderSummury.LoadName, Convert.ToInt64(objOrderSummury.LoadPrice), extraCharge, DateTime.UtcNow.ToString(), code, url);
-            mail.Subject = "Thank you for your payment for " + objOrderSummury.LoadName + " of $" + objOrderSummury.LoadPrice + extraCharge;
-            mail.To.Add(new MailAddress(objOrderSummury.LoadOwnerEmail));
+            var mail = UserMailer.PaymentSuccess(objOrderSummury.LoadOwnerDetail.LoadOwner.FirstName + " " +objOrderSummury.LoadOwnerDetail.LoadOwner.LastName, objOrderSummury.LoadDetail.LoadName, Convert.ToInt64(objOrderSummury.LoadDetail.LoadPrice), extraCharge, DateTime.UtcNow.ToString(), code, url);
+            mail.Subject = "Thank you for your payment for " + objOrderSummury.LoadDetail.LoadName + " of $" + objOrderSummury.LoadDetail.LoadPrice + extraCharge;
+            mail.To.Add(new MailAddress(objOrderSummury.LoadOwnerDetail.LoadOwner.EmailID));
 
             var client = new SmtpClientWrapper();
 
@@ -827,9 +834,9 @@ namespace DeliverLoad.Controllers
             string url = "http://localhost:2018/Payment/PaymentSummury?CategoryId=197";
             decimal extraCharge = 5;
 
-            var mail = UserMailer.NewOrderNotification(objOrderSummury.VehicleOwnerFirstName +" " + objOrderSummury.VehicleOwnerLastName, objOrderSummury.LoadOwnerFirstName + " "+ objOrderSummury.LoadOwnerLastName, objOrderSummury.LoadName, Convert.ToInt64(objOrderSummury.LoadPrice) + extraCharge, DateTime.UtcNow.ToString(), url);
-            mail.Subject = "New order has been placed for " + objOrderSummury.LoadName + " of $" + objOrderSummury.LoadPrice + extraCharge;
-            mail.To.Add(new MailAddress(objOrderSummury.VehicleOwnerEmail));
+            var mail = UserMailer.NewOrderNotification(objOrderSummury.VehicleOwnerDetail.VehicleOwner.FirstName +" " + objOrderSummury.VehicleOwnerDetail.VehicleOwner.LastName, objOrderSummury.LoadOwnerDetail.LoadOwner.FirstName + " "+ objOrderSummury.LoadOwnerDetail.LoadOwner.LastName, objOrderSummury.LoadDetail.LoadName, Convert.ToInt64(objOrderSummury.LoadDetail.LoadPrice) + extraCharge, DateTime.UtcNow.ToString(), url);
+            mail.Subject = "New order has been placed for " + objOrderSummury.LoadDetail.LoadName + " of $" + objOrderSummury.LoadDetail.LoadPrice + extraCharge;
+            mail.To.Add(new MailAddress(objOrderSummury.VehicleOwnerDetail.VehicleOwner.EmailID));
 
             var client = new SmtpClientWrapper();
 

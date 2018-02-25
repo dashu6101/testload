@@ -258,9 +258,11 @@
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FileStatus.cs" />
+    <Compile Include="Models\LoadModel.cs" />
     <Compile Include="Models\LoadownerCategory.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoadOwnerModel.cs" />
     <Compile Include="Models\LoadSpace.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
@@ -278,6 +280,7 @@
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentMonitoryModel.cs" />
+    <Compile Include="Models\PaymentSummuryModel.cs" />
     <Compile Include="Models\PhoneVerificationAttempt.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
@@ -302,9 +305,11 @@
     <Compile Include="Models\UserDocument.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserMasterModel.cs" />
     <Compile Include="Models\VehicleownerCategory.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VehicleOwnerModel.cs" />
     <Compile Include="Models\ViewModels\FindSpaceViewModel.cs" />
     <Compile Include="Models\OverloadCategoryModel.cs" />
     <Compile Include="Models\PaymentHistoryModel.cs" />
