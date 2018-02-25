@@ -1,0 +1,85 @@
+﻿@using DeliverLoad;
+@model DeliverLoad.Models.UserBankInformationModel
+@{
+    ViewBag.Title = "View Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+    <h2>Add Bank Details</h2>
+
+    <form id="fmBankDetails">
+        <div class="row">
+            <div class="col-md-12">
+                <label>Name</label>
+                <input type="text" name="Name" id="txtName" />
+                @*@Html.TextBoxFor(m => m.Name, Model.Name.ToString(), new { @id = "txtBankName", @name = "Name" })*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label>Bank</label>
+                <input type="text" name="Bank" id="txtBank" />
+                @*@Html.TextBoxFor(m => m.Bank, Model.Bank.ToString(), new { @id = "txtBank", @name = "Bank" })*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label>Account Number</label>
+                <input type="text" name="AccountNumber" id="txtAccountNumber" />
+                @*@Html.TextBoxFor(m => m.AccountNumber, Model.AccountNumber.ToString(), new { @id = "txtAccountNumber", @name = "AccountNumber" })*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <input type="button" class="btn btn-theme" value="Submit" id="btnSubmit" onclick="SaveBankDetails();" />
+                <input type="button" class="btn btn-theme" value="Back" id="btnBack" onclick="GotoViewCategory();" />
+            </div>
+        </div>
+    </form>
+
+
+    <script type="text/javascript">
+        function GotoViewCategory() {
+             window.history.back();
+        }
+
+        function SaveBankDetails() {
+            debugger;
+            $form = $("#fmBankDetails");
+            var data = getFormData($form);
+            if (data != null) {
+                $.ajax({
+                    url: "/Vehicleowner/SaveUserBankDetails",
+                    type: "POST",
+                    data: JSON.stringify({ userBankInfo: data }),
+                    dataType: "Json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            DisplayNotification('Your bank details saved successfully ', 'success');
+                        }
+                        else {
+                            DisplayNotification('Error', 'error');
+                        }
+                    },
+                    error: function (data) {
+                        DisplayNotification('Error', 'error');
+                    }
+                });
+            }
+        }
+
+        function getFormData($form) {
+            var unindexed_array = $form.serializeArray();
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
+    </script>

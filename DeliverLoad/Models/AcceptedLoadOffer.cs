@@ -24,6 +24,7 @@ namespace DeliverLoad.Models
         public Nullable<System.DateTime> ModifiedAcceptedDate { get; set; }
         public Nullable<bool> IsAcceptedByLoadOwner { get; set; }
         public Nullable<System.DateTime> LoadOwnerAcceptedDate { get; set; }
+        public string LoadStatus { get; set; }
     
         public virtual OverloadCategory OverloadCategory { get; set; }
     }

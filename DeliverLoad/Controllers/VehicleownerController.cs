@@ -188,6 +188,8 @@ namespace DeliverLoad.Controllers
                 ViewBag.IsAccepted = false;
             }
 
+            ViewBag.UserId = sUser.UserId;
+
             //int Categoryid = Convert.ToInt32(ViewBag.CategoryId);
             //var model = service.GetTreeVeiwList(Categoryid);
             CategoryModel model = service.getDeliveryLoadCategoryDetails(Convert.ToInt32(id), sUser.UserId, Type);
@@ -997,6 +999,43 @@ namespace DeliverLoad.Controllers
         #endregion
 
         #region Vehicle Owner Offers
+
+        [HttpPost]
+        public JsonResult IsUserBankVerified(int UserId)
+        {
+            bool isBankVerified = service.IsUserBankVerified(UserId);
+            return Json(isBankVerified);
+        }
+
+        [HttpPost]
+        public JsonResult SaveUserBankDetails(UserBankInformationModel userBankInfo)
+        {
+            try
+            {
+                if (userBankInfo.UserId == 0) {
+                    userBankInfo.UserId = sUser.UserId;
+                }
+                bool isSuccess = service.SaveUserBankDetails(userBankInfo); 
+                return Json(isSuccess);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult LoadBankDetail()
+        {
+            return Json(Url.Action("AddBankDetail", "Vehicleowner"));
+        }
+
+        public ActionResult AddBankDetail()
+        {
+            UserBankInformationModel userInfo = new UserBankInformationModel();
+            return View(userInfo);
+        }
+
         [HttpPost]
         public JsonResult SaveAcceptedLoadDetail(string categoryId)
         {

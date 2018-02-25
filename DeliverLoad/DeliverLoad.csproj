@@ -302,6 +302,10 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserBankInformation.cs">
+      <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserBankInformationModel.cs" />
     <Compile Include="Models\UserDocument.cs">
       <DependentUpon>DeliverLoadEntities.tt</DependentUpon>
     </Compile>
@@ -725,6 +729,7 @@
     <Content Include="Views\Vehicleowner\MyOffers.cshtml" />
     <Content Include="Views\Loadowner\MyLoads.cshtml" />
     <Content Include="Views\Loadowner\_MyLoadForLoadOwner.cshtml" />
+    <Content Include="Views\Vehicleowner\AddBankDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

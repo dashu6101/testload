@@ -677,6 +677,64 @@ namespace DeliverLoad.Services
             return objPH.Tracking_Code;
         }
 
+        public bool IsUserBankVerified(int UserId)
+        {
+            bool isBankVerified = dbContext.Users.Where(u => u.UserId == UserId).Select(u => u.IsBankVerified).FirstOrDefault() ?? false;
+            return isBankVerified;
+        }
+
+        public bool SaveUserBankDetails(UserBankInformationModel bankInfo)
+        {
+            bool isSuccess = false;
+            User user = dbContext.Users.Find(bankInfo.UserId);
+
+            if (user != null)
+            {
+                UserBankInformation userBankInfo = (from ubi in dbContext.UserBankInformations
+                                                    where ubi.UserId == bankInfo.UserId
+                                                    select ubi).FirstOrDefault();
+
+                if (userBankInfo != null)
+                {
+                    userBankInfo.Name = bankInfo.Name;
+                    userBankInfo.Bank = bankInfo.Bank;
+                    userBankInfo.AccountNumber = bankInfo.AccountNumber;
+                    dbContext.Entry(userBankInfo).State = System.Data.EntityState.Modified;
+                }
+                else
+                {
+                    UserBankInformation userBankInformation = new UserBankInformation();
+                    userBankInformation.Name = bankInfo.Name;
+                    userBankInformation.Bank = bankInfo.Bank;
+                    userBankInformation.AccountNumber = bankInfo.AccountNumber;
+                    userBankInformation.UserId = bankInfo.UserId;
+                    dbContext.UserBankInformations.Add(userBankInformation);
+                }
+                
+                if (dbContext.SaveChanges() > 0)
+                {
+                    user.IsBankVerified = true;
+                    user.Balance = 0;
+                    dbContext.Entry(user).State = System.Data.EntityState.Modified;
+                    if (dbContext.SaveChanges() > 0)
+                    {
+                        isSuccess = true;
+                    }
+                    else {
+                        isSuccess = false;
+                    }
+                }
+                else
+                {
+                    isSuccess = false;
+                }
+            }
+            else {
+                isSuccess = false;
+            }
+            return isSuccess;
+        }
+
         #region OrderSummury
         public OrderSummuryModel getOrderSummuryByCategoryId(int CategoryId, int VehicleOwnerId, int LoadOwnerId)
         {

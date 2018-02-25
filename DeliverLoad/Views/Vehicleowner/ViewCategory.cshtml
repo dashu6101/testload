@@ -85,7 +85,7 @@
                     
                     
                     <input type="button" id="btnCancelOffer" class="btn btn-theme" onclick="CancelAcceptedLoadDetail()" value="Cancel" />
-                    <input type="button" id="btnAcceptOffer" class="btn btn-theme" onclick="SaveAcceptedLoadDetail()" value="Accept" />
+                    <input type="button" id="btnAcceptOffer" class="btn btn-theme" onclick="IsBankDetailExsist()" value="Accept" />
                     
 
                     @*<button class="btn btn-theme" onclick="goTo('@Url.Action("OrderSummury", "OrderSummury", new { CategoryId = Model.CategoryId })')">
@@ -216,6 +216,51 @@
                 }
             });
         }
+    }
+
+    function IsBankDetailExsist() {
+        var UserId = "@ViewBag.UserId";
+        var $valid = true;
+        if (UserId != null && parseInt(UserId) > 0)
+        {
+            $.ajax({
+                url: "/Vehicleowner/IsUserBankVerified",
+                type: "POST",
+                data: { UserId: UserId },
+                dataType: "Json",
+                success: function (data) {
+                    if (data == true) {
+                        SaveAcceptedLoadDetail();
+                    }
+                    else {
+                        AddBankDetail(UserId);
+                    }
+                },
+                error: function (data) {
+                    DisplayNotification('Error', 'error');
+                }
+            });
+        }
+    }
+
+    function AddBankDetail(UserId) {
+        $.ajax({
+            url: "/Vehicleowner/LoadBankDetail",
+            type: "POST",
+            data: null,
+            dataType: "Json",
+            success: function (data) {
+                if (data != null) {
+                    window.location.href = data;
+                }
+                else {
+                    DisplayNotification('Error', 'error');
+                }
+            },
+            error: function (data) {
+                DisplayNotification('Error', 'error');
+            }
+        });
     }
 
     //function getFormData($form) {
